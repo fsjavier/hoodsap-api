@@ -16,7 +16,7 @@ import os
 if os.path.exists('env.py'):
     import env
 
-DEV = os.environ.get('DEV')
+DEV = os.environ.get('DEV', False)
 
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
@@ -37,7 +37,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEV
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['8000-fsjavier-hoodsapapi-q3f8cwuck9w.ws-eu107.gitpod.io']
 
 
 # Application definition
@@ -48,9 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage'
+    'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
+
+    'profiles',
 ]
 
 MIDDLEWARE = [
