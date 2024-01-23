@@ -33,7 +33,7 @@ class SocialEventSerializer(serializers.ModelSerializer):
 
     def validate_event_date(self, value):
         if value < timezone.now():
-            raise ValidationError(
+            raise serializers.ValidationError(
                 'The event cannot be in the past'
             )
         return value
