@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from posts.models import Post
+from social_events.models import SocialEvent
 
 
 class Comment(models.Model):
@@ -24,6 +25,19 @@ class PostComment(Comment):
     Post comments, inherits from Comment
     """
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['created_at']
+    
+    def __str__(self):
+        return self.content
+
+
+class SocialEventComment(Comment):
+    """
+    Social Event comments, inherits from Comment
+    """
+    social_event = models.ForeignKey(SocialEvent, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['created_at']
