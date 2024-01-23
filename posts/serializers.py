@@ -6,9 +6,9 @@ class PostSerializer(serializers.ModelSerializer):
     """
     Serialize Post data
     """
-    owner = serializers.ReadOnlyField(source=owner.username)
-    profile_id = serializers.ReadOnlyField(source=owner.profile.id)
-    profile_image = serializers.ReadOnlyField(source=owner.profile.image.url)
+    owner = serializers.ReadOnlyField(source='owner.profile.display_name')
+    profile_id = serializers.ReadOnlyField(source='owner.profile.id')
+    profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
     is_owner = serializers.SerializerMethodField()
 
     def get_is_owner(self, obj):
