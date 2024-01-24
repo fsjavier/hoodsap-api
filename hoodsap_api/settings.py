@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'followers',
     'locations',
     'reports',
+    'tags',
 ]
 
 MIDDLEWARE = [
