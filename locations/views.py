@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
 from .models import Location
 from .serializers import LocationSerializer
-from hoodsap_api.permissions import IsOwnerOrReadOnly
+from hoodsap_api.permissions import IsAdminOrReadOnly
 
 
 class LocationList(generics.ListCreateAPIView):
@@ -18,12 +18,12 @@ class LocationList(generics.ListCreateAPIView):
         serializer.save()
 
 
-class LocationDetail(generics.RetrieveUpdateAPIView):
+class LocationDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Retrieve a location and update it if it's their own
+    Retrieve a location. Only admin can edit or delete it
     """
     serializer_class = LocationSerializer
     permission_classes = [
-        IsOwnerOrReadOnly
+        IsAdminOrReadOnly
     ]
     queryset = Location.objects.all()
