@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from locations.models import Location
+from tags.models import Tag
 from cloudinary.models import CloudinaryField
 
 
@@ -37,7 +38,7 @@ class SocialEvent(models.Model):
         max_length=15, choices=indoor_outdoor_choices, default='indoor'
     )
     event_registration = models.BooleanField(default=False)
-    tags = models.CharField(max_length=255, blank=True, null=True)
+    tags = models.ManyToManyField(Tag)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
