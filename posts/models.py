@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from locations.models import Location
 from cloudinary.models import CloudinaryField
 
 
@@ -13,7 +14,9 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
-    location = models.FloatField(blank=True, null=True)
+    location = models.ForeignKey(
+        Location, on_delete=models.SET_NULL, null=True, blank=True
+    )
     tags = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

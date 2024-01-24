@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from locations.models import Location
 from cloudinary.models import CloudinaryField
 
 
@@ -25,7 +26,9 @@ class SocialEvent(models.Model):
     )
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
-    location = models.FloatField(blank=True, null=True)
+    location = models.ForeignKey(
+        Location, on_delete=models.SET_NULL, null=True, blank=True
+    )
     event_date = models.DateTimeField()
     event_category = models.CharField(
         max_length=32, choices=event_category_choices, default='other'

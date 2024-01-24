@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
+from locations.models import Location
 from cloudinary.models import CloudinaryField
 
 
@@ -17,7 +18,9 @@ class Profile(models.Model):
     avatar = CloudinaryField(
         folder='images/', default='profile_avatar_nxydwh'
     )
-    location = models.FloatField(blank=True, null=True)
+    location = models.ForeignKey(
+        Location, on_delete=models.SET_NULL, null=True, blank=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
