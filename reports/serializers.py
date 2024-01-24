@@ -4,7 +4,7 @@ from .models import PostReport, SocialEventReport
 
 class PostReportSerializer(serializers.ModelSerializer):
     """
-    Serializer for the PostComment model
+    Serializer for the PostReport model
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
@@ -18,14 +18,15 @@ class PostReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostReport
         fields = [
-            'id', 'owner', 'flag', 'content', 'post', 'created_at',
-            'updated_at', 'is_owner', 'profile_id', 'profile_image'
+            'id', 'owner', 'flag', 'content', 'post', 'status',
+            'created_at', 'updated_at', 'is_owner', 'profile_id',
+            'profile_image'
         ]
 
 
 class SocialEventReportSerializer(serializers.ModelSerializer):
     """
-    Serializer for the SocialEventComment model
+    Serializer for the SocialEventReport model
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
@@ -37,8 +38,9 @@ class SocialEventReportSerializer(serializers.ModelSerializer):
         return request.user == obj.owner
 
     class Meta:
-        model = SocialEventComment
+        model = SocialEventReport
         fields = [
-            'id', 'owner', 'flag', 'content', 'social_event', 'created_at',
-            'updated_at', 'is_owner', 'profile_id', 'profile_image'
+            'id', 'owner', 'flag', 'content', 'social_event', 'status',
+            'created_at', 'updated_at', 'is_owner', 'profile_id',
+            'profile_image'
         ]
