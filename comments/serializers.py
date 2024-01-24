@@ -6,7 +6,7 @@ class PostCommentSerializer(serializers.ModelSerializer):
     """
     Serializer for the PostComment model
     """
-    owner = serializers.ReadOnlyField(source='owner.profile.display_name')
+    owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
@@ -34,7 +34,7 @@ class SocialEventCommentSerializer(serializers.ModelSerializer):
     """
     Serializer for the SocialEventComment model
     """
-    owner = serializers.ReadOnlyField(source='owner.profile.display_name')
+    owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
