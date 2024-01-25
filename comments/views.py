@@ -1,4 +1,5 @@
 from rest_framework import generics, permissions
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import PostComment, SocialEventComment
 from .serializers import (
     PostCommentSerializer, PostCommentDetailSerializer,
@@ -16,6 +17,8 @@ class PostCommentList(generics.ListCreateAPIView):
         permissions.IsAuthenticatedOrReadOnly
     ]
     queryset = PostComment.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['post']
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -42,6 +45,8 @@ class SocialEventCommentList(generics.ListCreateAPIView):
         permissions.IsAuthenticatedOrReadOnly
     ]
     queryset = SocialEventComment.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['social_event']
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
