@@ -87,3 +87,55 @@ The applicatopn leverages a relational database structured around Django models.
 - **Like, Follow**: These models manage user interactions such as liking posts and following other users, tracking the relationships.
 
 
+## Endpoints
+
+![Endpoints_1](documentation/hoodsap_Endpoints_1.png)
+![Endpoints_2](documentation/hoodsap_Endpoints_2.png)
+
+## Technologies used
+
+The project is developed in Python.
+
+### Frameworks
+
+- Django and Django REST Framework to create the web API.
+
+### Libraries and Packages
+
+- Gunicorn to handle web requests.
+
+- Dj-Database-URL to configure the database management.
+
+- Django-CORS-Headers to handle the server headers required for Cross-Origin Resource Sharing (CORS).
+
+- Django Filters to allow users filtering querysets dynamically.
+
+- Pillow for image processing.
+
+- Psycopg2 as an adapter used for database connectivity.
+
+- PyJWT to encode and decode JSON Web Tokens (JWT).
+
+- Django Allauth and Dj-Rest-Auth to handle user authentication, registration, and account management.
+
+### Database
+
+- ElephantSQL as the PostgreSQL database used in production.
+
+### Hosting
+
+- Heroku to host and deploy the appliocation.
+
+### Other Technologies
+- Git for version control.
+
+- GitHub to host the code.
+
+- Cloudinary to manage media assets.
+
+- Gitpod as the IDE used to develop the website.
+
+- Lucidchart to create the ERD.
+
+
+The [requirements.txt](requirements.txt) file specifies the full list of packages and their versions of these packages.
