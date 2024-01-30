@@ -139,3 +139,154 @@ The project is developed in Python.
 
 
 The [requirements.txt](requirements.txt) file specifies the full list of packages and their versions of these packages.
+
+
+## Deployment
+
+This site has been deployed to Heroku, using ElephantSQL database and Cloudinary, following these steps:
+
+1. Installing Django and supporting libraries
+
+    - Install Django, Djangorestframework (and add it to installed apps in settings.py) and gunicorn
+    - Install supporting database libraries: dj_database_url and psycopg2
+    - Install Cloudinary libraries: dj-cloudinary-storage
+    - Install Pillow
+    - Create requirements file
+    - Create Django project
+    - Create first app
+    - Add app to installed apps in settings.py file
+    - Migrate changes
+    - Run the server to test if the app is installed
+
+2. Create the Heroku App
+    - Log into Heroku and go to the Dashboard
+    - Click “New" and then “Create new app”
+    - Choose an app name and select the region closest to you. Then, click “Create app” to confirm.
+
+3. Create an external database with ElephantSQL
+
+    - Log into ElephantSQL
+    - Click "Create New Instance"
+    - Set up a plan by giving a Name and selecting a Plan
+    - Click "Select Region" and choose a Data center
+    - Click "Review", check all details and click "Create Instance"
+    - Return to the Dashboard and click on the database instance name
+    - Copy the database URL
+
+4. Create an env.py file to avoid exposing sensitive information
+
+    - In the project workspace, create a file called env.py. Check that the file name is included in the .gitignore file
+    - Add ``import os`` to env.py file and set environment variable DATABASE_URL to the URL copied from ElephantSQL ``os.environ["DATABASE_URL"]="<copiedURL>"``
+    - Add a SECRET_KEY environment variable ``os.environ["SECRET_KEY"]="mysecretkey"``
+
+5. Upate settings.py
+
+    - Add the following code below the path import in ``settings.py`` to connect the Django project to env.py:
+        ````
+        import os
+        if os.path.exists("env.py"):
+            import env
+        ````
+    - Remove the secret key provided by Django in settings.py and refer to variable in env.py instead (``SECRET_KEY = os.environ.get('SECRET_KEY')``)
+
+    - In order to keep using the sqlite database in the development environment as well as as having Debug on, but off in production and use the ElephantSQL database, create a new variable called DEV at the top of settings.py. This means that if there's an environment variable called DEV in the environment this variable will be set to its value. And otherwise, it'll be false. 
+        ````
+        development = os.environ.get('DEV', False)
+        ````
+
+    - To connect to the new database for production and keep sqlite for development, replace the provided DATABASE variable with 
+        ````
+        if development:
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME': BASE_DIR / 'db.sqlite3',
+                }
+            }
+        else:
+            DATABASES = {
+                'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+            }
+        ````
+    - Save and migrate all changes
+
+6. Heroku Config Vars
+
+    - Go back to Heroku dashboard and open the Settings tab
+    - Add config vars
+        - DATABASE_URL -> value of the database url
+        - SECRET_KEY -> value of the secret key string
+        - DISABLE_COLLECTSTATIC -> 1
+        - ALLOWED_HOSTS -> value of the deployed Heroku app url
+
+7. Set up Cloudinary for static and media files storage
+
+    - In the Cloudinary dashboard, copy the API Environment variable
+    - In ``env.py`` file, add new variable ``os.environ["CLOUDINARY_URL"] = "<copied_variable"``, without "CLOUDINARY_URL="
+    - Add the same variable value as new Heroku config var named CLOUDINARY_URL
+    - In ``settings.py``, in the INSTALLED_APPS list, above ``django.contrib.staticfiles`` add ``cloudinary_storage``, below add ``cloudinary``
+    - Connect Cloudinary to the Django app in settings.py:
+
+        ````
+        CLOUDINARY_STORAGE = {
+            'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
+        }
+        MEDIA_URL = '/media/'
+        DEFAULT_SITE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+        ````
+
+    - Add Heroku Hostname to ALLOWED_HOSTS
+
+        ````
+        if development:
+            ALLOWED_HOSTS = [os.environ.get('LOCALHOST')]
+        else:
+            ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME')]
+        ````
+
+8. Add JWT to the project
+    - Install `dj-rest-auth` and `dj-rest-auth[with_social]`
+    - Add to installed apps in settings.py
+        ````
+        'rest_framework.authtoken',
+        'dj_rest_auth',
+        'django.contrib.sites',
+        'allauth',
+        'allauth.account',
+        'allauth.socialaccount',
+        'dj_rest_auth.registration',
+        ````
+    - Install `djangorestframework-simplejwt`
+    - Add authentication method to settings.py:
+        ````
+        REST_FRAMEWORK = {
+            'DEFAULT_AUTHENTICATION_CLASSES': [(
+                'rest_framework.authentication.SessionAuthentication'
+                if 'DEV' in os.environ
+                else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+            )],
+        }
+        ````
+        ````
+        REST_USE_JWT = True
+        JWT_AUTH_SECURE = True
+        JWT_AUTH_COOKIE = 'my-app-auth'
+        JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+        JWT_AUTH_SAMESITE = None
+        ````
+
+9. Create Procfile
+
+10. Heroku Deployment:
+
+    - Click Deploy tab in Heroku
+    - In the 'Deployment method' section select 'Github' and click 'Connect to Github'
+    - In the 'search' field enter the repository name
+    - Connect to link the heroku app with the Github repository
+    - Click "Deploy Branch" or enable "Automatic Deploys"
+
+
+## Credits
+
+The structure of the project, especially project set up and the posts, profiles, likes, comments and followers apps, is based on Code Institute's Django REST Framework project ([drf-api](https://github.com/Code-Institute-Solutions/drf-api)).
+
