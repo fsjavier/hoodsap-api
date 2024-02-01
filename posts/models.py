@@ -18,7 +18,7 @@ class Post(models.Model):
     location = models.ForeignKey(
         Location, on_delete=models.SET_NULL, null=True, blank=True
     )
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -38,7 +38,7 @@ class SocialEvent(models.Model):
         max_length=15, choices=indoor_outdoor_choices, default='indoor'
     )
     event_registration = models.BooleanField(default=False)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
