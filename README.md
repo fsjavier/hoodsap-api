@@ -8,8 +8,8 @@ Hoodsap API, developed using Django Rest Framework, is backend solution for neig
 * [Features](#features)
 * [Database Design](#database-design)
 * [Endpoints](#ui-/-ux)
-* [Technologies Used](#technologies-used)
 * [Testing](#testing)
+* [Technologies Used](#technologies-used)
 * [Deployment](#deployment)
 * [Credits](#credits)
 
@@ -91,6 +91,8 @@ The applicatopn leverages a relational database structured around Django models.
 
 ![Endpoints_1](documentation/hoodsap_Endpoints_1.png)
 ![Endpoints_2](documentation/hoodsap_Endpoints_2.png)
+
+## Testing
 
 ## Technologies used
 
