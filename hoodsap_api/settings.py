@@ -62,10 +62,10 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = DEV
+DEBUG = 'DEBUG' in os.environ
 
 ALLOWED_HOSTS = [
-    '8000-fsjavier-hoodsapapi-q3f8cwuck9w.ws-eu107.gitpod.io',
+    os.environ.get('ALLOWED_HOST'),
     'hoodsap-api-d42fd4bc31f5.herokuapp.com'
 ]
 
@@ -119,10 +119,6 @@ MIDDLEWARE = [
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
         os.environ.get('CLIENT_ORIGIN')
-]
-else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^https://.*\.gitpod\.io$",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
