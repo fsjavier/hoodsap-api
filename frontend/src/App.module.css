@@ -1,0 +1,17 @@
+.App {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.Main {
+  padding-top: 5rem;
+}
+
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  margin-inline-end: 0.2em;
+}

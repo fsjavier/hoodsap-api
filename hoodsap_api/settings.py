@@ -66,6 +66,7 @@ DEBUG = 'DEBUG' in os.environ
 
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOST'),
+    'localhost',
     'hoodsap-api-d42fd4bc31f5.herokuapp.com'
 ]
 
