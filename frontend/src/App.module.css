@@ -1,10 +1,55 @@
-.App {
-  min-height: 100vh;
+:root {
+  /* Fonts */
+  --title: 'Raleway', sans-serif;
+  --body: 'Nunito', sans-serif;
+
+  /* Colors */
+  --majorblue: #5d4fe3;
+  --lavenderblush: #f5e6e8;
+  --thistle: #d5c6e0;
+  --raisinblack: #3a2e39;
+  --imperialred: #f15152;
+  --snowwhite: #fffafa;
+  --jetblack: #333;
+
+  --off-raisinblack: rgba(58, 46, 57, 0.1);
+  --off-thistle: rgba(213, 198, 224, 0.1);
 }
 
 * {
   box-sizing: border-box;
 }
+
+body,
+button,
+input,
+textarea {
+  font-family: var(--body)
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--title)
+}
+
+a {
+  color: var(--jetblack);
+}
+
+a:hover {
+  color: var(--majorblue);
+  text-decoration: none;
+}
+
+.App {
+  min-height: 100vh;
+  background-color: var(--off-raisinblack);
+}
+
 
 .Main {
   padding-top: 5rem;
@@ -14,4 +59,9 @@
   width: 1.5em;
   height: 1.5em;
   margin-inline-end: 0.2em;
+  vertical-align: middle;
+}
+
+.icon:hover {
+  color: #2142b2;
 }

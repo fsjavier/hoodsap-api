@@ -1,0 +1,7 @@
+.NavBar {
+  background-color: var(--snowwhite)
+}
+
+.NavLink {
+    padding-inline-end: 0.5em;
+}
