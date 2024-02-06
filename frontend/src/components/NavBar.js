@@ -7,7 +7,7 @@ import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import logo from "../assets/hoodsap_logo.webp";
-import { UserPlusIcon, KeyIcon } from "@heroicons/react/24/outline";
+import { HomeIcon, UserPlusIcon, KeyIcon } from "@heroicons/react/24/outline";
 import appStyles from "../App.module.css";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
@@ -29,11 +29,28 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="flex-grow-0">
           <Nav className="ml-auto">
-            <NavLink to="/signup" className={styles.NavLink}>
+            <NavLink
+              exact
+              to="/"
+              className={styles.NavLink}
+              activeClassName={styles.Active}
+            >
+              <HomeIcon className={appStyles.icon} />
+              Home
+            </NavLink>
+            <NavLink
+              to="/signup"
+              className={styles.NavLink}
+              activeClassName={styles.Active}
+            >
               <UserPlusIcon className={appStyles.icon} />
               Sign up
             </NavLink>
-            <NavLink to="/signin">
+            <NavLink
+              to="/signin"
+              className={styles.NavLink}
+              activeClassName={styles.Active}
+            >
               <KeyIcon className={appStyles.icon} />
               Sign in
             </NavLink>

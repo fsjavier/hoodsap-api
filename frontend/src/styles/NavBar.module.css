@@ -5,3 +5,7 @@
 .NavLink {
     padding-inline-end: 0.5em;
 }
+
+.Active {
+  color: var(--majorblue);
+}
