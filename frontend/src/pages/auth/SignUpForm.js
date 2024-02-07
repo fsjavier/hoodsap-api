@@ -10,7 +10,7 @@ import styles from "../../styles/SignInUpForm.module.css";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-function SignUpForm() {
+const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
     username: "",
     password1: "",
@@ -73,7 +73,7 @@ function SignUpForm() {
                 />
               </Form.Group>
               {errors.password1?.map((message, idx) => (
-                <Alert id={idx} variant="warning">
+                <Alert key={idx} variant="warning">
                   {message}
                 </Alert>
               ))}
@@ -89,7 +89,7 @@ function SignUpForm() {
                 />
               </Form.Group>
               {errors.password2?.map((message, idx) => (
-                <Alert id={idx} variant="warning">
+                <Alert key={idx} variant="warning">
                   {message}
                 </Alert>
               ))}
@@ -97,7 +97,6 @@ function SignUpForm() {
               <p className="small">
                 Do you already have an acount?{" "}
                 <Link to="/signin" className={AppStyles.Link}>
-                  {" "}
                   Sign in
                 </Link>
               </p>
@@ -111,7 +110,7 @@ function SignUpForm() {
                 Sign Up Now
               </CustomButton>
               {errors.non_field_errors?.map((message, idx) => (
-                <Alert id={idx} variant="warning" className="mt-3">
+                <Alert key={idx} variant="warning" className="mt-3">
                   {message}
                 </Alert>
               ))}
