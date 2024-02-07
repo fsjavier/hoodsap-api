@@ -35,7 +35,7 @@ function NavBar() {
               className={styles.NavLink}
               activeClassName={styles.Active}
             >
-              <HomeIcon className={appStyles.icon} />
+              <HomeIcon className={appStyles.Icon} />
               Home
             </NavLink>
             <NavLink
@@ -43,7 +43,7 @@ function NavBar() {
               className={styles.NavLink}
               activeClassName={styles.Active}
             >
-              <UserPlusIcon className={appStyles.icon} />
+              <UserPlusIcon className={appStyles.Icon} />
               Sign up
             </NavLink>
             <NavLink
@@ -51,7 +51,7 @@ function NavBar() {
               className={styles.NavLink}
               activeClassName={styles.Active}
             >
-              <KeyIcon className={appStyles.icon} />
+              <KeyIcon className={appStyles.Icon} />
               Sign in
             </NavLink>
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">

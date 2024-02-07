@@ -1,7 +1,7 @@
 :root {
   /* Fonts */
-  --title: 'Raleway', sans-serif;
-  --body: 'Nunito', sans-serif;
+  --title: "Raleway", sans-serif;
+  --body: "Nunito", sans-serif;
 
   /* Colors */
   --majorblue: #5d4fe3;
@@ -12,6 +12,7 @@
   --snowwhite: #fffafa;
   --jetblack: #333;
 
+  --off-majorblue: rgba(93, 79, 227, 0.5);
   --off-raisinblack: rgba(58, 46, 57, 0.1);
   --off-thistle: rgba(213, 198, 224, 0.1);
 }
@@ -24,7 +25,7 @@ body,
 button,
 input,
 textarea {
-  font-family: var(--body)
+  font-family: var(--body);
 }
 
 h1,
@@ -33,7 +34,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--title)
+  font-family: var(--title);
 }
 
 a {
@@ -50,18 +51,25 @@ a:hover {
   background-color: var(--off-raisinblack);
 }
 
-
 .Main {
   padding-top: 5rem;
 }
 
-.icon {
+.Icon {
   width: 1.5em;
   height: 1.5em;
   margin-inline-end: 0.2em;
   vertical-align: text-bottom;
 }
 
-.icon:hover {
-  color: #2142b2;
+.Icon:hover {
+  color: var(--majorblue);
+}
+
+.Link {
+  color: var(--majorblue);
+}
+
+.Link:hover {
+  color: var(--off-majorblue);
 }
