@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -10,9 +10,53 @@ import logo from "../assets/hoodsap_logo.webp";
 import { HomeIcon, UserPlusIcon, KeyIcon } from "@heroicons/react/24/outline";
 import appStyles from "../App.module.css";
 import styles from "../styles/NavBar.module.css";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { NavLink } from "react-router-dom";
+import { CurrentUserContext } from "../App";
 
 function NavBar() {
+  const currentUser = useContext(CurrentUserContext);
+  const loggedInIcons = (
+    <>
+      <NavLink
+        exact
+        to="/"
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+      >
+        <HomeIcon className={appStyles.Icon} />
+        Home
+      </NavLink>
+      <NavDropdown
+        title={`Hello ${currentUser?.username}`}
+        id="basic-nav-dropdown"
+      >
+        <NavDropdown.Item href="#">Profile</NavDropdown.Item>
+        <NavDropdown.Divider />
+        <NavDropdown.Item href="#">Sign out</NavDropdown.Item>
+      </NavDropdown>
+    </>
+  );
+  const loggedOutIcons = (
+    <>
+      <NavLink
+        to="/signup"
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+      >
+        <UserPlusIcon className={appStyles.Icon} />
+        Sign up
+      </NavLink>
+      <NavLink
+        to="/signin"
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+      >
+        <KeyIcon className={appStyles.Icon} />
+        Sign in
+      </NavLink>
+    </>
+  );
+
   return (
     <Navbar expand="md" fixed="top" className={styles.NavBar}>
       <Container fluid>
@@ -29,42 +73,7 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="flex-grow-0">
           <Nav className="ml-auto">
-            <NavLink
-              exact
-              to="/"
-              className={styles.NavLink}
-              activeClassName={styles.Active}
-            >
-              <HomeIcon className={appStyles.Icon} />
-              Home
-            </NavLink>
-            <NavLink
-              to="/signup"
-              className={styles.NavLink}
-              activeClassName={styles.Active}
-            >
-              <UserPlusIcon className={appStyles.Icon} />
-              Sign up
-            </NavLink>
-            <NavLink
-              to="/signin"
-              className={styles.NavLink}
-              activeClassName={styles.Active}
-            >
-              <KeyIcon className={appStyles.Icon} />
-              Sign in
-            </NavLink>
-            {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#">
-              Another action
-            </NavDropdown.Item>
-            <NavDropdown.Item href="#">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#">
-              Separated link
-            </NavDropdown.Item>
-          </NavDropdown> */}
+            {currentUser ? loggedInIcons : loggedOutIcons}
           </Nav>
         </Navbar.Collapse>
       </Container>
