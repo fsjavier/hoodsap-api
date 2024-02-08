@@ -49,16 +49,18 @@ export const CurrentUserProvider = ({ children }) => {
       }
     );
 
+
+
     axiosRes.interceptors.response.use(
       (response) => response,
       async (err) => {
-        if (err.response?.data === 401) {
+        if (err.response?.status === 401) {
           try {
             await axios.post("/dj-rest-aut/token/refresh/");
           } catch (err) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
-                history.push("/sgnin");
+                history.push("/signin");
               }
               return null;
             });
