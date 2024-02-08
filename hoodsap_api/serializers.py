@@ -4,7 +4,7 @@ from dj_rest_auth.serializers import UserDetailsSerializer
 
 class UserSerializer(UserDetailsSerializer):
     profile_id = serializers.ReadOnlyField(source='profile.id')
-    profile_image = serializers.ReadOnlyField(source="profile.image.url")
+    profile_image = serializers.ReadOnlyField(source="profile.avatar.url")
 
     class Meta(UserDetailsSerializer.Meta):
         fields = UserDetailsSerializer.Meta.fields + (
