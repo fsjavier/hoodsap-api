@@ -19,10 +19,25 @@ import {
 import appStyles from "../App.module.css";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useCurrentUser } from "../context/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "../context/CurrentUserContext";
+import axios from "axios";
 
 function NavBar() {
   const currentUser = useCurrentUser();
+  const setCurrentUser = useSetCurrentUser();
+
+  const handleSignout = async () => {
+    try {
+      await axios.post("/dj-rest-auth/logout/");
+      setCurrentUser(null);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const loggedInIcons = (
     <>
       <NavLink
@@ -69,7 +84,7 @@ function NavBar() {
           Profile
         </NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item>
+        <NavDropdown.Item onClick={handleSignout}>
           <ArrowRightStartOnRectangleIcon className={appStyles.Icon} />
           Sign out
         </NavDropdown.Item>
