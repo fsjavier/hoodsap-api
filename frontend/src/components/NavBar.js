@@ -7,7 +7,15 @@ import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import logo from "../assets/hoodsap_logo.webp";
-import { HomeIcon, UserPlusIcon, KeyIcon } from "@heroicons/react/24/outline";
+import Avatar from "../components/Avatar";
+import {
+  HomeIcon,
+  UserPlusIcon,
+  KeyIcon,
+  ArrowRightStartOnRectangleIcon,
+  TicketIcon,
+  Bars3CenterLeftIcon,
+} from "@heroicons/react/24/outline";
 import appStyles from "../App.module.css";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
@@ -26,13 +34,45 @@ function NavBar() {
         <HomeIcon className={appStyles.Icon} />
         Home
       </NavLink>
+      <NavLink
+        exact
+        to="/events"
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+      >
+        <TicketIcon className={appStyles.Icon} />
+        Events
+      </NavLink>
+      <NavLink
+        exact
+        to="/feed"
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+      >
+        <Bars3CenterLeftIcon className={appStyles.Icon} />
+        Feed
+      </NavLink>
       <NavDropdown
-        title={`Hello ${currentUser?.username}`}
+        title={
+          <Avatar
+            src={currentUser?.profile_image}
+            height={40}
+            text={`Hi ${currentUser?.username}`}
+          />
+        }
         id="basic-nav-dropdown"
       >
-        <NavDropdown.Item href="#">Profile</NavDropdown.Item>
+        <NavDropdown.Item
+          as={NavLink}
+          to={`/profiles/${currentUser?.profile_id}`}
+        >
+          Profile
+        </NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item href="#">Sign out</NavDropdown.Item>
+        <NavDropdown.Item>
+          <ArrowRightStartOnRectangleIcon className={appStyles.Icon} />
+          Sign out
+        </NavDropdown.Item>
       </NavDropdown>
     </>
   );
@@ -72,7 +112,7 @@ function NavBar() {
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="flex-grow-0">
-          <Nav className="ml-auto">
+          <Nav className="ml-auto align-items-center">
             {currentUser ? loggedInIcons : loggedOutIcons}
           </Nav>
         </Navbar.Collapse>
