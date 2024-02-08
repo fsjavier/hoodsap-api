@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -15,6 +15,7 @@ import {
   ArrowRightStartOnRectangleIcon,
   TicketIcon,
   Bars3CenterLeftIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import appStyles from "../App.module.css";
 import styles from "../styles/NavBar.module.css";
@@ -28,6 +29,22 @@ import axios from "axios";
 function NavBar() {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
+
+  const [expanded, setExpanded] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setExpanded(false);
+      }
+    };
+
+    document.addEventListener("mouseup", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mouseup", handleClickOutside);
+    };
+  });
 
   const handleSignout = async () => {
     try {
@@ -81,7 +98,7 @@ function NavBar() {
           as={NavLink}
           to={`/profiles/${currentUser?.profile_id}`}
         >
-          Profile
+          <UserCircleIcon className={appStyles.Icon} /> Profile
         </NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item onClick={handleSignout}>
@@ -113,7 +130,12 @@ function NavBar() {
   );
 
   return (
-    <Navbar expand="md" fixed="top" className={styles.NavBar}>
+    <Navbar
+      expanded={expanded}
+      expand="md"
+      fixed="top"
+      className={styles.NavBar}
+    >
       <Container fluid>
         <NavLink to="/">
           <Navbar.Brand href="#home">
@@ -125,7 +147,11 @@ function NavBar() {
           <Button variant="outline-success">Search</Button>
         </Form>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          ref={ref}
+          onClick={() => setExpanded(!expanded)}
+          aria-controls="basic-navbar-nav"
+        />
         <Navbar.Collapse id="basic-navbar-nav" className="flex-grow-0">
           <Nav className="ml-auto align-items-center">
             {currentUser ? loggedInIcons : loggedOutIcons}
