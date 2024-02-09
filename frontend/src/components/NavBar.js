@@ -16,6 +16,7 @@ import {
   TicketIcon,
   Bars3CenterLeftIcon,
   UserCircleIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline";
 import appStyles from "../App.module.css";
 import styles from "../styles/NavBar.module.css";
@@ -71,6 +72,7 @@ function NavBar() {
         <Bars3CenterLeftIcon className={appStyles.Icon} />
         Feed
       </NavLink>
+
       <NavDropdown
         title={
           <Avatar
@@ -81,6 +83,14 @@ function NavBar() {
         }
         id="basic-nav-dropdown"
       >
+        <NavDropdown.Item
+          as={NavLink}
+          to="/posts/create"
+          className={styles.NavLink}
+        >
+          <PlusIcon className={appStyles.Icon} /> Add post
+        </NavDropdown.Item>
+
         <NavDropdown.Item
           as={NavLink}
           to={`/profiles/${currentUser?.profile_id}`}
