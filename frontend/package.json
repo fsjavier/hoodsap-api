@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
     "@heroicons/react": "^2.1.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^11.2.7",
@@ -10,10 +12,12 @@
     "axios": "^0.21.4",
     "bootstrap": "^4.6.2",
     "jwt-decode": "^3.1.2",
-    "react": "^17.0.2",
+    "leaflet": "^1.9.4",
+    "react": "^18.2.0",
     "react-bootstrap": "^1.6.8",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.2.0",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-leaflet": "^4.2.1",
     "react-router-dom": "^5.3.4",
     "react-scripts": "^4.0.3",
     "web-vitals": "^1.1.2"
@@ -31,23 +35,16 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "msw": "^0.35.0"
   },
   "engines": {
-    "node": "16.19.1",
+    "node": "21.6.1",
     "npm": "8.19.3"
   },
   "proxy": "http://localhost:8000/"
