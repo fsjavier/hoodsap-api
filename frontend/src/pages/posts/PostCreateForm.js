@@ -1,19 +1,17 @@
 import React, { useRef, useState } from "react";
-import Asset from "../../components/Asset";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
 import CustomButton from "../../components/CustomButton";
 import styles from "../../styles/PostCreateForm.module.css";
-import ButtonStyles from "../../styles/CustomButton.module.css";
 import { useHistory } from "react-router-dom";
+import LocationPicker from "../../components/LocationPicker";
+import FormImageField from "../../components/FormImageField";
 
 const PostCreateForm = () => {
   const history = useHistory();
-  const uploadImageSrc =
-    "https://res.cloudinary.com/drffvkjy6/image/upload/v1707474874/upload_icon_bdzvjh.webp";
+
   const [postData, setPostData] = useState({
     title: "",
     content: "",
@@ -34,6 +32,32 @@ const PostCreateForm = () => {
     });
   };
 
+  const textFields = (
+    <>
+      <Form.Group controlId="title">
+        <Form.Label className="d-none">Title</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Enter title"
+          name="title"
+          value={title}
+          onChange={handleChangeField}
+        />
+      </Form.Group>
+      <Form.Group controlId="content">
+        <Form.Label className="d-none">Text</Form.Label>
+        <Form.Control
+          as="textarea"
+          placeholder="Text (Optional)"
+          name="content"
+          value={content}
+          rows={5}
+          onChange={handleChangeField}
+        />
+      </Form.Group>
+    </>
+  );
+
   const handleChangeImage = (event) => {
     URL.revokeObjectURL(image);
     setPostData({
@@ -45,9 +69,9 @@ const PostCreateForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('title', title)
-    formData.append('content', content)
-    formData.append('image', imageInputRef.current.files[0])
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("image", imageInputRef.current.files[0]);
   };
 
   return (
@@ -55,64 +79,21 @@ const PostCreateForm = () => {
       <Form onSubmit={handleSubmit}>
         <Row className={styles.Form}>
           <Col lg={6} className="text-center">
-            <Form.Group>
-              {image ? (
-                <>
-                  <figure className={styles.Image__Container}>
-                    <Image src={image} className={styles.Image} />
-                  </figure>
-                  <div>
-                    <Form.Label
-                      htmlFor="image-upload"
-                      className={`${ButtonStyles.Button} ${ButtonStyles.Primary}`}
-                    >
-                      Change the image
-                    </Form.Label>
-                  </div>
-                </>
-              ) : (
-                <Form.Label
-                  htmlFor="image-upload"
-                  className="d-flex justify-content-center"
-                >
-                  <Asset
-                    src={uploadImageSrc}
-                    message="Click or tap to upload an image"
-                    height={100}
-                    width={100}
-                  />
-                </Form.Label>
-              )}
-              <Form.File
-                ref={imageInputRef}
-                className="d-none"
-                id="image-upload"
-                accept="image/*"
-                onChange={handleChangeImage}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="title">
-              <Form.Label className="d-none">Title</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter title"
-                name="title"
-                value={title}
-                onChange={handleChangeField}
-              />
-            </Form.Group>
-            <Form.Group controlId="content">
-              <Form.Label className="d-none">Text</Form.Label>
-              <Form.Control
-                as="textarea"
-                placeholder="Text (Optional)"
-                name="content"
-                value={content}
-                rows={5}
-                onChange={handleChangeField}
-              />
-            </Form.Group>
+            <FormImageField
+              image={image}
+              imageInputRef={imageInputRef}
+              handleChangeImage={handleChangeImage}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6}>{textFields}</Col>
+          <Col md={6}>
+            <LocationPicker />
+          </Col>
+        </Row>
+        <Row className="text-align-center">
+          <Col className="my-3">
             <CustomButton variant="Secondary" onClick={() => history.goBack()}>
               Cancel
             </CustomButton>
