@@ -8,6 +8,7 @@ import styles from "../../styles/PostCreateForm.module.css";
 import { useHistory } from "react-router-dom";
 import LocationPicker from "../../components/LocationPicker";
 import FormImageField from "../../components/FormImageField";
+import FormTagsField from "../../components/FormTagsField";
 
 const PostCreateForm = () => {
   const history = useHistory();
@@ -20,11 +21,8 @@ const PostCreateForm = () => {
     image: null,
   });
   const { title, content, location, tags, image } = postData;
-
   const [errors, setErrors] = useState({});
-
   const imageInputRef = useRef(null);
-
   const handleChangeField = (event) => {
     setPostData({
       ...postData,
@@ -55,6 +53,7 @@ const PostCreateForm = () => {
           onChange={handleChangeField}
         />
       </Form.Group>
+      <FormTagsField/>
     </>
   );
 
@@ -72,6 +71,8 @@ const PostCreateForm = () => {
     formData.append("title", title);
     formData.append("content", content);
     formData.append("image", imageInputRef.current.files[0]);
+    // formData.append(location)
+    // formData.append(tags)
   };
 
   return (
