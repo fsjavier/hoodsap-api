@@ -20,7 +20,7 @@ class LocationList(generics.ListCreateAPIView):
         lng = serializer.validated_data.get('longitude')
         print(f'latitude: ${lat}, longitude: ${lng}')
 
-        nominatim_url = f'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat={lat}&lon={lng}&addressdetails=1`'
+        nominatim_url = f'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat={lat}&lon={lng}&addressdetails=1&accept-language=en'
         response = requests.get(nominatim_url)
         data = response.json()
 

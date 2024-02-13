@@ -9,6 +9,7 @@ class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = [
-            'id', 'latitude', 'longitude', 'country', 'city',
-            'locality', 'created_at', 'updated_at'
+            'id', 'latitude', 'longitude', 'country', 'city', 'town',
+            'village', 'postcode', 'locality', 'suburb', 'city_district',
+            'created_at', 'updated_at'
         ]
