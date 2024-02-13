@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import axios from "axios";
 import Alert from "react-bootstrap/esm/Alert";
 
-const LocationMarker = ({ setPosition, position }) => {
+const LocationMarker = ({
+  setPosition,
+  position,
+  setLocationError,
+  setLocationInput,
+}) => {
   const map = useMapEvents({
     click(e) {
       setPosition(e.latlng);
+      setLocationInput(e.latlng);
     },
     locationfound(e) {
       map.flyTo(e.latlng, 13);
       setPosition(e.latlng);
+      setLocationInput(e.latlng);
     },
     locationerror(error) {
+      setLocationError(error.message);
       console.log(error.message);
     },
   });
@@ -27,9 +32,9 @@ const LocationMarker = ({ setPosition, position }) => {
   return position ? <Marker position={position}></Marker> : null;
 };
 
-const LocationPicker = () => {
-  const [position, setPosition] = useState({ lat: "", lng: "" });
-  const { lat, lng } = position;
+const LocationPicker = ({ setLocationInput }) => {
+  const [position, setPosition] = useState(null);
+  const [locationError, setLocationError] = useState("");
   const [locationInfo, setLocationInfo] = useState({
     country: "",
     city: "",
@@ -42,39 +47,41 @@ const LocationPicker = () => {
     neighbourhood: "",
   });
 
-  const handleReverseGeocode = async (lat, lng) => {
-    try {
-      axios.defaults.withCredentials = false;
+  // const handleReverseGeocode = async (lat, lng) => {
+  //   try {
+  //     axios.defaults.withCredentials = false;
 
-      const nominatimUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&addressdetails=1`;
-      const response = await axios.get(nominatimUrl);
-      const data = response.data;
-      setLocationInfo({
-        country: data.address.country,
-        city: data.address.city,
-        town: data.address.town,
-        village: data.address.village,
-        postcode: data.address.postcode,
-        city_district: data.address.city_district,
-        suburb: data.address.suburb,
-        locality: data.address.locality,
-      });
+  //     const nominatimUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&addressdetails=1`;
+  //     const response = await axios.get(nominatimUrl);
+  //     const data = response.data;
+  //     setLocationInfo({
+  //       country: data.address.country,
+  //       city: data.address.city,
+  //       town: data.address.town,
+  //       village: data.address.village,
+  //       postcode: data.address.postcode,
+  //       city_district: data.address.city_district,
+  //       suburb: data.address.suburb,
+  //       locality: data.address.locality,
+  //     });
 
-      console.log(data);
-    } catch (error) {
-      console.error("Error during reverse geocoding", error);
-      setLocationInfo(null);
-    }
-  };
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error("Error during reverse geocoding", error);
+  //     setLocationInfo(null);
+  //   }
+  // };
 
-  useEffect(() => {
-    lat && lng && handleReverseGeocode(lat, lng);
-  }, [position]);
+  // useEffect(() => {
+  //   if (position && position.lat && position.lng) {
+  //     handleReverseGeocode(position.lat, position.lng);
+  //   }
+  // }, [position]);
 
   return (
     <>
-      {/* {lat && <p>{`Latitue: ${lat}`}</p>}
-      {lng && <p>{`Longitude: ${lng}`}</p>}
+      {/* {position?.lat && <p>{`Latitue: ${position.lat}`}</p>}
+      {position?.lng && <p>{`Longitude: ${position.lng}`}</p>}
       {locationInfo.country && <p>{`Country: ${locationInfo.country}`}</p>}
       {locationInfo.city && <p>{`City: ${locationInfo.city}`}</p>}
       {locationInfo.town && <p>{`Town: ${locationInfo.town}`}</p>}
@@ -85,17 +92,28 @@ const LocationPicker = () => {
       )}
       {locationInfo.suburb && <p>{`Suburb: ${locationInfo.suburb}`}</p>}
       {locationInfo.locality && <p>{`Locality: ${locationInfo.locality}`}</p>} */}
-
+      {!position &&
+      locationError === "Geolocation error: User denied Geolocation." ? (
+        <Alert variant="warning">
+          Location denied, plase select a location manually
+        </Alert>
+      ) : null}
       <MapContainer
-        center={{ lat: 57, lng: 20 }}
+        center={{ lat: 53, lng: 14 }}
         zoom={3}
-        style={{ height: "400px", width: "100%" }}
+        style={{ height: "300px", width: "100%" }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <LocationMarker setPosition={setPosition} position={position} />
+        <LocationMarker
+          setPosition={setPosition}
+          position={position}
+          setLocationError={setLocationError}
+          locationError={locationError}
+          setLocationInput={setLocationInput}
+        />
       </MapContainer>
     </>
   );

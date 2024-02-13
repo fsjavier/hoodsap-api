@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import LocationPicker from "../../components/LocationPicker";
 import FormImageField from "../../components/FormImageField";
 import FormTagsField from "../../components/FormTagsField";
+import { axiosReq } from "../../api/axiosDefault";
 
 const PostCreateForm = () => {
   const history = useHistory();
@@ -21,8 +22,12 @@ const PostCreateForm = () => {
     image: null,
   });
   const { title, content, location, tags, image } = postData;
+  const [locationInput, setLocationInput] = useState();
+
   const [errors, setErrors] = useState({});
+
   const imageInputRef = useRef(null);
+
   const handleChangeField = (event) => {
     setPostData({
       ...postData,
@@ -53,7 +58,7 @@ const PostCreateForm = () => {
           onChange={handleChangeField}
         />
       </Form.Group>
-      <FormTagsField/>
+      <FormTagsField />
     </>
   );
 
@@ -65,14 +70,31 @@ const PostCreateForm = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const createLocation = async (locationInput) => {
+    try {
+      const locationData = {
+        latitude: locationInput.lat,
+        longitude: locationInput.lng,
+      };
+      const response = await axiosReq.post("/locations/", locationData);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
-    formData.append("image", imageInputRef.current.files[0]);
+    // const formData = new FormData();
+    // formData.append("title", title);
+    // formData.append("content", content);
+    // formData.append("image", imageInputRef.current.files[0]);
     // formData.append(location)
     // formData.append(tags)
+    console.log(locationInput);
+    const locationResponse = await createLocation(locationInput);
+    console.log(locationResponse);
+    console.log(locationResponse.id);
   };
 
   return (
@@ -90,7 +112,7 @@ const PostCreateForm = () => {
         <Row>
           <Col md={6}>{textFields}</Col>
           <Col md={6}>
-            <LocationPicker />
+            <LocationPicker setLocationInput={setLocationInput} />
           </Col>
         </Row>
         <Row className="text-align-center">

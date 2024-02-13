@@ -7,9 +7,14 @@ class Location(models.Model):
     """
     latitude = models.FloatField()
     longitude = models.FloatField()
-    country = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    locality = models.CharField(max_length=255)
+    country = models.CharField(max_length=255, null=True, blank=True)
+    city = models.CharField(max_length=255, null=True, blank=True)
+    town = models.CharField(max_length=255, null=True, blank=True)
+    village = models.CharField(max_length=255, null=True, blank=True)
+    postcode = models.CharField(max_length=20, null=True, blank=True)
+    locality = models.CharField(max_length=255, null=True, blank=True)
+    suburb = models.CharField(max_length=255, null=True, blank=True)
+    city_district = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
