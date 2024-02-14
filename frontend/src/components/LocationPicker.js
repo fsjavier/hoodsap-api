@@ -6,17 +6,17 @@ const LocationMarker = ({
   setPosition,
   position,
   setLocationError,
-  setLocationInput,
+  handleLocationChange,
 }) => {
   const map = useMapEvents({
     click(e) {
       setPosition(e.latlng);
-      setLocationInput(e.latlng);
+      handleLocationChange(e.latlng);
     },
     locationfound(e) {
       map.flyTo(e.latlng, 13);
       setPosition(e.latlng);
-      setLocationInput(e.latlng);
+      handleLocationChange(e.latlng);
     },
     locationerror(error) {
       setLocationError(error.message);
@@ -31,7 +31,7 @@ const LocationMarker = ({
   return position ? <Marker position={position}></Marker> : null;
 };
 
-const LocationPicker = ({ setLocationInput }) => {
+const LocationPicker = ({ handleLocationChange }) => {
   const [position, setPosition] = useState(null);
   const [locationError, setLocationError] = useState("");
 
@@ -57,7 +57,7 @@ const LocationPicker = ({ setLocationInput }) => {
           position={position}
           setLocationError={setLocationError}
           locationError={locationError}
-          setLocationInput={setLocationInput}
+          handleLocationChange={handleLocationChange}
         />
       </MapContainer>
     </>

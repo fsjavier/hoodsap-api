@@ -22,7 +22,19 @@ const PostCreateForm = () => {
     image: null,
   });
   const { title, content, location, tags, image } = postData;
-  const [locationInput, setLocationInput] = useState();
+
+  const handleLocationChange = (newLocation) => {
+    setPostData({
+      ...postData,
+      location: newLocation,
+    });
+  };
+  const handleTagsChange = (newTags) => {
+    setPostData({
+      ...postData,
+      tags: newTags,
+    });
+  };
 
   const [errors, setErrors] = useState({});
 
@@ -58,7 +70,7 @@ const PostCreateForm = () => {
           onChange={handleChangeField}
         />
       </Form.Group>
-      <FormTagsField />
+      <FormTagsField handleTagsChange={handleTagsChange} />
     </>
   );
 
@@ -70,11 +82,11 @@ const PostCreateForm = () => {
     });
   };
 
-  const createLocation = async (locationInput) => {
+  const createLocation = async (location) => {
     try {
       const locationData = {
-        latitude: locationInput.lat,
-        longitude: locationInput.lng,
+        latitude: location.lat,
+        longitude: location.lng,
       };
       const response = await axiosReq.post("/locations/", locationData);
       return response.data;
@@ -83,18 +95,53 @@ const PostCreateForm = () => {
     }
   };
 
+  // const createTags = async (tags) => {
+  //   try {
+  //     const response = await axiosReq.post("/tags/", tags);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+
+  const createTags = async (tags) => {
+    const createdTags = [];
+  
+    for (const tag of tags) {
+      try {
+        // Assuming each tag is a string and your backend expects an object with a 'name' field
+        const response = await axiosReq.post("/tags/", { name: tag });
+        createdTags.push(response.data);
+      } catch (error) {
+        console.error("Error creating tag:", error);
+        // Depending on your error handling, you might want to stop the loop or just log the error
+      }
+    }
+  
+    return createdTags;
+  };
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const formData = new FormData();
-    // formData.append("title", title);
-    // formData.append("content", content);
-    // formData.append("image", imageInputRef.current.files[0]);
-    // formData.append(location)
-    // formData.append(tags)
-    console.log(locationInput);
-    const locationResponse = await createLocation(locationInput);
-    console.log(locationResponse);
-    console.log(locationResponse.id);
+
+    try {
+      const locationResponse = await createLocation(location);
+      const tagsResponse = await createTags(tags);
+
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("image", imageInputRef.current.files[0]);
+      formData.append("location", locationResponse.id);
+      tagsResponse.forEach((tag) => formData.append("tags", tag.id));
+      console.log(formData);
+
+    } catch (error) {
+      setErrors(error);
+      console.log(errors);
+    }
   };
 
   return (
@@ -112,7 +159,7 @@ const PostCreateForm = () => {
         <Row>
           <Col md={6}>{textFields}</Col>
           <Col md={6}>
-            <LocationPicker setLocationInput={setLocationInput} />
+            <LocationPicker handleLocationChange={handleLocationChange} />
           </Col>
         </Row>
         <Row className="text-align-center">
