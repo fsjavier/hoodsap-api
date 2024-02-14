@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Badge from "react-bootstrap/Badge";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Alert } from "react-bootstrap";
 
 const FormTagsField = ({ handleTagsChange }) => {
   const [userTags, setUserTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
+  const [errors, setErrors] = useState("");
 
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
@@ -14,6 +16,7 @@ const FormTagsField = ({ handleTagsChange }) => {
   const handleTagInputSubmit = (event) => {
     if (event.key === "Enter" && tagInput.trim() !== "") {
       event.preventDefault();
+      setErrors("");
       setUserTags((prevUserTags) => [...prevUserTags, tagInput.trim()]);
       setTagInput("");
     }
@@ -26,6 +29,11 @@ const FormTagsField = ({ handleTagsChange }) => {
   };
 
   useEffect(() => {
+    if (userTags.length >= 5) {
+      setErrors("Maximum of 5 tags allowed.");
+    } else {
+      setErrors("")
+    }
     handleTagsChange(userTags);
   }, [userTags]);
 
@@ -40,8 +48,10 @@ const FormTagsField = ({ handleTagsChange }) => {
           value={tagInput}
           onChange={handleTagInputChange}
           onKeyDown={handleTagInputSubmit}
+          disabled={userTags.length >= 5}
         />
       </Form.Group>
+      {errors && <Alert variant="warning">{errors}</Alert>}
       <div>
         {userTags.map((tag, index) => (
           <Badge key={index} pill variant="secondary" className="mr-2 mb-4">
