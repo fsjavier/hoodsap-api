@@ -184,8 +184,8 @@ const PostCreateForm = () => {
             />
           </Col>
         </Row>
-        <Row>
-          <Col md={6} className="align-items-center justify-content-center">{textFields}</Col>
+        <Row className="align-items-center">
+          <Col md={6}>{textFields}</Col>
           <Col md={6}>
             <Form.Group controlId="location">
               <Form.Label className="d-none">Location</Form.Label>
