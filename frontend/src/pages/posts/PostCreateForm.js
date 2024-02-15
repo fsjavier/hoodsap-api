@@ -95,33 +95,37 @@ const PostCreateForm = () => {
     }
   };
 
-  // const createTags = async (tags) => {
-  //   try {
-  //     const response = await axiosReq.post("/tags/", tags);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-
   const createTags = async (tags) => {
-    const createdTags = [];
-  
-    for (const tag of tags) {
+    const userAddedTags = [];
+
+    for (let tag of tags) {
       try {
-        // Assuming each tag is a string and your backend expects an object with a 'name' field
-        const response = await axiosReq.post("/tags/", { name: tag });
-        createdTags.push(response.data);
+        // check if the tag already exists
+        const response = await axiosReq.get(`/tags/?search=${tag}`);
+
+        if (response.data.results && response.data.results.length > 0) {
+          const exactMatch = response.data.results.find(
+            (foundTag) => foundTag.name === tag
+          );
+
+          if (exactMatch) {
+            userAddedTags.push(exactMatch);
+          } else {
+            const response = await axiosReq.post("/tags/", { name: tag });
+            userAddedTags.push(response.data);
+          }
+        } else {
+          console.log(`Adding ${tag} to the post request`);
+          const response = await axiosReq.post("/tags/", { name: tag });
+          userAddedTags.push(response.data);
+        }
       } catch (error) {
         console.error("Error creating tag:", error);
-        // Depending on your error handling, you might want to stop the loop or just log the error
       }
     }
-  
-    return createdTags;
-  };
 
+    return userAddedTags;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -136,10 +140,11 @@ const PostCreateForm = () => {
       formData.append("image", imageInputRef.current.files[0]);
       formData.append("location", locationResponse.id);
       tagsResponse.forEach((tag) => formData.append("tags", tag.id));
-      console.log(formData);
 
+      const { data } = await axiosReq.post("/posts/", formData);
+      history.push(`/posts/${data.id}`);
     } catch (error) {
-      setErrors(error);
+      setErrors(error.response.data);
       console.log(errors);
     }
   };

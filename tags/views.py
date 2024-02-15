@@ -1,4 +1,4 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
 from hoodsap_api.permissions import IsAdminOrReadOnly
 from .models import Tag
 from .serializers import TagSerializer
@@ -12,6 +12,12 @@ class TagList(generics.ListCreateAPIView):
     serializer_class = TagSerializer
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly
+    ]
+    filter_backends = [
+        filters.SearchFilter,
+    ]
+    search_fields = [
+        'name',
     ]
     
     def perform_create(self, serializer):

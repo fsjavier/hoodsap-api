@@ -7,6 +7,7 @@ import { Alert } from "react-bootstrap";
 const FormTagsField = ({ handleTagsChange }) => {
   const [userTags, setUserTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
   const [errors, setErrors] = useState("");
 
   const handleTagInputChange = (event) => {
@@ -31,8 +32,10 @@ const FormTagsField = ({ handleTagsChange }) => {
   useEffect(() => {
     if (userTags.length >= 5) {
       setErrors("Maximum of 5 tags allowed.");
+      setIsDisabled(true);
     } else {
-      setErrors("")
+      setErrors("");
+      setIsDisabled(false);
     }
     handleTagsChange(userTags);
   }, [userTags]);
@@ -48,7 +51,7 @@ const FormTagsField = ({ handleTagsChange }) => {
           value={tagInput}
           onChange={handleTagInputChange}
           onKeyDown={handleTagInputSubmit}
-          disabled={userTags.length >= 5}
+          disabled={isDisabled}
         />
       </Form.Group>
       {errors && <Alert variant="warning">{errors}</Alert>}
