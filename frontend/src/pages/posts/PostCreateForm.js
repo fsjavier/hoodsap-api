@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Alert from "react-bootstrap/Alert";
 import CustomButton from "../../components/CustomButton";
 import styles from "../../styles/PostCreateForm.module.css";
 import { useHistory } from "react-router-dom";
@@ -59,6 +60,12 @@ const PostCreateForm = () => {
           onChange={handleChangeField}
         />
       </Form.Group>
+      {!title &&
+        errors.title?.map((message, idx) => (
+          <Alert variant="warning" key={idx}>
+            {message}
+          </Alert>
+        ))}
       <Form.Group controlId="content">
         <Form.Label className="d-none">Text</Form.Label>
         <Form.Control
@@ -70,7 +77,17 @@ const PostCreateForm = () => {
           onChange={handleChangeField}
         />
       </Form.Group>
+      {errors.content?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
       <FormTagsField handleTagsChange={handleTagsChange} />
+      {errors.tags?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
     </>
   );
 
@@ -115,12 +132,11 @@ const PostCreateForm = () => {
             userAddedTags.push(response.data);
           }
         } else {
-          console.log(`Adding ${tag} to the post request`);
           const response = await axiosReq.post("/tags/", { name: tag });
           userAddedTags.push(response.data);
         }
       } catch (error) {
-        console.error("Error creating tag:", error);
+        console.log(error);
       }
     }
 
@@ -130,22 +146,29 @@ const PostCreateForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      const locationResponse = await createLocation(location);
-      const tagsResponse = await createTags(tags);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
 
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("content", content);
+    if (imageInputRef.current.files[0]) {
       formData.append("image", imageInputRef.current.files[0]);
-      formData.append("location", locationResponse.id);
-      tagsResponse.forEach((tag) => formData.append("tags", tag.id));
+    }
+
+    try {
+      if (location) {
+        const locationResponse = await createLocation(location);
+        formData.append("location", locationResponse.id);
+      }
+
+      if (tags) {
+        const tagsResponse = await createTags(tags);
+        tagsResponse.forEach((tag) => formData.append("tags", tag.id));
+      }
 
       const { data } = await axiosReq.post("/posts/", formData);
       history.push(`/posts/${data.id}`);
     } catch (error) {
       setErrors(error.response.data);
-      console.log(errors);
     }
   };
 
@@ -162,12 +185,27 @@ const PostCreateForm = () => {
           </Col>
         </Row>
         <Row>
-          <Col md={6}>{textFields}</Col>
+          <Col md={6} className="align-items-center justify-content-center">{textFields}</Col>
           <Col md={6}>
-            <LocationPicker handleLocationChange={handleLocationChange} />
+            <Form.Group controlId="location">
+              <Form.Label className="d-none">Location</Form.Label>
+              <LocationPicker handleLocationChange={handleLocationChange} />
+              <Form.Control
+                name="location"
+                value={location}
+                disabled
+                className="d-none"
+              />
+            </Form.Group>
+            {!location &&
+              errors.location?.map((message, idx) => (
+                <Alert variant="warning" key={idx}>
+                  {message}
+                </Alert>
+              ))}
           </Col>
         </Row>
-        <Row className="text-align-center">
+        <Row className={styles.Buttons__Container}>
           <Col className="my-3">
             <CustomButton variant="Secondary" onClick={() => history.goBack()}>
               Cancel
