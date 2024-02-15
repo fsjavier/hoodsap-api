@@ -28,7 +28,7 @@ class SocialEvent(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
     location = models.ForeignKey(
-        Location, on_delete=models.SET_NULL, null=True, blank=True
+        Location, on_delete=models.CASCADE
     )
     event_date = models.DateTimeField()
     event_category = models.CharField(

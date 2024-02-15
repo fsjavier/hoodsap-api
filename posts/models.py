@@ -16,7 +16,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
     location = models.ForeignKey(
-        Location, on_delete=models.SET_NULL, null=True, blank=True
+        Location, on_delete=models.CASCADE
     )
     tags = models.ManyToManyField(Tag, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
