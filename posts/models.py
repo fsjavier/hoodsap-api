@@ -10,8 +10,8 @@ class Post(models.Model):
     Post model related to the user, with location.
     """
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = CloudinaryField(
-        folder='images/', default='default_post_orqqen'
+    image = models.ImageField(
+        upload_to='images/', blank=True
     )
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
