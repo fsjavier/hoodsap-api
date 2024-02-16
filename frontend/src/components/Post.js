@@ -5,10 +5,18 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Media from "react-bootstrap/Media";
 import Badge from "react-bootstrap/Badge";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
 import { axiosReq } from "../api/axiosDefault";
 import { MapContainer, TileLayer, Circle } from "react-leaflet";
+import styles from "../styles/Post.module.css";
+import {
+  HeartIcon as HeartIconOutline,
+  ChatBubbleLeftIcon,
+} from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 
 const Post = (props) => {
   const {
@@ -48,9 +56,9 @@ const Post = (props) => {
             locationDetails.longitude,
           ]);
           setLocationLocality({
-            "country": locationDetails.country,
-            "city": locationDetails.city,
-          })
+            country: locationDetails.country,
+            city: locationDetails.city,
+          });
         }
 
         if (tags && tags.length > 0) {
@@ -105,17 +113,56 @@ const Post = (props) => {
                 </Link>
               )}
             </Card.Body>
-            {content && (
-              <Card.Body>
-                <Card.Text>{content}</Card.Text>
-              </Card.Body>
-            )}
+            <Card.Body>
+              {content && <Card.Text>{content}</Card.Text>}
+              <div className={styles.LikesComments}>
+                <span>
+                  {is_owner ? (
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip>You can't like your own post!</Tooltip>}
+                    >
+                      <HeartIconOutline className={styles.Icon} />
+                    </OverlayTrigger>
+                  ) : like_id ? (
+                    <span onClick={() => {}}>
+                      <HeartIconSolid
+                        className={`${styles.Icon} ${styles.IconSolid}`}
+                      />
+                    </span>
+                  ) : currentUser ? (
+                    <span onClick={() => {}}>
+                      <HeartIconOutline className={styles.Icon} />
+                    </span>
+                  ) : (
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip>Log in to like a post!</Tooltip>}
+                    >
+                      <HeartIconOutline className={styles.Icon} />
+                    </OverlayTrigger>
+                  )}
+                  {likes_count}
+                </span>
+                <span>
+                  <Link to={`/posts/${id}`}>
+                    <ChatBubbleLeftIcon className={styles.Icon} />
+                  </Link>
+                  {comments_count}
+                </span>
+              </div>
+            </Card.Body>
           </Card>
         </Col>
         <Col md={5}>
           <Card className="my-2">
             <Card.Body>
-              <Card.Text>{locationLocality && `${locationLocality?.city}, ${locationLocality?.country.toUpperCase()}`}</Card.Text>
+              <Card.Text>
+                {locationLocality &&
+                  `${
+                    locationLocality?.city
+                  }, ${locationLocality?.country.toUpperCase()}`}
+              </Card.Text>
               {postPage && locationPosition && (
                 <MapContainer
                   center={locationPosition}

@@ -1,0 +1,29 @@
+.LikesComments {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.LikesComments > span {
+  margin-inline: 0.5em;
+}
+
+.Icon {
+  width: 1.5em;
+  height: 1.5em;
+  margin-inline-end: 0.2em;
+  vertical-align: text-bottom;
+}
+
+.Icon:hover {
+  cursor: pointer;
+  color: var(--majorblue);
+}
+
+.IconSolid {
+  color: var(--majorblue);
+}
+
+.IconSolid:hover {
+  color: var(--off-thistle);
+}
