@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefault";
+import Post from "../../components/Post";
 
 const PostPage = () => {
   const { id } = useParams();
@@ -26,13 +27,10 @@ const PostPage = () => {
   }, [id]);
 
   return (
-    <Container className="h-100">
+    <Container className="h-100 mt-4">
       <Row>
         <Col>
-          <h2>Post</h2>
-        </Col>
-        <Col>
-          <h2>Location</h2>
+          <Post {...post.results[0]} setPost={setPost} postPage />
         </Col>
       </Row>
       <Row>
