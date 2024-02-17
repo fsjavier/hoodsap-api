@@ -30,7 +30,7 @@ const PostPage = () => {
     <Container className="h-100 mt-4">
       <Row>
         <Col>
-          <Post {...post.results[0]} setPost={setPost} postPage />
+          <Post {...post.results[0]} setPosts={setPost} postPage />
         </Col>
       </Row>
       <Row>

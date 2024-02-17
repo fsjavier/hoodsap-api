@@ -9,7 +9,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
-import { axiosReq } from "../api/axiosDefault";
+import { axiosReq, axiosRes } from "../api/axiosDefault";
 import { MapContainer, TileLayer, Circle } from "react-leaflet";
 import styles from "../styles/Post.module.css";
 import {
@@ -33,9 +33,9 @@ const Post = (props) => {
     like_id,
     likes_count,
     comments_count,
-    created_at,
     updated_at,
     postPage,
+    setPosts,
   } = props;
 
   const currentUser = useCurrentUser();
@@ -45,11 +45,45 @@ const Post = (props) => {
   const [tagsText, setTagsText] = useState(null);
   const fillRedOptions = { fillColor: "red" };
 
+  const handleLike = async () => {
+    try {
+      const response = await axiosReq.post(`/likes/`, { post: id });
+      const data = response.data;
+      setPosts((prevPosts) => ({
+        ...prevPosts,
+        results: prevPosts.results.map((post) => {
+          return post.id === id
+            ? { ...post, likes_count: post.likes_count + 1, like_id: data.id }
+            : post;
+        }),
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUnlike = async () => {
+    try {
+      const response = await axiosReq.delete(`/likes/${like_id}`);
+      const data = response.data;
+      setPosts((prevPosts) => ({
+        ...prevPosts,
+        results: prevPosts.results.map((post) => {
+          return post.id === id
+            ? { ...post, likes_count: post.likes_count - 1, like_id: null }
+            : post;
+        }),
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (location) {
-          const response = await axiosReq.get(`/locations/${location}`);
+          const response = await axiosRes.get(`/locations/${location}`);
           const locationDetails = response.data;
           setLocationPosition([
             locationDetails.latitude,
@@ -64,7 +98,7 @@ const Post = (props) => {
         if (tags && tags.length > 0) {
           const fetchedTags = [];
           for (let tag of tags) {
-            const response = await axiosReq.get(`/tags/${tag}`);
+            const response = await axiosRes.get(`/tags/${tag}`);
             const tagDetails = response.data.name;
             fetchedTags.push(tagDetails);
           }
@@ -125,13 +159,13 @@ const Post = (props) => {
                       <HeartIconOutline className={styles.Icon} />
                     </OverlayTrigger>
                   ) : like_id ? (
-                    <span onClick={() => {}}>
+                    <span onClick={handleUnlike}>
                       <HeartIconSolid
                         className={`${styles.Icon} ${styles.IconSolid}`}
                       />
                     </span>
                   ) : currentUser ? (
-                    <span onClick={() => {}}>
+                    <span onClick={handleLike}>
                       <HeartIconOutline className={styles.Icon} />
                     </span>
                   ) : (
