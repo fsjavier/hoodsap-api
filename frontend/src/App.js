@@ -7,14 +7,31 @@ import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
 import PostCreateForm from "./pages/posts/PostCreateForm";
 import PostPage from "./pages/posts/PostPage";
+import PostsPage from "./pages/posts/PostsPage";
+import { useCurrentUser } from "./context/CurrentUserContext";
 
 function App() {
+  const currentUser = useCurrentUser();
+  console.log(currentUser)
+  console.log(currentUser?.profile_id)
+  const profile_id = currentUser?.profile_id || "";
+
   return (
     <div className={AppStyles.App}>
       <NavBar />
       <Container className={AppStyles.Main}>
         <Switch>
-          <Route exact path="/" render={() => <h1>Home page</h1>} />
+          <Route exact path="/" render={() => <PostsPage />} />
+          <Route
+            exact
+            path="/feed"
+            render={() => (
+              <PostsPage
+                filter={`owner__followed__owner__profile=${profile_id}&`}
+              />
+            )}
+          />
+          <Route exact path="/events" render={() => <h2>Events page</h2>} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/posts/create" render={() => <PostCreateForm />} />

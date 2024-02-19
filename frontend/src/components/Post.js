@@ -64,8 +64,7 @@ const Post = (props) => {
 
   const handleUnlike = async () => {
     try {
-      const response = await axiosReq.delete(`/likes/${like_id}`);
-      const data = response.data;
+      await axiosReq.delete(`/likes/${like_id}`);
       setPosts((prevPosts) => ({
         ...prevPosts,
         results: prevPosts.results.map((post) => {
@@ -197,7 +196,7 @@ const Post = (props) => {
                     locationLocality?.city
                   }, ${locationLocality?.country.toUpperCase()}`}
               </Card.Text>
-              {postPage && locationPosition && (
+              {locationPosition && (
                 <MapContainer
                   center={locationPosition}
                   zoom={13}
