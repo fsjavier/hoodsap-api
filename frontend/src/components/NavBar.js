@@ -17,6 +17,7 @@ import {
   Bars3CenterLeftIcon,
   UserCircleIcon,
   PlusIcon,
+  MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import appStyles from "../App.module.css";
 import styles from "../styles/NavBar.module.css";
@@ -139,9 +140,14 @@ function NavBar() {
             <img src={logo} height={45} alt="logo" />
           </Navbar.Brand>
         </NavLink>
-        <Form inline className="mx-auto">
+
+        <Form
+          inline
+          className={`${styles.SearchBar} mx-auto`}
+          onSubmit={(event) => event.preventDefault()}
+        >
+          <MagnifyingGlassIcon className={styles.SearchIcon} />
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-success">Search</Button>
         </Form>
 
         <Navbar.Toggle
