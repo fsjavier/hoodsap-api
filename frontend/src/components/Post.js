@@ -82,7 +82,7 @@ const Post = (props) => {
     const fetchData = async () => {
       try {
         if (location) {
-          const response = await axiosRes.get(`/locations/${location}`);
+          const response = await axiosReq.get(`/locations/${location}`);
           const locationDetails = response.data;
           setLocationPosition([
             locationDetails.latitude,

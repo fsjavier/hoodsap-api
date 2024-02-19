@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { axiosRes } from "../../api/axiosDefault";
+import { axiosReq } from "../../api/axiosDefault";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -8,22 +8,22 @@ import Post from "../../components/Post";
 import Asset from "../../components/Asset";
 import { useCurrentUser } from "../../context/CurrentUserContext";
 import { useCurrentSearch } from "../../context/SearchContext";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { fetchMoreData } from "../../utils/utils";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
     "https://res.cloudinary.com/drffvkjy6/image/upload/v1708332982/search_no_results_pujyrg.webp";
   const [posts, setPosts] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
-  const { pathname } = useLocation;
+  const { pathname } = useLocation();
   const currentUser = useCurrentUser();
   const searchQuery = useCurrentSearch();
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axiosRes.get(
-          `/posts/?${filter}&search=${searchQuery}`
-        );
+        const response = await axiosReq.get(`/posts/?${filter}`);
         const data = response.data;
         console.log(data);
         setPosts(data);
@@ -50,10 +50,16 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
         <Col>
           {hasLoaded ? (
             <>
-              {posts.results.length > 0 ? (
-                posts.results.map((post) => (
-                  <Post key={post.id} {...post} setPosts={setPosts} />
-                ))
+              {posts.results.length ? (
+                <InfiniteScroll
+                  children={posts.results.map((post) => (
+                    <Post key={post.id} {...post} setPosts={setPosts} />
+                  ))}
+                  dataLength={posts.results.length}
+                  loader={<Asset spinner />}
+                  hasMore={!!posts.next}
+                  next={() => fetchMoreData(posts, setPosts)}
+                />
               ) : (
                 <Asset
                   src={noResultsSrc}
