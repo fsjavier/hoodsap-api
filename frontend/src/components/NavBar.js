@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import logo from "../assets/hoodsap_logo.webp";
 import Avatar from "../components/Avatar";
@@ -28,12 +27,18 @@ import {
 } from "../context/CurrentUserContext";
 import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
+import {
+  useCurrentSearch,
+  useSetCurrentSearch,
+} from "../context/SearchContext";
 
 function NavBar() {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
 
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
+
+  const setSearchQuery = useSetCurrentSearch();
 
   const handleSignout = async () => {
     try {
@@ -147,7 +152,14 @@ function NavBar() {
           onSubmit={(event) => event.preventDefault()}
         >
           <MagnifyingGlassIcon className={styles.SearchIcon} />
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+          <FormControl
+            type="text"
+            placeholder="Search"
+            onChange={(event) => {
+              setSearchQuery(event.target.value);
+            }}
+            className="mr-sm-2"
+          />
         </Form>
 
         <Navbar.Toggle

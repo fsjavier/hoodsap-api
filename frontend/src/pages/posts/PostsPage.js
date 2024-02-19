@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { axiosRes } from "../../api/axiosDefault";
 import Container from "react-bootstrap/Container";
@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Post from "../../components/Post";
 import Asset from "../../components/Asset";
 import { useCurrentUser } from "../../context/CurrentUserContext";
+import { useCurrentSearch } from "../../context/SearchContext";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -15,11 +16,14 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const { pathname } = useLocation;
   const currentUser = useCurrentUser();
+  const searchQuery = useCurrentSearch();
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axiosRes.get(`/posts/?${filter}`);
+        const response = await axiosRes.get(
+          `/posts/?${filter}&search=${searchQuery}`
+        );
         const data = response.data;
         console.log(data);
         setPosts(data);
@@ -30,8 +34,15 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     };
 
     setHasLoaded(false);
-    fetchPosts();
-  }, [filter, pathname, currentUser]);
+
+    const timer = setTimeout(() => {
+      fetchPosts();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [filter, pathname, currentUser, searchQuery]);
 
   return (
     <Container>
