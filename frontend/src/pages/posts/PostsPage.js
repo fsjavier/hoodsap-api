@@ -10,6 +10,7 @@ import { useCurrentUser } from "../../context/CurrentUserContext";
 import { useCurrentSearch } from "../../context/SearchContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
+import styles from "../../styles/PostsPage.module.css";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -23,7 +24,9 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axiosReq.get(`/posts/?${filter}`);
+        const response = await axiosReq.get(
+          `/posts/?${filter}search=${searchQuery}`
+        );
         const data = response.data;
         console.log(data);
         setPosts(data);
@@ -59,6 +62,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                   loader={<Asset spinner />}
                   hasMore={!!posts.next}
                   next={() => fetchMoreData(posts, setPosts)}
+                  className={styles.InfiniteScroll}
                 />
               ) : (
                 <Asset
