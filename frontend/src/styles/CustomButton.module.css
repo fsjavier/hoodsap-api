@@ -9,6 +9,7 @@
     --thistle: #d5c6e0;
     --raisinblack: #3a2e39;
     --imperialred: #f15152;
+    --imperialredstrong: #931f1f;
     --snowwhite: #fffafa;
     --jetblack: #333;
   
@@ -46,4 +47,14 @@
 .Secondary {
   background-color: var(--raisinblack);
   color: var(--lavenderblush);
+}
+
+.Danger {
+  background-color: var(--imperialred);
+  color: var(--snowwhite);
+}
+
+.Danger:hover {
+  background-color: var(--imperialredstrong);
+  color: var(--snowwhite);
 }

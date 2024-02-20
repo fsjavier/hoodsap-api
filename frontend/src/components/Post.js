@@ -7,7 +7,7 @@ import Media from "react-bootstrap/Media";
 import Badge from "react-bootstrap/Badge";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Avatar from "./Avatar";
 import { axiosReq, axiosRes } from "../api/axiosDefault";
 import { MapContainer, TileLayer, Circle } from "react-leaflet";
@@ -17,6 +17,8 @@ import {
   ChatBubbleLeftIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { MoreDropdown } from "./MoreDropDown";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const Post = (props) => {
   const {
@@ -44,6 +46,21 @@ const Post = (props) => {
   const [locationLocality, setLocationLocality] = useState(null);
   const [tagsText, setTagsText] = useState(null);
   const fillRedOptions = { fillColor: "red" };
+  const history = useHistory();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleEdit = () => {
+    history.push(`/posts/${id}/edit`);
+  };
+
+  const handleDelete = async () => {
+    try {
+      axiosRes.delete(`/posts/${id}`);
+      history.goBack();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleLike = async () => {
     try {
@@ -113,7 +130,7 @@ const Post = (props) => {
 
   return (
     <>
-      <Row>
+      <Row className="h-100 mx-0">
         <Col xs={12} md={7}>
           <Card className="my-2">
             <Card.Body>
@@ -122,29 +139,32 @@ const Post = (props) => {
                   <Avatar src={profile_image} height={50} />
                   {profile_name || owner}
                 </Link>
-                <div>
+                <div className="d-flex">
                   <span>{updated_at}</span>
-                  {is_owner && postPage && " ..."}
+                  {is_owner && postPage && (
+                    <MoreDropdown
+                      handleEdit={handleEdit}
+                      handleShowDeleteModal={() => setShowDeleteModal(true)}
+                    />
+                  )}
                 </div>
               </Media>
               <hr />
-              {title && <Card.Title className="my-2">{title}</Card.Title>}
-              {tagsText &&
-                tagsText.map((tag, index) => (
-                  <Badge
-                    key={index}
-                    pill
-                    variant="secondary"
-                    className="mr-2 mb-4"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              {image && (
-                <Link to={`/posts/${id}`}>
-                  <Card.Img src={image} alt={title} />
-                </Link>
-              )}
+              <Link to={`/posts/${id}`}>
+                {title && <Card.Title className="my-2">{title}</Card.Title>}
+                {tagsText &&
+                  tagsText.map((tag, index) => (
+                    <Badge
+                      key={index}
+                      pill
+                      variant="secondary"
+                      className="mr-2 mb-4"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                {image && <Card.Img src={image} alt={title} />}
+              </Link>
             </Card.Body>
             <Card.Body>
               {content && <Card.Text>{content}</Card.Text>}
@@ -221,6 +241,13 @@ const Post = (props) => {
       <Row>
         <Col></Col>
       </Row>
+      <ConfirmationModal
+        showModal={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        title="Delete post"
+        body="Are you sure you want to delete the post. This action can't be undone."
+        handleAction={handleDelete}
+      />
     </>
   );
 };

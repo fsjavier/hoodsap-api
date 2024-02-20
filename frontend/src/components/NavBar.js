@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -27,10 +27,7 @@ import {
 } from "../context/CurrentUserContext";
 import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
-import {
-  useCurrentSearch,
-  useSetCurrentSearch,
-} from "../context/SearchContext";
+import { useSetCurrentSearch } from "../context/SearchContext";
 
 function NavBar() {
   const currentUser = useCurrentUser();
