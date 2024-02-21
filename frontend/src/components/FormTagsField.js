@@ -4,7 +4,7 @@ import Badge from "react-bootstrap/Badge";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Alert } from "react-bootstrap";
 
-const FormTagsField = ({ handleTagsChange }) => {
+const FormTagsField = ({ initialTags, handleTagsChange }) => {
   const [userTags, setUserTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
@@ -28,6 +28,12 @@ const FormTagsField = ({ handleTagsChange }) => {
       prevUserTags.filter((_, index) => index !== indexToRemove)
     );
   };
+
+  useEffect(() => {
+    if (initialTags) {
+      setUserTags(initialTags);
+    }
+  }, [initialTags]);
 
   useEffect(() => {
     if (userTags.length >= 5) {

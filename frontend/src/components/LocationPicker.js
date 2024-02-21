@@ -31,9 +31,16 @@ const LocationMarker = ({
   return position ? <Marker position={position}></Marker> : null;
 };
 
-const LocationPicker = ({ handleLocationChange }) => {
-  const [position, setPosition] = useState(null);
+const LocationPicker = ({ initialPosition, handleLocationChange }) => {
+  const [position, setPosition] = useState(initialPosition);
   const [locationError, setLocationError] = useState("");
+
+  useEffect(() => {
+    if (initialPosition) {
+      setPosition(initialPosition);
+      handleLocationChange(initialPosition);
+    }
+  }, [initialPosition]);
 
   return (
     <>
