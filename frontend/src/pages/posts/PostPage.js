@@ -7,6 +7,7 @@ import { axiosReq } from "../../api/axiosDefault";
 import Post from "../../components/Post";
 import CommentPostCreateForm from "../comments/CommentPostCreateForm";
 import { useCurrentUser } from "../../context/CurrentUserContext";
+import Comment from "../../components/Comment";
 
 const PostPage = () => {
   const { id } = useParams();
@@ -17,11 +18,12 @@ const PostPage = () => {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const [{ data: post }] = await Promise.all([
+        const [{ data: post }, { data: comments }] = await Promise.all([
           axiosReq.get(`/posts/${id}`),
+          axiosReq.get(`/post_comments/?post=${id}`),
         ]);
         setPost({ results: [post] });
-        console.log(post);
+        setComments(comments);
       } catch (error) {
         console.log(error);
       }
@@ -52,6 +54,15 @@ const PostPage = () => {
       ) : comments.results.length ? (
         "Comments"
       ) : null}
+      {comments.results.length ? (
+        comments.results.map((comment) => (
+          <Comment key={comment.id} {...comment}/>
+        ))
+      ): currentUser ? (
+        <span>No comments yet, be the first!</span>
+      ): (
+        <span>No comments yet.</span>
+      )}
     </Container>
   );
 };
