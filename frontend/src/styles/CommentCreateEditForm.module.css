@@ -1,0 +1,27 @@
+.Form {
+    display: flex;
+    padding: 1em;
+}
+
+.Avatar__Container {
+    display: flex;
+    flex-shrink: 1;
+}
+
+.Textarea__Container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 10;
+    background-color: white;
+    border-radius: 10px;
+    padding: 0.5em;
+}
+
+.Textarea {
+    border: none;
+    margin-bottom: 0.5em;
+}
+
+.Textarea:focus {
+    box-shadow: none;
+}
