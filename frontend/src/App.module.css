@@ -9,6 +9,7 @@
   --thistle: #d5c6e0;
   --raisinblack: #3a2e39;
   --imperialred: #f15152;
+  --purewhite: #ffffff;
   --snowwhite: #fffafa;
   --jetblack: #333;
 
@@ -48,7 +49,7 @@ a:hover {
 
 .App {
   min-height: 100vh;
-  background-color: var(--off-raisinblack);
+  background-color: var(--purewhite);
 }
 
 .Main {

@@ -56,9 +56,8 @@ const CommentPostCreateForm = ({
             <Link to={`/profiles/${profile_id}`}>
               <Avatar src={profile_image} />
             </Link>
-            </Form.Group>
-            <Form.Group as={Col} className={styles.Textarea__Container}>
-
+          </Form.Group>
+          <Form.Group as={Col} className={styles.Textarea__Container}>
             <Form.Control
               as="textarea"
               rows={2}
@@ -68,10 +67,11 @@ const CommentPostCreateForm = ({
               placeholder="Add a comment"
               className={styles.Textarea}
             />
-
-            <CustomButton onClick={handleSubmit} disabled={!content.trim()} styles={{position: "absolute"}}>
-              Comment
-            </CustomButton>
+            <div className={styles.Button__Container}>
+              <CustomButton onClick={handleSubmit} disabled={!content.trim()}>
+                Comment
+              </CustomButton>
+            </div>
           </Form.Group>
         </Form.Row>
       </Col>
