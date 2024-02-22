@@ -27,7 +27,7 @@ class PostComment(Comment):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ['created_at']
+        ordering = ['-created_at']
     
     def __str__(self):
         return self.content
@@ -40,7 +40,7 @@ class SocialEventComment(Comment):
     social_event = models.ForeignKey(SocialEvent, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ['created_at']
+        ordering = ['-created_at']
     
     def __str__(self):
         return self.content
