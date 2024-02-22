@@ -75,3 +75,7 @@ a:hover {
 .Link:hover {
   color: var(--off-majorblue);
 }
+
+.InfiniteScroll {
+  overflow: visible !important;
+}

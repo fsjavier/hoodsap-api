@@ -10,7 +10,7 @@ import { useCurrentUser } from "../../context/CurrentUserContext";
 import { useCurrentSearch } from "../../context/SearchContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
-import styles from "../../styles/PostsPage.module.css";
+import appStyles from "../../App.module.css";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -62,7 +62,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                   loader={<Asset spinner />}
                   hasMore={!!posts.next}
                   next={() => fetchMoreData(posts, setPosts)}
-                  className={styles.InfiniteScroll}
+                  className={appStyles.InfiniteScroll}
                 />
               ) : (
                 <Asset
