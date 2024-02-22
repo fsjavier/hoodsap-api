@@ -16,7 +16,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True)
     avatar = CloudinaryField(
-        folder='images/', default='profile_avatar_nxydwh'
+        folder='images/', default='../profile_avatar_nxydwh'
     )
     location = models.ForeignKey(
         Location, on_delete=models.SET_NULL, null=True, blank=True
