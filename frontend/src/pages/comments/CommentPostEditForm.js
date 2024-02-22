@@ -1,77 +1,68 @@
 import React, { useState } from "react";
-import Avatar from "../../components/Avatar";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
 import CustomButton from "../../components/CustomButton";
 import styles from "../../styles/CommentCreateEditForm.module.css";
 import { axiosReq } from "../../api/axiosDefault";
 
-const CommentPostCreateForm = ({
-  profile_id,
-  profile_image,
-  post,
-  setPost,
+const CommentPostEditForm = ({
+  id,
+  content,
+  setShowEditForm,
   setComments,
 }) => {
-  const [content, setContent] = useState("");
+  const [formContent, setFormContent] = useState(content);
 
   const handleChange = (event) => {
-    setContent(event.target.value);
+    setFormContent(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const { data } = await axiosReq.post("/post_comments/", {
-        content: content,
-        post: post,
+      await axiosReq.put(`/post_comments/${id}`, {
+        content: formContent,
       });
-
-      setPost((prevPost) => ({
-        results: [
-          {
-            ...prevPost.results[0],
-            comments_count: prevPost.results[0].comments_count + 1,
-          },
-        ],
-      }));
 
       setComments((prevComments) => ({
         ...prevComments,
-        results: [data, ...prevComments.results],
+        results: prevComments.results.map((comment) => {
+          return comment.id === id
+            ? {
+                ...comment,
+                content: formContent,
+                updated_at_naturaltime: "now",
+              }
+            : comment;
+        }),
       }));
+      setShowEditForm(false);
     } catch (error) {
       console.log(error);
     }
-
-    setContent("");
   };
 
   return (
     <Row>
       <Col xs={12} md={7}>
         <Form.Row className={styles.Form}>
-          <Form.Group as={Col} className={styles.Avatar__Container}>
-            <Link to={`/profiles/${profile_id}`}>
-              <Avatar src={profile_image} />
-            </Link>
-          </Form.Group>
           <Form.Group as={Col} className={styles.Textarea__Container}>
             <Form.Control
               as="textarea"
               rows={2}
-              value={content}
+              value={formContent}
               onChange={handleChange}
               name="content"
-              placeholder="Add a comment"
               className={styles.Textarea}
             />
             <div className={styles.Button__Container}>
+              <CustomButton onClick={() => setShowEditForm(false)}>
+                Cancel
+              </CustomButton>
               <CustomButton onClick={handleSubmit} disabled={!content.trim()}>
-                Comment
+                Edit
               </CustomButton>
             </div>
           </Form.Group>
@@ -81,4 +72,4 @@ const CommentPostCreateForm = ({
   );
 };
 
-export default CommentPostCreateForm;
+export default CommentPostEditForm;

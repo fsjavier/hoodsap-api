@@ -3,9 +3,17 @@
     font-size: 0.9em;
 }
 
+.Edited {
+    padding-inline-start: 0.75em;
+    font-size: 0.9em;
+    color: var(--thistle);
+    font-style: italic;
+}
+
 .CommentTime {
     padding-inline: 0.75em;
     font-size: 0.9em;
+    color: var(--thistle);
 }
 
 .Content {

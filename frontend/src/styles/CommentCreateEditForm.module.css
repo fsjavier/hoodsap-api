@@ -30,3 +30,7 @@
 .Button__Container {
     text-align: right;
 }
+
+.Button__Container button {
+    margin: 0.5em;
+  }

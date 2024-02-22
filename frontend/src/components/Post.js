@@ -55,7 +55,7 @@ const Post = (props) => {
 
   const handleDelete = async () => {
     try {
-      axiosRes.delete(`/posts/${id}`);
+      await axiosRes.delete(`/posts/${id}`);
       history.goBack();
     } catch (error) {
       console.log(error);
