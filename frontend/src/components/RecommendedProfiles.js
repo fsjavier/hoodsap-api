@@ -1,22 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useCurrentUser } from "../context/CurrentUserContext";
-import { axiosReq } from "../api/axiosDefault";
 import Asset from "./Asset";
 import styles from "../styles/RecommendedProfiles.module.css";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import Profile from "./Profile";
+import { useProfileData } from "../context/ProfileDataContext";
+import { useCurrentUser } from "../context/CurrentUserContext";
 
 const RecommendedProfiles = () => {
-  const [profileData, setProfileData] = useState({
-    pageProfile: { results: [] },
-    recommendedProfiles: { results: [] },
-  });
-
-  const { recommendedProfiles } = profileData;
   const currentUser = useCurrentUser();
+  const { recommendedProfiles } = useProfileData();
 
   const scrollRef = useRef(null);
 
@@ -27,26 +22,6 @@ const RecommendedProfiles = () => {
     });
   };
 
-  useEffect(() => {
-    const fetchProfiles = async () => {
-      try {
-        const { data } = await axiosReq.get(
-          "/profiles/?ordering=-followers_count"
-        );
-        console.log("data fetched: ", data);
-        console.log("current user: ", currentUser);
-        setProfileData((prevProfileData) => ({
-          ...prevProfileData,
-          recommendedProfiles: data,
-        }));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchProfiles();
-  }, [currentUser]);
-
   return (
     <Container>
       <Row>
@@ -55,7 +30,11 @@ const RecommendedProfiles = () => {
         </Col>
       </Row>
       <Row>
-        <Col xs={12} md={7} className="d-flex align-items-center justify-content-between">
+        <Col
+          xs={12}
+          md={7}
+          className="d-flex align-items-center justify-content-between"
+        >
           <div>
             <ChevronLeftIcon
               className={styles.Chevron}
@@ -67,9 +46,11 @@ const RecommendedProfiles = () => {
             ref={scrollRef}
           >
             {recommendedProfiles.results.length ? (
-              recommendedProfiles.results.filter((profile)=>profile.id !== currentUser?.profile_id).map((profile) => (
-                <Profile key={profile.id} profile={profile} />
-              ))
+              recommendedProfiles.results
+                .filter((profile) => profile.id !== currentUser?.profile_id)
+                .map((profile) => (
+                  <Profile key={profile.id} profile={profile} />
+                ))
             ) : (
               <Asset spinner />
             )}

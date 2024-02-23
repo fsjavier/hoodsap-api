@@ -6,14 +6,17 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 import { CurrentUserProvider } from "./context/CurrentUserContext";
 import { CurrentSearchProvider } from "./context/SearchContext";
+import { ProfileDataProvider } from "./context/ProfileDataContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <CurrentUserProvider>
-        <CurrentSearchProvider>
-          <App />
-        </CurrentSearchProvider>
+        <ProfileDataProvider>
+          <CurrentSearchProvider>
+            <App />
+          </CurrentSearchProvider>
+        </ProfileDataProvider>
       </CurrentUserProvider>
     </Router>
   </React.StrictMode>,

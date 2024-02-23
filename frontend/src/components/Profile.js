@@ -3,7 +3,8 @@ import { useCurrentUser } from "../context/CurrentUserContext";
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
 import styles from "../styles/Profile.module.css";
-import { Overlay, OverlayTrigger, Popover } from "react-bootstrap";
+import Overlay from "react-bootstrap/Overlay";
+import Popover from "react-bootstrap/Popover";
 import CustomButton from "./CustomButton";
 
 const Profile = ({ profile }) => {
