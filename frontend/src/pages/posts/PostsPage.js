@@ -11,6 +11,7 @@ import { useCurrentSearch } from "../../context/SearchContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 import appStyles from "../../App.module.css";
+import RecommendedProfiles from "../../components/RecommendedProfiles";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -49,6 +50,11 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
 
   return (
     <Container>
+      <Row>
+        <Col>
+          <RecommendedProfiles />
+        </Col>
+      </Row>
       <Row>
         <Col>
           {hasLoaded ? (

@@ -1,0 +1,11 @@
+.Profile__Container {
+  text-align: center;
+  width: 80px;
+  align-items: center;
+  padding-inline: 0.2em;
+}
+
+.Truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

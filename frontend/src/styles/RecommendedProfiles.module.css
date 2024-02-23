@@ -1,0 +1,18 @@
+.RecommendedProfiles__Container {
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;
+  padding-block: 0.5em;
+}
+
+.Chevron {
+    width: 2em;
+    height: 2em;
+    margin-inline: 0.5em;
+    vertical-align: text-bottom;
+  }
+  
+  .Chevron:hover {
+    color: var(--majorblue);
+    cursor: pointer;
+  }
