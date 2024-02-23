@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from locations.models import Location
-from cloudinary.models import CloudinaryField
 
 
 class Profile(models.Model):
@@ -15,8 +14,8 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True)
-    avatar = CloudinaryField(
-        folder='images/', default='../profile_avatar_nxydwh'
+    avatar = models.ImageField(
+        upload_to='images/', default='../avatar_unisex_dj6lm5'
     )
     location = models.ForeignKey(
         Location, on_delete=models.SET_NULL, null=True, blank=True
