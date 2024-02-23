@@ -52,7 +52,7 @@ const Comment = ({
     <Container className="my-4">
       <Row>
         <Col xs={11} md={7}>
-          <Link to={`/profiles/${profile_id}`}>
+          <Link to={`/profile/${profile_id}`}>
             <span>
               <Avatar src={profile_image} height={24} />
             </span>

@@ -96,7 +96,7 @@ function NavBar() {
 
         <NavDropdown.Item
           as={NavLink}
-          to={`/profiles/${currentUser?.profile_id}`}
+          to={`/profile/${currentUser?.profile_id}`}
         >
           <UserCircleIcon className={appStyles.Icon} /> Profile
         </NavDropdown.Item>

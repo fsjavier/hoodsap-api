@@ -25,7 +25,7 @@ const Profile = ({ profile }) => {
   const popover = (
     <Popover id="popover-basic">
       <Popover.Content className={styles.Popover__Container}>
-        <Link to={`/profiles/${id}`}>
+        <Link to={`/profile/${id}`}>
           <Avatar src={avatar} height={54} />
           <span className={styles.User}>{owner}</span>
         </Link>

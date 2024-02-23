@@ -55,7 +55,7 @@ const CommentPostCreateForm = ({
       <Col xs={12} md={7}>
         <Form.Row className={styles.Form}>
           <Form.Group as={Col} className={styles.Avatar__Container}>
-            <Link to={`/profiles/${profile_id}`}>
+            <Link to={`/profile/${profile_id}`}>
               <Avatar src={profile_image} />
             </Link>
           </Form.Group>

@@ -135,7 +135,7 @@ const Post = (props) => {
           <Card className="my-2">
             <Card.Body>
               <Media className="justify-content-between align-items-center">
-                <Link to={`/profiles/${profile_id}`}>
+                <Link to={`/profile/${profile_id}`}>
                   <Avatar src={profile_image} height={50} />
                   {profile_name || owner}
                 </Link>
