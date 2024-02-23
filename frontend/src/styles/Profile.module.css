@@ -9,3 +9,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.Popover__Container {
+  cursor: default;
+  padding: 1em;
+}
+
+.User {
+  padding-inline-start: 0.3em;
+}
+
+.Button__Container {
+  text-align: center;
+  margin-top: 1em;
+}

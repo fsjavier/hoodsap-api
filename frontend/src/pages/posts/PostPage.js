@@ -16,8 +16,10 @@ import appStyles from "../../App.module.css";
 const PostPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState({ results: [] });
+  const [hasLoadedPost, setHasLoadedPost] = useState(false);
   const currentUser = useCurrentUser();
   const [comments, setComments] = useState({ results: [] });
+  const [hasLoadedComments, setHasLoadedComments] = useState(false);
 
   useEffect(() => {
     const fetchPostData = async () => {
@@ -28,11 +30,15 @@ const PostPage = () => {
         ]);
         setPost({ results: [post] });
         setComments(comments);
+        setHasLoadedPost(true);
+        setHasLoadedComments(true);
       } catch (error) {
         console.log(error);
       }
     };
 
+    setHasLoadedPost(false);
+    setHasLoadedComments(false);
     fetchPostData();
   }, [id]);
 
@@ -40,10 +46,14 @@ const PostPage = () => {
     <Container className="h-100 mt-4">
       <Row>
         <Col>
-          <Post {...post.results[0]} setPosts={setPost} postPage />
+          {hasLoadedPost ? (
+            <Post {...post.results[0]} setPosts={setPost} postPage />
+          ) : (
+            <Asset spinner />
+          )}
         </Col>
       </Row>
-      {currentUser ? (
+      {currentUser && hasLoadedPost ? (
         <Row>
           <Col>
             <CommentPostCreateForm
@@ -58,26 +68,30 @@ const PostPage = () => {
       ) : comments.results.length ? (
         "Comments"
       ) : null}
-      {comments.results.length ? (
-        <InfiniteScroll
-          children={comments.results.map((comment) => (
-            <Comment
-              key={comment.id}
-              {...comment}
-              setPost={setPost}
-              setComments={setComments}
-            />
-          ))}
-          dataLength={comments.results.length}
-          loader={<Asset spinner />}
-          hasMore={!!comments.next}
-          next={() => fetchMoreData(comments, setComments)}
-          className={appStyles.InfiniteScroll}
-        />
-      ) : currentUser ? (
-        <span>No comments yet, be the first!</span>
+      {hasLoadedComments ? (
+        comments.results.length ? (
+          <InfiniteScroll
+            children={comments.results.map((comment) => (
+              <Comment
+                key={comment.id}
+                {...comment}
+                setPost={setPost}
+                setComments={setComments}
+              />
+            ))}
+            dataLength={comments.results.length}
+            loader={<Asset spinner />}
+            hasMore={!!comments.next}
+            next={() => fetchMoreData(comments, setComments)}
+            className={appStyles.InfiniteScroll}
+          />
+        ) : currentUser ? (
+          <span>No comments yet, be the first!</span>
+        ) : (
+          <span>No comments yet.</span>
+        )
       ) : (
-        <span>No comments yet.</span>
+        <Asset spinner />
       )}
     </Container>
   );

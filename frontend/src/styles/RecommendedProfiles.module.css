@@ -5,6 +5,10 @@
   padding-block: 0.5em;
 }
 
+.RecommendedProfiles__Container:hover {
+  cursor: pointer;
+}
+
 .Chevron {
     width: 2em;
     height: 2em;

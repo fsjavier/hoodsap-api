@@ -18,7 +18,7 @@ const RecommendedProfiles = () => {
   const { recommendedProfiles } = profileData;
   const currentUser = useCurrentUser();
 
-  const scrollRef = useRef();
+  const scrollRef = useRef(null);
 
   const scroll = (scrollOffset) => {
     scrollRef.current.scroll({
