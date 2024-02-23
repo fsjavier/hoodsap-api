@@ -33,7 +33,8 @@ const RecommendedProfiles = () => {
         const { data } = await axiosReq.get(
           "/profiles/?ordering=-followers_count"
         );
-        console.log(data);
+        console.log("data fetched: ", data);
+        console.log("current user: ", currentUser);
         setProfileData((prevProfileData) => ({
           ...prevProfileData,
           recommendedProfiles: data,
@@ -54,7 +55,7 @@ const RecommendedProfiles = () => {
         </Col>
       </Row>
       <Row>
-        <Col xs={12} md={7} className="d-flex align-items-center">
+        <Col xs={12} md={7} className="d-flex align-items-center justify-content-between">
           <div>
             <ChevronLeftIcon
               className={styles.Chevron}
@@ -66,7 +67,7 @@ const RecommendedProfiles = () => {
             ref={scrollRef}
           >
             {recommendedProfiles.results.length ? (
-              recommendedProfiles.results.map((profile) => (
+              recommendedProfiles.results.filter((profile)=>profile.id !== currentUser?.profile_id).map((profile) => (
                 <Profile key={profile.id} profile={profile} />
               ))
             ) : (

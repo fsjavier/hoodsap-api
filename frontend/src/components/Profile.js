@@ -15,7 +15,6 @@ const Profile = ({ profile }) => {
   const ref = useRef(null);
 
   const currentUser = useCurrentUser();
-  const is_owner = currentUser?.username === owner;
 
   const handleClick = (event) => {
     setTarget(event.currentTarget);
@@ -25,13 +24,21 @@ const Profile = ({ profile }) => {
   const popover = (
     <Popover id="popover-basic">
       <Popover.Content className={styles.Popover__Container}>
-        <Link to={`/profiles/${id}`} >
-          <Avatar src={avatar} height={54}/>
+        <Link to={`/profiles/${id}`}>
+          <Avatar src={avatar} height={54} />
           <span className={styles.User}>{owner}</span>
         </Link>
-        <div className={styles.Button__Container}>
-          <CustomButton onClick={() => {}}>Follow</CustomButton>
-        </div>
+        {currentUser ? (
+          following_id ? (
+            <div className={styles.Button__Container}>
+              <CustomButton onClick={() => {}}>Unfollow</CustomButton>
+            </div>
+          ) : (
+            <div className={styles.Button__Container}>
+              <CustomButton onClick={() => {}}>Follow</CustomButton>
+            </div>
+          )
+        ) : null}
       </Popover.Content>
     </Popover>
   );

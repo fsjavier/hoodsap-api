@@ -1,8 +1,7 @@
 .Profile__Container {
   text-align: center;
-  width: 80px;
-  align-items: center;
-  padding-inline: 0.2em;
+  width: 90px;
+  padding-inline: 0.6em;
 }
 
 .Truncate {
