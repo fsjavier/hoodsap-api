@@ -14,14 +14,14 @@ import appStyles from "../../App.module.css";
 import styles from "../../styles/ProfilePage.module.css";
 import CustomButton from "../../components/CustomButton";
 import { useCurrentUser } from "../../context/CurrentUserContext";
-import InfiniteScroll from "react-infinite-scroll-component"
+import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
-import Post from "../../components/Post"
+import Post from "../../components/Post";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
 const ProfilePage = () => {
   const { id } = useParams();
-  const setProfileData = useSetProfileData();
+  const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
   const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
   const [profilePosts, setProfilePosts] = useState({ results: [] });
@@ -90,11 +90,15 @@ const ProfilePage = () => {
                     !is_owner &&
                     (profile.following_id ? (
                       <div className={styles.Follow__Container}>
-                        <CustomButton>Unfollow</CustomButton>
+                        <CustomButton onClick={() => handleUnfollow(profile)}>
+                          Unfollow
+                        </CustomButton>
                       </div>
                     ) : (
                       <div className={styles.Follow__Container}>
-                        <CustomButton>Follow</CustomButton>
+                        <CustomButton onClick={() => handleFollow(profile)}>
+                          Follow
+                        </CustomButton>
                       </div>
                     ))}
                 </div>
@@ -159,7 +163,6 @@ const ProfilePage = () => {
                 <hr />
                 <h3>Posts</h3>
                 {profilePosts.results.length ? (
-
                   <InfiniteScroll
                     children={profilePosts.results.map((post) => (
                       <Post

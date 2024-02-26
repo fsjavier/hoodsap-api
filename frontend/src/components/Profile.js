@@ -6,16 +6,18 @@ import styles from "../styles/Profile.module.css";
 import Overlay from "react-bootstrap/Overlay";
 import Popover from "react-bootstrap/Popover";
 import CustomButton from "./CustomButton";
+import { useSetProfileData } from "../context/ProfileDataContext";
 
 const Profile = ({ profile }) => {
   const { id, following_id, avatar, owner } = profile;
-  console.log(profile);
 
   const [showPopover, setShowPopover] = useState(false);
   const [target, setTarget] = useState(null);
   const ref = useRef(null);
 
   const currentUser = useCurrentUser();
+
+  const { handleFollow, handleUnfollow } = useSetProfileData();
 
   const handleClick = (event) => {
     setTarget(event.currentTarget);
@@ -32,11 +34,13 @@ const Profile = ({ profile }) => {
         {currentUser ? (
           following_id ? (
             <div className={styles.Button__Container}>
-              <CustomButton onClick={() => {}}>Unfollow</CustomButton>
+              <CustomButton onClick={() => handleUnfollow(profile) }>Unfollow</CustomButton>
             </div>
           ) : (
             <div className={styles.Button__Container}>
-              <CustomButton onClick={() => {}}>Follow</CustomButton>
+              <CustomButton onClick={() => handleFollow(profile)}>
+                Follow
+              </CustomButton>
             </div>
           )
         ) : null}
