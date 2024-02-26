@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import { MapContainer, TileLayer, Circle } from "react-leaflet";
 import { useParams } from "react-router-dom";
@@ -16,6 +14,9 @@ import appStyles from "../../App.module.css";
 import styles from "../../styles/ProfilePage.module.css";
 import CustomButton from "../../components/CustomButton";
 import { useCurrentUser } from "../../context/CurrentUserContext";
+import InfiniteScroll from "react-infinite-scroll-component"
+import { fetchMoreData } from "../../utils/utils";
+import Post from "../../components/Post"
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
 const ProfilePage = () => {
@@ -23,6 +24,7 @@ const ProfilePage = () => {
   const setProfileData = useSetProfileData();
   const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
+  const [profilePosts, setProfilePosts] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const [locationPosition, setLocationPosition] = useState();
@@ -35,9 +37,11 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const [{ data: pageProfile }] = await Promise.all([
-          axiosReq.get(`/profiles/${id}`),
-        ]);
+        const [{ data: pageProfile }, { data: profilePosts }] =
+          await Promise.all([
+            axiosReq.get(`/profiles/${id}`),
+            axiosReq.get(`/posts/?owner__profile=${id}`),
+          ]);
 
         const { data: locationDetails } = await axiosReq.get(
           `/locations/${pageProfile.location}`
@@ -47,6 +51,8 @@ const ProfilePage = () => {
           ...prevProfileData,
           pageProfile: { results: [pageProfile] },
         }));
+
+        setProfilePosts(profilePosts);
 
         setLocationPosition([
           locationDetails.latitude,
@@ -149,6 +155,28 @@ const ProfilePage = () => {
                   }, ${locationLocality?.country.toUpperCase()}`}
               </p>
               {profile.bio && profile.bio}
+              <div className="my-5">
+                <hr />
+                <h3>Posts</h3>
+                {profilePosts.results.length ? (
+
+                  <InfiniteScroll
+                    children={profilePosts.results.map((post) => (
+                      <Post
+                        key={post.id}
+                        {...post}
+                        setPosts={setProfilePosts}
+                      />
+                    ))}
+                    dataLength={profilePosts.results.length}
+                    loader={<Asset spinner />}
+                    hasMore={!!profilePosts.next}
+                    next={() => fetchMoreData(profilePosts, setProfilePosts)}
+                  />
+                ) : (
+                  <p>{profile.display_name} hasn't posted yet</p>
+                )}
+              </div>
             </div>
           </Col>
         </>

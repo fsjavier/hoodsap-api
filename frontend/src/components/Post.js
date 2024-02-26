@@ -131,7 +131,7 @@ const Post = (props) => {
   return (
     <>
       <Row className="h-100 mx-0">
-        <Col xs={12} md={7}>
+        <Col xs={12} md={postPage && 7}>
           <Card className="my-2">
             <Card.Body>
               <Media className="justify-content-between align-items-center">
@@ -207,36 +207,39 @@ const Post = (props) => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={5}>
-          <Card className="my-2">
-            <Card.Body>
-              <Card.Text>
-                {locationLocality &&
-                  `${
-                    locationLocality?.city
-                  }, ${locationLocality?.country.toUpperCase()}`}
-              </Card.Text>
-              {locationPosition && (
-                <MapContainer
-                  center={locationPosition}
-                  zoom={13}
-                  style={{ height: "300px", width: "100%" }}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Circle
+
+        {postPage && (
+          <Col md={5}>
+            <Card className="my-2">
+              <Card.Body>
+                <Card.Text>
+                  {locationLocality &&
+                    `${
+                      locationLocality?.city
+                    }, ${locationLocality?.country.toUpperCase()}`}
+                </Card.Text>
+                {locationPosition && (
+                  <MapContainer
                     center={locationPosition}
-                    pathOptions={fillRedOptions}
-                    radius={300}
-                    stroke={false}
-                  />
-                </MapContainer>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
+                    zoom={13}
+                    style={{ height: "300px", width: "100%" }}
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Circle
+                      center={locationPosition}
+                      pathOptions={fillRedOptions}
+                      radius={300}
+                      stroke={false}
+                    />
+                  </MapContainer>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
       </Row>
       <Row>
         <Col></Col>
