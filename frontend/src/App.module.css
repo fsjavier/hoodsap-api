@@ -16,6 +16,10 @@
   --off-majorblue: rgba(93, 79, 227, 0.5);
   --off-raisinblack: rgba(58, 46, 57, 0.1);
   --off-thistle: rgba(213, 198, 224, 0.1);
+
+  /* Box shadows */
+  --box-shadow-small-lavender: 0px 0px 6px -1px var(--lavenderblush);
+  --box-shadow-big-lavender: 0px 0px 7px 5px var(--lavenderblush);
 }
 
 * {
@@ -78,4 +82,11 @@ a:hover {
 
 .InfiniteScroll {
   overflow: visible !important;
+}
+
+/* Media queries */
+@media screen and (min-width: 1200px) {
+  .Main {
+    max-width: 75vw;
+  }
 }
