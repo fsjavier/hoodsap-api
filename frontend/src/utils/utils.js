@@ -44,18 +44,12 @@ export const unfollowHelper = (profile, clickedProfile) => {
 };
 
 export const setTokenTimestamp = (data) => {
-  const refreshTokenTimestamp = jwtDecode(data?.refresh_token).exp * 1000;
+  const refreshTokenTimestamp = jwtDecode(data?.refresh_token).exp;
   localStorage.setItem("refreshTokenTimestamp", refreshTokenTimestamp);
 };
 
 export const shouldRefreshToken = () => {
-  const refreshTokenTimestamp = localStorage.getItem("refreshTokenTimestamp");
-  if (!refreshTokenTimestamp) {
-    return false;
-  }
-  const currentTime = Date.now();
-  const timeLeft = refreshTokenTimestamp - currentTime;
-  return timeLeft < (5 * 60 * 1000)
+  return !!localStorage.getItem("refreshTokenTimestamp");
 };
 
 export const removeTokenTimestamp = () => {
