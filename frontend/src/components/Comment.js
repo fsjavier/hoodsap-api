@@ -88,6 +88,7 @@ const Comment = ({
         onHide={() => setShowDeleteModal(false)}
         title="Delete comment"
         body="Are you sure you want to delete the comment. This action can't be undone."
+        button="Delete"
         handleAction={handleDelete}
       />
     </Container>

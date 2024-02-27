@@ -248,6 +248,7 @@ const Post = (props) => {
         showModal={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
         title="Delete post"
+        button="Delete"
         body="Are you sure you want to delete the post. This action can't be undone."
         handleAction={handleDelete}
       />

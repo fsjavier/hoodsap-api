@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import CustomButton from "./CustomButton";
 
-function ConfirmationModal({ showModal, onHide, title, body, handleAction }) {
+function ConfirmationModal({ showModal, onHide, title, body, button, handleAction }) {
   return (
     <Modal
       show={showModal}
@@ -18,7 +18,7 @@ function ConfirmationModal({ showModal, onHide, title, body, handleAction }) {
       </Modal.Body>
       <Modal.Footer>
         <CustomButton onClick={onHide} variant="Primary">Close</CustomButton>
-        <CustomButton onClick={handleAction} variant="Danger">Delete</CustomButton>
+        <CustomButton onClick={handleAction} variant="Danger">{button}</CustomButton>
       </Modal.Footer>
     </Modal>
   );
