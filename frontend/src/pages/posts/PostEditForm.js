@@ -15,7 +15,7 @@ import Asset from "../../components/Asset";
 import { useRedirect } from "../../hooks/useRedirect";
 
 const PostEditForm = () => {
-  useRedirect(loggedOut);
+  useRedirect("loggedOut");
   const history = useHistory();
 
   const [postData, setPostData] = useState({
