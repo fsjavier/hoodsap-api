@@ -10,10 +10,8 @@ class Profile(models.Model):
     fields to store user details.
     """
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
-    display_name = models.CharField(max_length=255, blank=True)
-    first_name = models.CharField(max_length=255, blank=True)
-    last_name = models.CharField(max_length=255, blank=True)
-    bio = models.TextField(blank=True)
+    display_name = models.CharField(max_length=30, blank=True)
+    bio = models.TextField(max_length=500, blank=True)
     avatar = models.ImageField(
         upload_to='images/', default='../avatar_unisex_dj6lm5'
     )
