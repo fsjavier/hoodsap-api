@@ -19,6 +19,7 @@ import Asset from "../../components/Asset";
 import { useCurrentUser } from "../../context/CurrentUserContext";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import ChangePasswordModal from "../../components/ChangePasswordModal";
+import ChangeUsernameModal from "../../components/ChangeUsernameModal";
 
 const ProfileEditForm = () => {
   const currentUser = useCurrentUser();
@@ -297,6 +298,12 @@ const ProfileEditForm = () => {
             </Col>
           </Row>
         </Col>
+        <ChangeUsernameModal
+          showModal={showChangeUsernameModal}
+          onHide={() => setShowChangeUsernameModal(false)}
+          title="Update username"
+          button="Save"
+        />
         <ChangePasswordModal
           showModal={showChangePasswordModal}
           onHide={() => setShowChangePasswordModal(false)}
