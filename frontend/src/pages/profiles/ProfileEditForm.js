@@ -18,6 +18,7 @@ import { axiosReq } from "../../api/axiosDefault";
 import Asset from "../../components/Asset";
 import { useCurrentUser } from "../../context/CurrentUserContext";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import ChangePasswordModal from "../../components/ChangePasswordModal";
 
 const ProfileEditForm = () => {
   const currentUser = useCurrentUser();
@@ -40,6 +41,8 @@ const ProfileEditForm = () => {
       <p>In your profile we won't show your exact location.</p>
     </Tooltip>
   );
+  const [showChangeUsernameModal, setShowChangeUsernameModal] = useState(false);
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -177,8 +180,8 @@ const ProfileEditForm = () => {
         formData.append("location", locationResponse.id);
       }
 
-      await axiosReq.put(`/profiles/${id}`, formData);
-      history.push(`/profiles/${id}`);
+      await axiosReq.put(`/profiles/${id}/`, formData);
+      history.push(`/profile/${id}`);
     } catch (error) {
       setErrors(error.response.data);
     }
@@ -251,6 +254,7 @@ const ProfileEditForm = () => {
             <Row className={styles.Buttons__Container}>
               <Col className="my-3">
                 <CustomButton
+                  type="button"
                   variant="Secondary"
                   onClick={() => history.goBack()}
                 >
@@ -261,29 +265,45 @@ const ProfileEditForm = () => {
                 </CustomButton>
               </Col>
             </Row>
-
-            <Row className={styles.AccountSettings__Container}>
-              <Col md={6} className="text-center">
-                <h3 className="mb-4">Account settings</h3>
-                <Row className="align-items-center my-4">
-                  <Col>Change username</Col>
-                  <Col>
-                    <CustomButton>Change</CustomButton>
-                  </Col>
-                </Row>
-                <Row className="align-items-center my-4">
-                  <Col>Change password</Col>
-                  <Col>
-                    <CustomButton>Change</CustomButton>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
           </>
         ) : (
           <Asset spinner />
         )}
       </Form>
+
+      <Row className={styles.AccountSettings__Container}>
+        <Col md={6} className="text-center">
+          <h3 className="mb-4">Account settings</h3>
+          <Row className="align-items-center my-4">
+            <Col>Change username</Col>
+            <Col>
+              <CustomButton
+                type="button"
+                onClick={() => setShowChangeUsernameModal(true)}
+              >
+                Change
+              </CustomButton>
+            </Col>
+          </Row>
+          <Row className="align-items-center my-4">
+            <Col>Change password</Col>
+            <Col>
+              <CustomButton
+                type="button"
+                onClick={() => setShowChangePasswordModal(true)}
+              >
+                Change
+              </CustomButton>
+            </Col>
+          </Row>
+        </Col>
+        <ChangePasswordModal
+          showModal={showChangePasswordModal}
+          onHide={() => setShowChangePasswordModal(false)}
+          title="Update password"
+          button="Save"
+        />
+      </Row>
     </Container>
   );
 };
