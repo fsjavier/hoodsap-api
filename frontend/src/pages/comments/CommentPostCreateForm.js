@@ -16,7 +16,7 @@ const CommentPostCreateForm = ({
   setPost,
   setComments,
 }) => {
-  useRedirect("loggedOut")
+  useRedirect("loggedOut");
   const [content, setContent] = useState("");
 
   const handleChange = (event) => {
