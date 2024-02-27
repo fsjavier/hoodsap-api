@@ -63,8 +63,6 @@ const ProfilePage = () => {
           country: locationDetails.country,
           city: locationDetails.city,
         });
-
-        console.log(pageProfile);
         setHasLoaded(true);
       } catch (error) {
         console.log(error);

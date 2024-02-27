@@ -21,7 +21,6 @@ const LocationMarker = ({
     },
     locationerror(error) {
       setLocationError(error.message);
-      console.log(error.message);
     },
   });
 

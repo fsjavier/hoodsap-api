@@ -35,7 +35,6 @@ function ChangePasswordModal({ showModal, onHide, title, button }) {
 
       
     } catch (err) {
-      console.log(err);
       setErrors(err.response?.data);
     }
   };

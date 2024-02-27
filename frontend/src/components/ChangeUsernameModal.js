@@ -29,7 +29,6 @@ function ChangeUsernameModal({ showModal, onHide, title, button }) {
         setUsername("");
       }, 3000);
     } catch (err) {
-      console.log(err);
       setErrors(err.response?.data);
     }
   };

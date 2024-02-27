@@ -73,7 +73,6 @@ const ProfileEditForm = () => {
 
           setHasLoaded(true);
         } catch (error) {
-          console.log(error);
           history.push("/");
         }
       } else {
