@@ -9,7 +9,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { Link, useHistory } from "react-router-dom";
 import Avatar from "./Avatar";
-import { axiosReq, axiosRes } from "../api/axiosDefault";
+import { axiosReq } from "../api/axiosDefault";
 import { MapContainer, TileLayer, Circle } from "react-leaflet";
 import styles from "../styles/Post.module.css";
 import {
@@ -55,7 +55,7 @@ const Post = (props) => {
 
   const handleDelete = async () => {
     try {
-      await axiosRes.delete(`/posts/${id}`);
+      await axiosReq.delete(`/posts/${id}`);
       history.goBack();
     } catch (error) {
       console.log(error);
@@ -114,7 +114,7 @@ const Post = (props) => {
         if (tags && tags.length > 0) {
           const fetchedTags = [];
           for (let tag of tags) {
-            const response = await axiosRes.get(`/tags/${tag}`);
+            const response = await axiosReq.get(`/tags/${tag}`);
             const tagDetails = response.data.name;
             fetchedTags.push(tagDetails);
           }
