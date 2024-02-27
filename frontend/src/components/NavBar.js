@@ -138,9 +138,7 @@ function NavBar() {
     >
       <Container fluid>
         <NavLink to="/">
-          <Navbar.Brand href="#home">
-            <img src={logo} height={45} alt="logo" />
-          </Navbar.Brand>
+          <img src={logo} height={45} alt="logo" />
         </NavLink>
 
         <Form
