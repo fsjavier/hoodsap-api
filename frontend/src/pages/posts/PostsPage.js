@@ -29,7 +29,6 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
           `/posts/?${filter}search=${searchQuery}`
         );
         const data = response.data;
-        console.log(data);
         setPosts(data);
         setHasLoaded(true);
       } catch (error) {

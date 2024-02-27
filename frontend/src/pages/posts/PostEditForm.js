@@ -38,7 +38,6 @@ const PostEditForm = () => {
         const response = await axiosReq.get(`/posts/${id}`);
         const data = response.data;
         const { title, content, location, tags, image, is_owner } = data;
-        console.log(data);
 
         if (!is_owner) {
           history.push("/");
