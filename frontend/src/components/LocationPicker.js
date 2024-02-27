@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styles from "../styles/LocationPicker.module.css";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import Alert from "react-bootstrap/esm/Alert";
 
@@ -51,6 +52,7 @@ const LocationPicker = ({ initialPosition, handleLocationChange }) => {
         </Alert>
       ) : null}
       <MapContainer
+        className={styles.Map__Container}
         center={{ lat: 53, lng: 14 }}
         zoom={3}
         style={{ height: "300px", width: "100%" }}

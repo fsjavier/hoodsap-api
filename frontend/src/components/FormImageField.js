@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Asset from "../components/Asset";
 import Image from "react-bootstrap/Image";
 import styles from "../styles/PostCreateForm.module.css";
-import ButtonStyles from "../styles/CustomButton.module.css";
+import buttonStyles from "../styles/CustomButton.module.css";
 
 const FormImageField = ({ image, imageInputRef, handleChangeImage }) => {
   const uploadImageSrc =
@@ -19,7 +19,7 @@ const FormImageField = ({ image, imageInputRef, handleChangeImage }) => {
           <div>
             <Form.Label
               htmlFor="image-upload"
-              className={`${ButtonStyles.Button} ${ButtonStyles.Primary}`}
+              className={`${buttonStyles.Button} ${buttonStyles.Primary}`}
             >
               Change the image
             </Form.Label>
