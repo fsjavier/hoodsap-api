@@ -20,8 +20,10 @@ import { useCurrentUser } from "../../context/CurrentUserContext";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import ChangePasswordModal from "../../components/ChangePasswordModal";
 import ChangeUsernameModal from "../../components/ChangeUsernameModal";
+import { useRedirect } from "../../hooks/useRedirect";
 
 const ProfileEditForm = () => {
+  useRedirect("loggedOut");
   const currentUser = useCurrentUser();
   const history = useHistory();
 

@@ -12,8 +12,10 @@ import FormImageField from "../../components/FormImageField";
 import FormTagsField from "../../components/FormTagsField";
 import { axiosReq } from "../../api/axiosDefault";
 import Asset from "../../components/Asset";
+import { useRedirect } from "../../hooks/useRedirect";
 
 const PostEditForm = () => {
+  useRedirect(loggedOut);
   const history = useHistory();
 
   const [postData, setPostData] = useState({

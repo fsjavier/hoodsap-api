@@ -8,9 +8,11 @@ import CustomButton from "../../components/CustomButton";
 import AppStyles from "../../App.module.css";
 import styles from "../../styles/SignInUpForm.module.css";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom";
+import { useRedirect } from "../../hooks/useRedirect";
 
 const SignUpForm = () => {
+  useRedirect("loggedIn")
   const [signUpData, setSignUpData] = useState({
     username: "",
     password1: "",

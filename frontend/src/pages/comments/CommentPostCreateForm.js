@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import CustomButton from "../../components/CustomButton";
 import styles from "../../styles/CommentCreateEditForm.module.css";
 import { axiosReq } from "../../api/axiosDefault";
+import { useRedirect } from "../../hooks/useRedirect";
 
 const CommentPostCreateForm = ({
   profile_id,
@@ -15,6 +16,7 @@ const CommentPostCreateForm = ({
   setPost,
   setComments,
 }) => {
+  useRedirect("loggedOut")
   const [content, setContent] = useState("");
 
   const handleChange = (event) => {

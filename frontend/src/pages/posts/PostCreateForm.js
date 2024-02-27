@@ -11,8 +11,10 @@ import LocationPicker from "../../components/LocationPicker";
 import FormImageField from "../../components/FormImageField";
 import FormTagsField from "../../components/FormTagsField";
 import { axiosReq } from "../../api/axiosDefault";
+import { useRedirect } from "../../hooks/useRedirect";
 
 const PostCreateForm = () => {
+  useRedirect("loggedOut");
   const history = useHistory();
 
   const [postData, setPostData] = useState({

@@ -5,13 +5,10 @@ import Col from "react-bootstrap/Col";
 import CustomButton from "../../components/CustomButton";
 import styles from "../../styles/CommentCreateEditForm.module.css";
 import { axiosReq } from "../../api/axiosDefault";
+import { useRedirect } from "../../hooks/useRedirect";
 
-const CommentPostEditForm = ({
-  id,
-  content,
-  setShowEditForm,
-  setComments,
-}) => {
+const CommentPostEditForm = ({ id, content, setShowEditForm, setComments }) => {
+  useRedirect("loggedOut");
   const [formContent, setFormContent] = useState(content);
 
   const handleChange = (event) => {
