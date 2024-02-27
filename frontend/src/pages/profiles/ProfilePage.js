@@ -3,7 +3,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import { MapContainer, TileLayer, Circle } from "react-leaflet";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefault";
 import {
   useProfileData,
@@ -86,21 +86,29 @@ const ProfilePage = () => {
                 <div className={styles.ProfileNameImage__Container}>
                   <Image src={profile.avatar} className={styles.ProfileImage} />
                   <h2 className={styles.ProfileName}>{profile.display_name}</h2>
-                  {currentUser &&
+                  {is_owner ? (
+                    <div className={styles.EditFollow__Container}>
+                      <Link to={`/profile/${id}/edit/`}>
+                        <CustomButton>Edit Profile</CustomButton>
+                      </Link>
+                    </div>
+                  ) : (
+                    currentUser &&
                     !is_owner &&
                     (profile.following_id ? (
-                      <div className={styles.Follow__Container}>
+                      <div className={styles.EditFollow__Container}>
                         <CustomButton onClick={() => handleUnfollow(profile)}>
                           Unfollow
                         </CustomButton>
                       </div>
                     ) : (
-                      <div className={styles.Follow__Container}>
+                      <div className={styles.EditFollow__Container}>
                         <CustomButton onClick={() => handleFollow(profile)}>
                           Follow
                         </CustomButton>
                       </div>
-                    ))}
+                    ))
+                  )}
                 </div>
                 <div>
                   <div className={styles.ProfileStats}>
