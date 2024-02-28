@@ -5,9 +5,9 @@ import Col from "react-bootstrap/Col";
 import { useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefault";
 import Event from "../../components/Event";
-// import CommentPostCreateForm from "../comments/CommentPostCreateForm";
+import CommentEventCreateForm from "../comments/CommentEventCreateForm";
 import { useCurrentUser } from "../../context/CurrentUserContext";
-import Comment from "../../components/Comment";
+import EventComment from "../../components/EventComment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
@@ -15,7 +15,7 @@ import appStyles from "../../App.module.css";
 
 const EventPage = () => {
   const { id } = useParams();
-  const [event, setEvent] = useState({ results: [] });
+  const [socialEvent, setSocialEvent] = useState({ results: [] });
   const [hasLoadedEvent, setHasLoadedEvent] = useState(false);
   const currentUser = useCurrentUser();
   const [comments, setComments] = useState({ results: [] });
@@ -24,11 +24,11 @@ const EventPage = () => {
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        const [{ data: event }, { data: comments }] = await Promise.all([
+        const [{ data: socialEvent }, { data: comments }] = await Promise.all([
           axiosReq.get(`/events/${id}`),
           axiosReq.get(`/event_comments/?event=${id}`),
         ]);
-        setEvent({ results: [event] });
+        setSocialEvent({ results: [socialEvent] });
         setComments(comments);
         setHasLoadedEvent(true);
         setHasLoadedComments(true);
@@ -47,7 +47,7 @@ const EventPage = () => {
       <Row>
         <Col>
           {hasLoadedEvent ? (
-            <Event {...event.results[0]} setEvents={setEvent} eventPage />
+            <Event {...socialEvent.results[0]} setSocialEvents={setSocialEvent} eventPage />
           ) : (
             <Asset spinner />
           )}
@@ -56,13 +56,13 @@ const EventPage = () => {
       {currentUser && hasLoadedEvent ? (
         <Row>
           <Col>
-            {/* <CommentEventCreateForm
+            <CommentEventCreateForm
               profile_id={currentUser?.profile_id}
               profile_image={currentUser?.profile_image}
-              event={id}
-              setEvent={setEvent}
+              socialEvent={id}
+              setSocialEvent={setSocialEvent}
               setComments={setComments}
-            /> */}
+            />
           </Col>
         </Row>
       ) : comments.results.length ? (
@@ -72,10 +72,10 @@ const EventPage = () => {
         comments.results.length ? (
           <InfiniteScroll
             children={comments.results.map((comment) => (
-              <Comment
+              <EventComment
                 key={comment.id}
                 {...comment}
-                setEvent={setEvent}
+                setSocialEvent={setSocialEvent}
                 setComments={setComments}
               />
             ))}
