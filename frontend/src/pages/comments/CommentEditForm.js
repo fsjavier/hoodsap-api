@@ -7,7 +7,7 @@ import styles from "../../styles/CommentCreateEditForm.module.css";
 import { axiosReq } from "../../api/axiosDefault";
 import { useRedirect } from "../../hooks/useRedirect";
 
-const CommentPostEditForm = ({ id, content, setShowEditForm, setComments }) => {
+const CommentEditForm = ({ id, content, setShowEditForm, setComments, endpoint }) => {
   useRedirect("loggedOut");
   const [formContent, setFormContent] = useState(content);
 
@@ -19,7 +19,7 @@ const CommentPostEditForm = ({ id, content, setShowEditForm, setComments }) => {
     event.preventDefault();
 
     try {
-      await axiosReq.put(`/post_comments/${id}`, {
+      await axiosReq.put(`/${endpoint}/${id}`, {
         content: formContent,
       });
 
@@ -69,4 +69,4 @@ const CommentPostEditForm = ({ id, content, setShowEditForm, setComments }) => {
   );
 };
 
-export default CommentPostEditForm;
+export default CommentEditForm;

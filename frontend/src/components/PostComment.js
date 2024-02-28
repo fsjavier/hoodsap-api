@@ -9,7 +9,7 @@ import { useCurrentUser } from "../context/CurrentUserContext";
 import { MoreDropdown } from "./MoreDropDown";
 import ConfirmationModal from "./ConfirmationModal";
 import { axiosRes } from "../api/axiosDefault";
-import CommentPostEditForm from "../pages/comments/CommentPostEditForm";
+import CommentEditForm from "../pages/comments/CommentEditForm";
 
 const Comment = ({
   profile_image,
@@ -71,11 +71,12 @@ const Comment = ({
         )}
       </Row>
       {showEditForm ? (
-        <CommentPostEditForm
+        <CommentEditForm
           id={id}
           content={content}
           setComments={setComments}
           setShowEditForm={setShowEditForm}
+          endpoint="post_comments"
         />
       ) : (
         <Row>

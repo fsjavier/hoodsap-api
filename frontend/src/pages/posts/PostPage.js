@@ -7,7 +7,7 @@ import { axiosReq } from "../../api/axiosDefault";
 import Post from "../../components/Post";
 import CommentPostCreateForm from "../comments/CommentPostCreateForm";
 import { useCurrentUser } from "../../context/CurrentUserContext";
-import Comment from "../../components/Comment";
+import Comment from "../../components/PostComment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
