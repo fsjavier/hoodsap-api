@@ -28,7 +28,7 @@ const EventCreateForm = () => {
     event_date: null,
     event_category: "",
     indoor_outdoor: "",
-    event_regitration: null,
+    event_registration: false,
     tags: [],
   });
   const {
@@ -39,7 +39,7 @@ const EventCreateForm = () => {
     event_date,
     event_category,
     indoor_outdoor,
-    event_regitration,
+    event_registration,
     tags,
   } = eventData;
 
@@ -206,7 +206,7 @@ const EventCreateForm = () => {
         <Form.Check
           type="checkbox"
           label="Registration Required?"
-          checked={event_regitration}
+          checked={event_registration}
           onChange={(e) =>
             setEventData({
               ...eventData,
@@ -291,8 +291,7 @@ const EventCreateForm = () => {
     }
     formData.append("event_category", event_category);
     formData.append("indoor_outdoor", indoor_outdoor);
-    formData.append("event_regitration", event_regitration);
-    console.log(event_date);
+    formData.append("event_registration", event_registration);
 
     if (imageInputRef.current.files[0]) {
       formData.append("image", imageInputRef.current.files[0]);
