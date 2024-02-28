@@ -13,6 +13,7 @@ import PostEditForm from "./pages/posts/PostEditForm";
 import ProfilePage from "./pages/profiles/ProfilePage";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import EventCreateForm from "./pages/events/EventCreateForm";
+import EventPage from "./pages/events/EventPage";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -50,6 +51,7 @@ function App() {
             path="/events/create"
             render={() => <EventCreateForm />}
           />
+          <Route exact path="/events/:id" render={() => <EventPage />} />
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
       </Container>
