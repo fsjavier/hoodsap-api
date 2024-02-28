@@ -11,7 +11,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import { axiosRes } from "../api/axiosDefault";
 import CommentEditForm from "../pages/comments/CommentEditForm";
 
-const Comment = ({
+const PostComment = ({
   profile_image,
   profile_id,
   owner,
@@ -96,4 +96,4 @@ const Comment = ({
   );
 };
 
-export default Comment;
+export default PostComment;

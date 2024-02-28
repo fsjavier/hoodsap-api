@@ -7,7 +7,7 @@ import { axiosReq } from "../../api/axiosDefault";
 import Post from "../../components/Post";
 import CommentPostCreateForm from "../comments/CommentPostCreateForm";
 import { useCurrentUser } from "../../context/CurrentUserContext";
-import Comment from "../../components/PostComment";
+import PostComment from "../../components/PostComment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
@@ -72,7 +72,7 @@ const PostPage = () => {
         comments.results.length ? (
           <InfiniteScroll
             children={comments.results.map((comment) => (
-              <Comment
+              <PostComment
                 key={comment.id}
                 {...comment}
                 setPost={setPost}
