@@ -47,17 +47,26 @@ class SocialEventCommentSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
-    profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
+    profile_image = serializers.ReadOnlyField(source='owner.profile.avatar.url')
+    created_at_naturaltime= serializers.SerializerMethodField()
+    updated_at_naturaltime = serializers.SerializerMethodField()
 
     def get_is_owner(self, obj):
         request = self.context['request']
         return request.user == obj.owner
 
+    def get_created_at_naturaltime(self, obj):
+        return naturaltime(obj.updated_at)
+
+    def get_updated_at_naturaltime(self, obj):
+        return naturaltime(obj.created_at)
+
     class Meta:
         model = SocialEventComment
         fields = [
             'id', 'owner', 'content', 'social_event', 'created_at', 'updated_at',
-            'is_owner', 'profile_id', 'profile_image'
+            'is_owner', 'profile_id', 'profile_image', 'created_at_naturaltime',
+            'updated_at_naturaltime'
         ]
 
 
