@@ -28,7 +28,7 @@ const EventCreateForm = () => {
     event_date: null,
     event_category: "",
     indoor_outdoor: "",
-    event_regitration: false,
+    event_regitration: null,
     tags: [],
   });
   const {
