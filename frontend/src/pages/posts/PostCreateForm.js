@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Alert from "react-bootstrap/Alert";
 import CustomButton from "../../components/CustomButton";
-import styles from "../../styles/PostCreateForm.module.css";
+import styles from "../../styles/PostEventCreateForm.module.css";
 import { useHistory } from "react-router-dom";
 import LocationPicker from "../../components/LocationPicker";
 import FormImageField from "../../components/FormImageField";

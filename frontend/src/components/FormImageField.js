@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Asset from "../components/Asset";
 import Image from "react-bootstrap/Image";
-import styles from "../styles/PostCreateForm.module.css";
+import styles from "../styles/PostEventCreateForm.module.css";
 import buttonStyles from "../styles/CustomButton.module.css";
 
 const FormImageField = ({ image, imageInputRef, handleChangeImage }) => {

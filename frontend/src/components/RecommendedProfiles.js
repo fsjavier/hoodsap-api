@@ -45,7 +45,7 @@ const RecommendedProfiles = () => {
             className={styles.RecommendedProfiles__Container}
             ref={scrollRef}
           >
-            {recommendedProfiles.results.length ? (
+            {recommendedProfiles.results?.length ? (
               recommendedProfiles.results
                 .filter((profile) => profile.id !== currentUser?.profile_id)
                 .map((profile) => (

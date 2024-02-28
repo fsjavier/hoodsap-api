@@ -16,6 +16,7 @@ import {
   Bars3CenterLeftIcon,
   UserCircleIcon,
   PlusIcon,
+  UserGroupIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import appStyles from "../App.module.css";
@@ -95,7 +96,13 @@ function NavBar() {
         >
           <PlusIcon className={appStyles.Icon} /> Add post
         </NavDropdown.Item>
-
+        <NavDropdown.Item
+          as={NavLink}
+          to="/events/create"
+          className={styles.NavLink}
+        >
+          <UserGroupIcon className={appStyles.Icon} /> Add event
+        </NavDropdown.Item>
         <NavDropdown.Item
           as={NavLink}
           to={`/profile/${currentUser?.profile_id}`}
