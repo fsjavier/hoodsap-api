@@ -42,6 +42,13 @@ h6 {
   font-family: var(--title);
 }
 
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 a {
   color: var(--jetblack);
 }

@@ -86,9 +86,9 @@ const EventPage = () => {
             className={appStyles.InfiniteScroll}
           />
         ) : currentUser ? (
-          <span>No comments yet, be the first!</span>
+          <div className="text-center my-3">No comments yet, be the first!</div>
         ) : (
-          <span>No comments yet.</span>
+          <div className="text-center my-3">No comments yet.</div>
         )
       ) : (
         <Asset spinner />
