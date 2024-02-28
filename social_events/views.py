@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework import generics, permissions
 from .models import SocialEvent
 from .serializers import SocialEventSerializer
@@ -13,7 +14,9 @@ class SocialEventList(generics.ListCreateAPIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly
     ]
-    queryset = SocialEvent.objects.all()
+    queryset = SocialEvent.objects.annotate(
+       comments_count=Count('socialeventcomment', distinct=True) 
+    )
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -24,4 +27,6 @@ class SocialEventDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [
         IsOwnerOrReadOnly
     ]
-    queryset = SocialEvent.objects.all()
+    queryset = SocialEvent.objects.annotate(
+       comments_count=Count('socialeventcomment', distinct=True) 
+    )

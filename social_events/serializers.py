@@ -9,8 +9,9 @@ class SocialEventSerializer(serializers.ModelSerializer):
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
-    profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
+    profile_image = serializers.ReadOnlyField(source='owner.profile.avatar.url')
     is_owner = serializers.SerializerMethodField()
+    comments_count = serializers.ReadOnlyField()
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -44,4 +45,5 @@ class SocialEventSerializer(serializers.ModelSerializer):
             'id', 'owner', 'image', 'title', 'content', 'location', 'tags',
             'event_date', 'event_category', 'indoor_outdoor', 'event_registration',
             'created_at', 'updated_at', 'is_owner', 'profile_id', 'profile_image',
+            'comments_count',
         ]
