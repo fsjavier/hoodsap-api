@@ -23,7 +23,7 @@ class SocialEvent(models.Model):
     ]
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(
-        upload_to='images/', blank=True
+        upload_to='images/', default='../event_default_bqzqbg', blank=True
     )
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
