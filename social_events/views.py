@@ -1,5 +1,6 @@
 from django.db.models import Count
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import SocialEvent
 from .serializers import SocialEventSerializer
 from hoodsap_api.permissions import IsOwnerOrReadOnly
@@ -17,6 +18,20 @@ class SocialEventList(generics.ListCreateAPIView):
     queryset = SocialEvent.objects.annotate(
        comments_count=Count('socialeventcomment', distinct=True) 
     )
+
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter,
+        DjangoFilterBackend,
+    ]
+    search_fields = [
+        'title',
+        'owner__profile__display_name',
+    ]
+    filterset_fields = [
+        'event_category',
+        'indoor_outdoor',
+    ]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
