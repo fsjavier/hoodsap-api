@@ -14,6 +14,7 @@ import ProfilePage from "./pages/profiles/ProfilePage";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import EventCreateForm from "./pages/events/EventCreateForm";
 import EventPage from "./pages/events/EventPage";
+import EventsPage from "./pages/events/EventsPage";
 import EventEditForm from "./pages/events/EventEditForm";
 
 function App() {
@@ -46,7 +47,7 @@ function App() {
             path="/profile/:id/edit"
             render={() => <ProfileEditForm />}
           />
-          <Route exact path="/events" render={() => <h2>Events page</h2>} />
+          <Route exact path="/events" render={() => <EventsPage />} />
           <Route
             exact
             path="/events/create"

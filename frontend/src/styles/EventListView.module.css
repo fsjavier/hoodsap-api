@@ -1,0 +1,40 @@
+.Event__Container {
+  border-radius: 10px;
+  margin-bottom: 1em;
+  padding: 1em 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  box-shadow: var(--box-shadow-small-lavender);
+}
+
+.Image__Container {
+  max-height: 200px;
+  display: flex;
+}
+
+.Image {
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.Comments {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 1em;
+}
+
+.Comments > span {
+  margin-inline: 0.5em;
+}
+
+.Icon {
+  width: 1.5em;
+  height: 1.5em;
+  margin-inline-end: 0.2em;
+  vertical-align: text-bottom;
+}

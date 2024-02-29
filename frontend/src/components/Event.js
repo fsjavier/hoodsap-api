@@ -180,6 +180,7 @@ const Event = (props) => {
                   </Link>
                 </div>
                 <div className="my-3">
+                  <h4>Description</h4>
                   {content && <div>{content}</div>}
                   <div className={styles.Comments}>
                     <span>
@@ -196,6 +197,7 @@ const Event = (props) => {
             {eventPage && (
               <Col md={5} className="d-flex flex-column">
                 <div className={styles.EventSummary__Container}>
+                  <h4>Event details</h4>
                   {eventSummary}
                 </div>
                 {locationPosition && (
