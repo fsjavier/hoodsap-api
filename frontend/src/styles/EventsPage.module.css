@@ -1,0 +1,14 @@
+.Sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 80px;
+  z-index: 100;
+}
+
+.Map__Container {
+  padding-inline: 1em;
+}
+
+.Map {
+  border-radius: 10px;
+}

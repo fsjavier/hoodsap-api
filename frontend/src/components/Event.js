@@ -16,7 +16,8 @@ import {
   MapPinIcon,
   TagIcon,
   CalendarIcon,
-  CloudIcon,
+  BuildingLibraryIcon,
+  SunIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import styles from "../styles/Event.module.css";
@@ -39,7 +40,7 @@ const Event = (props) => {
     event_registration,
     tags,
     comments_count,
-    eventPage,
+    eventPage, // to be deleted
   } = props;
 
   const currentUser = useCurrentUser();
@@ -69,7 +70,12 @@ const Event = (props) => {
         {capitalizeFirstLetter(event_category)}
       </li>
       <li>
-        <CloudIcon className={styles.Icon} />
+        {indoor_outdoor === "indoor" ? (
+          <BuildingLibraryIcon className={styles.Icon} />
+        ) : (
+          <SunIcon className={styles.Icon}/>
+        )}
+
         {capitalizeFirstLetter(indoor_outdoor)}
       </li>
       {event_registration && (

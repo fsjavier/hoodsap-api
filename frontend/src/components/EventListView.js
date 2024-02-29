@@ -12,7 +12,8 @@ import {
   MapPinIcon,
   TagIcon,
   CalendarIcon,
-  CloudIcon,
+  BuildingLibraryIcon,
+  SunIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import styles from "../styles/EventListView.module.css";
@@ -34,7 +35,8 @@ const EventListView = (props) => {
     event_registration,
     tags,
     comments_count,
-    eventPage,
+    eventPage, // to be deleted
+    handleLocationFetched,
   } = props;
 
   const [locationLocality, setLocationLocality] = useState(null);
@@ -58,7 +60,12 @@ const EventListView = (props) => {
         {capitalizeFirstLetter(event_category)}
       </li>
       <li>
-        <CloudIcon className={styles.Icon} />
+        {indoor_outdoor === "indoor" ? (
+          <BuildingLibraryIcon className={styles.Icon} />
+        ) : (
+          <SunIcon className={styles.Icon}/>
+        )}
+
         {capitalizeFirstLetter(indoor_outdoor)}
       </li>
       {event_registration && (
@@ -79,6 +86,12 @@ const EventListView = (props) => {
           setLocationLocality({
             country: locationDetails.country,
             city: locationDetails.city,
+          });
+          handleLocationFetched({
+            id: id,
+            latitude: locationDetails.latitude,
+            longitude: locationDetails.longitude,
+            title: title,
           });
         }
 

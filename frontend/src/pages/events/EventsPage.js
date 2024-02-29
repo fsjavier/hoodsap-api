@@ -9,8 +9,10 @@ import Asset from "../../components/Asset";
 import EventListView from "../../components/EventListView";
 import InfiniteScroll from "react-infinite-scroll-component";
 import appStyles from "../../App.module.css";
+import styles from "../../styles/EventsPage.module.css";
 import { axiosReq } from "../../api/axiosDefault";
 import { fetchMoreData } from "../../utils/utils";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 const EventsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -24,6 +26,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   const searchQuery = useCurrentSearch();
   const [categoryFilter, setCategoryFilter] = useState("");
   const [indoorOutdoorFilter, setIndoorOutdoorFilter] = useState("");
+  const [eventLocations, setEventLocations] = useState([]);
 
   const filterSortEvents = (socialEvents) => {
     const currentDate = new Date();
@@ -32,8 +35,12 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
       .sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
     setFutureEvents({
       ...socialEvents,
-      results: future
+      results: future,
     });
+  };
+
+  const handleLocationFetched = (locationData) => {
+    setEventLocations((prevLocations) => [...prevLocations, locationData]);
   };
 
   useEffect(() => {
@@ -127,7 +134,11 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 <Col md={7}>
                   <InfiniteScroll
                     children={futureEvents.results.map((futureEvent) => (
-                      <EventListView key={futureEvent.id} {...futureEvent} />
+                      <EventListView
+                        key={futureEvent.id}
+                        {...futureEvent}
+                        handleLocationFetched={handleLocationFetched}
+                      />
                     ))}
                     dataLength={futureEvents.results.length}
                     loader={<Asset spinner />}
@@ -136,7 +147,31 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                     className={appStyles.InfiniteScroll}
                   />
                 </Col>
-                <Col>{/* map */}</Col>
+                <Col className="d-none d-md-block">
+                  <div className={`${styles.Sticky} ${styles.Map__Container}`}>
+                  {eventLocations.length > 0 && (
+                    <MapContainer
+                      center={[
+                        eventLocations[0].latitude,
+                        eventLocations[0].longitude,
+                      ]}
+                      zoom={13}
+                      style={{ height: "350px", width: "100%" }}
+                      className={styles.Map}
+                    >
+                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                      {eventLocations.map((location, idx) => (
+                        <Marker
+                          key={idx}
+                          position={[location.latitude, location.longitude]}
+                        >
+                          <Popup>{location.title}</Popup>
+                        </Marker>
+                      ))}
+                    </MapContainer>
+                  )}
+                  </div>
+                </Col>
               </Row>
             ) : (
               <Row>
