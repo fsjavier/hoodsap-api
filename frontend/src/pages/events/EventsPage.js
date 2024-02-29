@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useCurrentUser } from "../../context/CurrentUserContext";
 import { useCurrentSearch } from "../../context/SearchContext";
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
 import Asset from "../../components/Asset";
 import EventListView from "../../components/EventListView";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -16,19 +16,40 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
     "https://res.cloudinary.com/drffvkjy6/image/upload/v1708332982/search_no_results_pujyrg.webp";
   const [socialEvents, setSocialEvents] = useState({ results: [] });
+  const [futureEvents, setFutureEvents] = useState({ results: [] });
+  const [pastEvents, setPastEvents] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
   const { pathname } = useLocation();
   const currentUser = useCurrentUser();
   const searchQuery = useCurrentSearch();
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [indoorOutdoorFilter, setIndoorOutdoorFilter] = useState("");
+
+  const filterSortEvents = (socialEvents) => {
+    const currentDate = new Date();
+    const future = socialEvents.results
+      ?.filter((event) => new Date(event.event_date) >= currentDate)
+      .sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+    setFutureEvents({
+      ...socialEvents,
+      results: future
+    });
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const { data } = await axiosReq.get(
-          `/events/?${filter}search=${searchQuery}`
-        );
+        let query = `/events/?${filter}search=${searchQuery}`;
+        if (categoryFilter) {
+          query += `&event_category=${categoryFilter}`;
+        }
+        if (indoorOutdoorFilter) {
+          query += `&indoor_outdoor=${indoorOutdoorFilter}`;
+        }
+        const { data } = await axiosReq.get(query);
 
         setSocialEvents(data);
+        filterSortEvents(data);
         setHasLoaded(true);
       } catch (error) {
         console.log(error);
@@ -44,7 +65,14 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
     return () => {
       clearTimeout(timer);
     };
-  }, [filter, pathname, currentUser, searchQuery]);
+  }, [
+    filter,
+    pathname,
+    currentUser,
+    searchQuery,
+    categoryFilter,
+    indoorOutdoorFilter,
+  ]);
 
   return (
     <>
@@ -53,33 +81,75 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
           <Col>
             <Row>
               <Col>
-                <h3 className="my-5">Filters</h3>
+                <Form>
+                  <Form.Row>
+                    <Form.Group as={Col}>
+                      <Form.Label className="d-none">Category:</Form.Label>
+
+                      <Form.Control
+                        as="select"
+                        value={categoryFilter}
+                        onChange={(e) => setCategoryFilter(e.target.value)}
+                      >
+                        <option value="">Any category</option>
+                        <option value="games">Games</option>
+                        <option value="movies">Movies</option>
+                        <option value="street_art">Street Art</option>
+                        <option value="sport">Sport</option>
+                        <option value="languages">Languages</option>
+                        <option value="other">Other</option>
+                      </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group as={Col}>
+                      <Form.Label className="d-none">
+                        Indoor/Outdoor:
+                      </Form.Label>
+                      <Form.Control
+                        as="select"
+                        value={indoorOutdoorFilter}
+                        onChange={(e) => {
+                          setIndoorOutdoorFilter(e.target.value);
+                          console.log(futureEvents);
+                        }}
+                      >
+                        <option value="">Indoor/Outdoor</option>
+                        <option value="indoor">Indoor</option>
+                        <option value="outdoor">Outdoor</option>
+                      </Form.Control>
+                    </Form.Group>
+                  </Form.Row>
+                </Form>
               </Col>
             </Row>
-            <Row>
-              <Col md={7}>
-                {socialEvents.results.length ? (
+            {futureEvents.results.length ? (
+              <Row>
+                <Col md={7}>
                   <InfiniteScroll
-                    children={socialEvents.results.map((socialEvent) => (
-                      <EventListView key={socialEvent.id} {...socialEvent} />
+                    children={futureEvents.results.map((futureEvent) => (
+                      <EventListView key={futureEvent.id} {...futureEvent} />
                     ))}
-                    dataLength={socialEvents.results.length}
+                    dataLength={futureEvents.results.length}
                     loader={<Asset spinner />}
-                    hasMore={!!socialEvents.next}
-                    next={() => fetchMoreData(socialEvents, setSocialEvents)}
+                    hasMore={!!futureEvents.next}
+                    next={() => fetchMoreData(futureEvents, setFutureEvents)}
                     className={appStyles.InfiniteScroll}
                   />
-                ) : (
+                </Col>
+                <Col>{/* map */}</Col>
+              </Row>
+            ) : (
+              <Row>
+                <Col>
                   <Asset
                     src={noResultsSrc}
                     message={message}
                     height={250}
                     width={250}
                   />
-                )}
-              </Col>
-              <Col>{/* map */}</Col>
-            </Row>
+                </Col>
+              </Row>
+            )}
           </Col>
         </Row>
       ) : (

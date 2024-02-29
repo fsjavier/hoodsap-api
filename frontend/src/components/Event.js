@@ -40,7 +40,6 @@ const Event = (props) => {
     tags,
     comments_count,
     eventPage,
-    updated_at,
   } = props;
 
   const currentUser = useCurrentUser();
