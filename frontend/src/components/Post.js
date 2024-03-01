@@ -10,7 +10,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { Link, useHistory } from "react-router-dom";
 import Avatar from "./Avatar";
 import { axiosReq } from "../api/axiosDefault";
-import { MapContainer, TileLayer, Circle } from "react-leaflet";
+import { MapContainer, TileLayer, Circle, Marker } from "react-leaflet";
 import styles from "../styles/Post.module.css";
 import {
   HeartIcon as HeartIconOutline,
@@ -38,15 +38,11 @@ const Post = (props) => {
     updated_at,
     postPage,
     setPosts,
-    setPostLocations,
   } = props;
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
-  const [locationPosition, setLocationPosition] = useState(null);
-  const [locationLocality, setLocationLocality] = useState(null);
-  const [tagsText, setTagsText] = useState(null);
-  const fillRedOptions = { fillColor: "red" };
+  const {latitude, longitude, city, country} = location
   const history = useHistory();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -96,48 +92,6 @@ const Post = (props) => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (location) {
-          const response = await axiosReq.get(`/locations/${location}`);
-          const locationDetails = response.data;
-          setLocationPosition([
-            locationDetails.latitude,
-            locationDetails.longitude,
-          ]);
-          setLocationLocality({
-            country: locationDetails.country,
-            city: locationDetails.city,
-          });
-          setPostLocations((prevPostLocations) => [
-            ...prevPostLocations,
-            {
-              id: id,
-              latitude: locationDetails.latitude,
-              longitude: locationDetails.longitude,
-              title: title,
-            },
-          ]);
-        }
-
-        if (tags && tags.length > 0) {
-          const fetchedTags = [];
-          for (let tag of tags) {
-            const response = await axiosReq.get(`/tags/${tag}`);
-            const tagDetails = response.data.name;
-            fetchedTags.push(tagDetails);
-          }
-          setTagsText(fetchedTags);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [location, tags]);
-
   return (
     <>
       <Row className="h-100 mx-0">
@@ -162,15 +116,15 @@ const Post = (props) => {
               <hr />
               <Link to={`/posts/${id}`}>
                 {title && <Card.Title className="my-2">{title}</Card.Title>}
-                {tagsText &&
-                  tagsText.map((tag, index) => (
+                {tags.length > 0 &&
+                  tags.map(tag => (
                     <Badge
-                      key={index}
+                      key={tag.id}
                       pill
                       variant="secondary"
                       className="mr-2 mb-4"
                     >
-                      {tag}
+                      {tag.name}
                     </Badge>
                   ))}
                 {image && <Card.Img src={image} alt={title} />}
@@ -223,29 +177,20 @@ const Post = (props) => {
             <Card className="my-2">
               <Card.Body>
                 <Card.Text>
-                  {locationLocality &&
-                    `${
-                      locationLocality?.city
-                    }, ${locationLocality?.country.toUpperCase()}`}
+                  {city && city}, {country.toUpperCase()}
                 </Card.Text>
-                {locationPosition && (
+
                   <MapContainer
-                    center={locationPosition}
+                    center={[latitude, longitude]}
                     zoom={13}
                     style={{ height: "300px", width: "100%" }}
                   >
                     <TileLayer
-                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Circle
-                      center={locationPosition}
-                      pathOptions={fillRedOptions}
-                      radius={300}
-                      stroke={false}
-                    />
+                    <Marker position={[latitude, longitude]}/>
                   </MapContainer>
-                )}
+
               </Card.Body>
             </Card>
           </Col>
