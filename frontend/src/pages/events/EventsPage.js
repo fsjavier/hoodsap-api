@@ -157,12 +157,14 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                       >
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                         {eventLocations.map((location, idx) => (
+                          location.latitude && location.longitude ? (
                           <Marker
                             key={idx}
                             position={[location.latitude, location.longitude]}
                           >
                             <Popup>{location.title}</Popup>
                           </Marker>
+                          ) : null
                         ))}
                       </MapContainer>
                     )}
