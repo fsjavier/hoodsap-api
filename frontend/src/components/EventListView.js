@@ -35,7 +35,6 @@ const EventListView = (props) => {
     event_registration,
     tags,
     comments_count,
-    eventPage, // to be deleted
     handleLocationFetched,
   } = props;
 

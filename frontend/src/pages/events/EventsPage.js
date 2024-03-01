@@ -17,9 +17,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 const EventsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
     "https://res.cloudinary.com/drffvkjy6/image/upload/v1708332982/search_no_results_pujyrg.webp";
-  const [socialEvents, setSocialEvents] = useState({ results: [] });
   const [futureEvents, setFutureEvents] = useState({ results: [] });
-  const [pastEvents, setPastEvents] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
   const { pathname } = useLocation();
   const currentUser = useCurrentUser();
@@ -27,6 +25,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [indoorOutdoorFilter, setIndoorOutdoorFilter] = useState("");
   const [eventLocations, setEventLocations] = useState([]);
+  const [futureEventLocations, setFutureEventLocations] = useState([]);
 
   const filterSortEvents = (socialEvents) => {
     const currentDate = new Date();
@@ -37,6 +36,11 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
       ...socialEvents,
       results: future,
     });
+
+    const displayedEventIds = new Set(future.map((event) => event.id));
+    setFutureEventLocations(
+      eventLocations.filter((location) => displayedEventIds.has(location.id))
+    );
   };
 
   const handleLocationFetched = (locationData) => {
@@ -55,7 +59,6 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
         }
         const { data } = await axiosReq.get(query);
 
-        setSocialEvents(data);
         filterSortEvents(data);
         setHasLoaded(true);
       } catch (error) {
@@ -149,27 +152,27 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 </Col>
                 <Col className="d-none d-md-block">
                   <div className={`${styles.Sticky} ${styles.Map__Container}`}>
-                  {eventLocations.length > 0 && (
-                    <MapContainer
-                      center={[
-                        eventLocations[0].latitude,
-                        eventLocations[0].longitude,
-                      ]}
-                      zoom={13}
-                      style={{ height: "350px", width: "100%" }}
-                      className={styles.Map}
-                    >
-                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                      {eventLocations.map((location, idx) => (
-                        <Marker
-                          key={idx}
-                          position={[location.latitude, location.longitude]}
-                        >
-                          <Popup>{location.title}</Popup>
-                        </Marker>
-                      ))}
-                    </MapContainer>
-                  )}
+                    {eventLocations.length > 0 && (
+                      <MapContainer
+                        center={[
+                          futureEventLocations[0]?.latitude,
+                          futureEventLocations[0]?.longitude,
+                        ]}
+                        zoom={13}
+                        style={{ height: "350px", width: "100%" }}
+                        className={styles.Map}
+                      >
+                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                        {futureEventLocations?.map((location, idx) => (
+                          <Marker
+                            key={idx}
+                            position={[location.latitude, location.longitude]}
+                          >
+                            <Popup>{location.title}</Popup>
+                          </Marker>
+                        ))}
+                      </MapContainer>
+                    )}
                   </div>
                 </Col>
               </Row>

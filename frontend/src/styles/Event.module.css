@@ -26,6 +26,17 @@
   padding-block: 0.1em;
 }
 
+.Map__Container {
+  display: flex;
+  justify-content: center;
+}
+
+.Map {
+  border-radius: 10px;
+  height: 250px;
+  width: 90%;
+}
+
 .Buttons__Container {
   text-align: center;
   justify-content: center;

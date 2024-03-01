@@ -47,7 +47,7 @@ const EventPage = () => {
       <Row>
         <Col>
           {hasLoadedEvent ? (
-            <Event {...socialEvent.results[0]} setSocialEvents={setSocialEvent} eventPage />
+            <Event {...socialEvent.results[0]} setSocialEvents={setSocialEvent} />
           ) : (
             <Asset spinner />
           )}

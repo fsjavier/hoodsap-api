@@ -8,7 +8,7 @@ import Badge from "react-bootstrap/Badge";
 import { Link, useHistory } from "react-router-dom";
 import Avatar from "./Avatar";
 import { axiosReq } from "../api/axiosDefault";
-import { MapContainer, TileLayer, Circle } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { MoreDropdown } from "./MoreDropDown";
 import ConfirmationModal from "../components/ConfirmationModal";
 import {
@@ -40,7 +40,6 @@ const Event = (props) => {
     event_registration,
     tags,
     comments_count,
-    eventPage, // to be deleted
   } = props;
 
   const currentUser = useCurrentUser();
@@ -48,7 +47,6 @@ const Event = (props) => {
   const [locationPosition, setLocationPosition] = useState(null);
   const [locationLocality, setLocationLocality] = useState(null);
   const [tagsText, setTagsText] = useState(null);
-  const fillRedOptions = { fillColor: "red" };
   const history = useHistory();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -73,7 +71,7 @@ const Event = (props) => {
         {indoor_outdoor === "indoor" ? (
           <BuildingLibraryIcon className={styles.Icon} />
         ) : (
-          <SunIcon className={styles.Icon}/>
+          <SunIcon className={styles.Icon} />
         )}
 
         {capitalizeFirstLetter(indoor_outdoor)}
@@ -145,7 +143,7 @@ const Event = (props) => {
                   {profile_name || owner}
                 </Link>
                 <div className="d-flex">
-                  {is_owner && eventPage && (
+                  {is_owner && (
                     <MoreDropdown
                       handleEdit={handleEdit}
                       handleShowDeleteModal={() => setShowDeleteModal(true)}
@@ -157,7 +155,7 @@ const Event = (props) => {
             </Col>
           </Row>
           <Row>
-            <Col xs={12} md={eventPage && 7}>
+            <Col xs={12} md={7}>
               <div className="my-2">
                 <div>
                   <Link to={`/events/${id}`}>
@@ -199,34 +197,26 @@ const Event = (props) => {
               </div>
             </Col>
 
-            {eventPage && (
-              <Col md={5} className="d-flex flex-column">
-                <div className={styles.EventSummary__Container}>
-                  <h4>Event details</h4>
-                  {eventSummary}
+            <Col md={5} className="d-flex flex-column">
+              <div className={styles.EventSummary__Container}>
+                <h4>Event details</h4>
+                {eventSummary}
+              </div>
+              {locationPosition && (
+                <div className={styles.Map__Container}>
+                  <MapContainer
+                    center={locationPosition}
+                    zoom={15}
+                    className={styles.Map}
+                  >
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    <Marker position={locationPosition}>
+                      <Popup>{title}</Popup>
+                    </Marker>
+                  </MapContainer>
                 </div>
-                {locationPosition && (
-                  <div className="d-flex justify-content-center">
-                    <MapContainer
-                      center={locationPosition}
-                      zoom={15}
-                      style={{ height: "250px", width: "90%" }}
-                    >
-                      <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      />
-                      <Circle
-                        center={locationPosition}
-                        pathOptions={fillRedOptions}
-                        radius={150}
-                        stroke={false}
-                      />
-                    </MapContainer>
-                  </div>
-                )}
-              </Col>
-            )}
+              )}
+            </Col>
           </Row>
         </Col>
       </Row>
