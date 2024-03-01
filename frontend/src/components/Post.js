@@ -38,6 +38,7 @@ const Post = (props) => {
     updated_at,
     postPage,
     setPosts,
+    setPostLocations,
   } = props;
 
   const currentUser = useCurrentUser();
@@ -109,6 +110,15 @@ const Post = (props) => {
             country: locationDetails.country,
             city: locationDetails.city,
           });
+          setPostLocations((prevPostLocations) => [
+            ...prevPostLocations,
+            {
+              id: id,
+              latitude: locationDetails.latitude,
+              longitude: locationDetails.longitude,
+              title: title,
+            },
+          ]);
         }
 
         if (tags && tags.length > 0) {
