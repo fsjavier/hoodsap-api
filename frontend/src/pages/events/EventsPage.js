@@ -25,8 +25,6 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [indoorOutdoorFilter, setIndoorOutdoorFilter] = useState("");
   const [eventLocations, setEventLocations] = useState([]);
-  const [futureEventFilteredLocations, setFutureEventFilteredLocations] =
-    useState([]);
 
   const filterSortFutureEvents = (socialEvents) => {
     const currentDate = new Date();
@@ -37,14 +35,6 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
       ...socialEvents,
       results: future,
     });
-
-    const displayedEventIds = new Set(future.map((event) => event.id));
-    const filteredLocations = eventLocations.filter((location) =>
-      displayedEventIds.has(location.id)
-    );
-    console.log(filteredLocations);
-    setFutureEventFilteredLocations(filteredLocations);
-    console.log(futureEventFilteredLocations);
   };
 
   const handleLocationFetched = (locationData) => {
@@ -155,18 +145,18 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 </Col>
                 <Col className="d-none d-md-block">
                   <div className={`${styles.Sticky} ${styles.Map__Container}`}>
-                    {futureEventFilteredLocations.length > 0 && (
+                    {eventLocations.length > 0 && (
                       <MapContainer
                         center={[
-                          futureEventFilteredLocations[0].latitude,
-                          futureEventFilteredLocations[0].longitude,
+                          eventLocations[0].latitude,
+                          eventLocations[0].longitude,
                         ]}
                         zoom={13}
                         style={{ height: "350px", width: "100%" }}
                         className={styles.Map}
                       >
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        {futureEventFilteredLocations.map((location, idx) => (
+                        {eventLocations.map((location, idx) => (
                           <Marker
                             key={idx}
                             position={[location.latitude, location.longitude]}
