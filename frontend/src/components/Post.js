@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useCurrentUser } from "../context/CurrentUserContext";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,7 +10,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { Link, useHistory } from "react-router-dom";
 import Avatar from "./Avatar";
 import { axiosReq } from "../api/axiosDefault";
-import { MapContainer, TileLayer, Circle, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import styles from "../styles/Post.module.css";
 import {
   HeartIcon as HeartIconOutline,

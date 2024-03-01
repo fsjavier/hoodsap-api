@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useCurrentUser } from "../context/CurrentUserContext";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -44,9 +44,7 @@ const Event = (props) => {
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
-  const [locationPosition, setLocationPosition] = useState(null);
-  const [locationLocality, setLocationLocality] = useState(null);
-  const [tagsText, setTagsText] = useState(null);
+  const { latitude, longitude, city, country } = location;
   const history = useHistory();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -58,10 +56,7 @@ const Event = (props) => {
       </li>
       <li>
         <MapPinIcon className={styles.Icon} />
-        {locationLocality &&
-          `${
-            locationLocality?.city
-          }, ${locationLocality?.country.toUpperCase()}`}
+        {city && city}, {country.toUpperCase()}
       </li>
       <li>
         <TagIcon className={styles.Icon} />
@@ -98,39 +93,6 @@ const Event = (props) => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (location) {
-          const response = await axiosReq.get(`/locations/${location}`);
-          const locationDetails = response.data;
-          setLocationPosition([
-            locationDetails.latitude,
-            locationDetails.longitude,
-          ]);
-          setLocationLocality({
-            country: locationDetails.country,
-            city: locationDetails.city,
-          });
-        }
-
-        if (tags && tags.length > 0) {
-          const fetchedTags = [];
-          for (let tag of tags) {
-            const response = await axiosReq.get(`/tags/${tag}`);
-            const tagDetails = response.data.name;
-            fetchedTags.push(tagDetails);
-          }
-          setTagsText(fetchedTags);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [location, tags]);
-
   return (
     <>
       <Row className="h-100 mx-0">
@@ -160,15 +122,15 @@ const Event = (props) => {
                 <div>
                   <Link to={`/events/${id}`}>
                     {title && <h3 className="my-2">{title}</h3>}
-                    {tagsText &&
-                      tagsText.map((tag, index) => (
+                    {tags &&
+                      tags.map((tag) => (
                         <Badge
-                          key={index}
+                          key={tag.id}
                           pill
                           variant="secondary"
                           className="mr-2 mb-4"
                         >
-                          {tag}
+                          {tag.name}
                         </Badge>
                       ))}
                     {image && (
@@ -202,20 +164,19 @@ const Event = (props) => {
                 <h4>Event details</h4>
                 {eventSummary}
               </div>
-              {locationPosition && (
-                <div className={styles.Map__Container}>
-                  <MapContainer
-                    center={locationPosition}
-                    zoom={15}
-                    className={styles.Map}
-                  >
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    <Marker position={locationPosition}>
-                      <Popup>{title}</Popup>
-                    </Marker>
-                  </MapContainer>
-                </div>
-              )}
+
+              <div className={styles.Map__Container}>
+                <MapContainer
+                  center={[latitude, longitude]}
+                  zoom={15}
+                  className={styles.Map}
+                >
+                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  <Marker position={[latitude, longitude]}>
+                    <Popup>{title}</Popup>
+                  </Marker>
+                </MapContainer>
+              </div>
             </Col>
           </Row>
         </Col>

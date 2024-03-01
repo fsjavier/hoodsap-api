@@ -24,7 +24,6 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   const searchQuery = useCurrentSearch();
   const [categoryFilter, setCategoryFilter] = useState("");
   const [indoorOutdoorFilter, setIndoorOutdoorFilter] = useState("");
-  const [eventLocations, setEventLocations] = useState([]);
 
   const filterSortFutureEvents = (socialEvents) => {
     const currentDate = new Date();
@@ -85,7 +84,6 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                   <Form.Row>
                     <Form.Group as={Col}>
                       <Form.Label className="d-none">Category:</Form.Label>
-
                       <Form.Control
                         as="select"
                         value={categoryFilter}
@@ -126,11 +124,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 <Col md={7}>
                   <InfiniteScroll
                     children={futureEvents.results.map((futureEvent) => (
-                      <EventListView
-                        key={futureEvent.id}
-                        {...futureEvent}
-                        setEventLocations={setEventLocations}
-                      />
+                      <EventListView key={futureEvent.id} {...futureEvent} />
                     ))}
                     dataLength={futureEvents.results.length}
                     loader={<Asset spinner />}
@@ -141,29 +135,28 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 </Col>
                 <Col className="d-none d-md-block">
                   <div className={`${styles.Sticky} ${styles.Map__Container}`}>
-                    {eventLocations.length > 0 && (
-                      <MapContainer
-                        center={[
-                          eventLocations[0].latitude,
-                          eventLocations[0].longitude,
-                        ]}
-                        zoom={13}
-                        style={{ height: "350px", width: "100%" }}
-                        className={styles.Map}
-                      >
-                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        {eventLocations.map((location, idx) => (
-                          location.latitude && location.longitude && (
-                          <Marker
-                            key={idx}
-                            position={[location.latitude, location.longitude]}
-                          >
-                            <Popup>{location.title}</Popup>
-                          </Marker>
-                          )
-                        ))}
-                      </MapContainer>
-                    )}
+                    <MapContainer
+                      center={[
+                        futureEvents.results[0].location.latitude,
+                        futureEvents.results[0].location.longitude,
+                      ]}
+                      zoom={13}
+                      style={{ height: "350px", width: "100%" }}
+                      className={styles.Map}
+                    >
+                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                      {futureEvents.results.map((event) => (
+                        <Marker
+                          key={event.id}
+                          position={[
+                            event.location.latitude,
+                            event.location.longitude,
+                          ]}
+                        >
+                          <Popup>{event.title}</Popup>
+                        </Marker>
+                      ))}
+                    </MapContainer>
                   </div>
                 </Col>
               </Row>

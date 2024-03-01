@@ -23,7 +23,6 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   const { pathname } = useLocation();
   const currentUser = useCurrentUser();
   const searchQuery = useCurrentSearch();
-  const [postLocations, setPostLocations] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -59,17 +58,12 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
               <RecommendedProfiles />
             </Col>
           </Row>
-          <Row>
-            <Col md={7}>
-              {posts.results.length ? (
+          {posts.results.length ? (
+            <Row>
+              <Col md={7}>
                 <InfiniteScroll
                   children={posts.results.map((post) => (
-                    <Post
-                      key={post.id}
-                      {...post}
-                      setPosts={setPosts}
-                      setPostLocations={setPostLocations}
-                    />
+                    <Post key={post.id} {...post} setPosts={setPosts} />
                   ))}
                   dataLength={posts.results.length}
                   loader={<Asset spinner />}
@@ -77,45 +71,39 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                   next={() => fetchMoreData(posts, setPosts)}
                   className={appStyles.InfiniteScroll}
                 />
-              ) : (
-                <Asset
-                  src={noResultsSrc}
-                  message={message}
-                  height={250}
-                  width={250}
-                />
-              )}
-            </Col>
-            <Col className="d-none d-md-block">
-              <div className={`${styles.Sticky} ${styles.Map__Container}`}>
-                {postLocations.length > 0 && (
+              </Col>
+              <Col className="d-none d-md-block">
+                <div className={`${styles.Sticky} ${styles.Map__Container}`}>
                   <MapContainer
                     center={[
-                      postLocations[0].latitude,
-                      postLocations[0].longitude,
+                      posts.results[0].location.latitude,
+                      posts.results[0].location.longitude,
                     ]}
                     zoom={13}
                     style={{ height: "350px", width: "100%" }}
                     className={styles.Map}
                   >
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    {postLocations.map(
-                      (location, idx) =>
-                        location.latitude &&
-                        location.longitude && (
-                          <Marker
-                            key={idx}
-                            position={[location.latitude, location.longitude]}
-                          >
-                            <Popup>{location.title}</Popup>
-                          </Marker>
-                        )
-                    )}
+                    {posts.results.map((post) => (
+                      <Marker
+                        key={post.id}
+                        position={[post.location.latitude, post.location.longitude]}
+                      >
+                        <Popup>{post.title}</Popup>
+                      </Marker>
+                    ))}
                   </MapContainer>
-                )}
-              </div>
-            </Col>
-          </Row>
+                </div>
+              </Col>
+            </Row>
+          ) : (
+            <Asset
+              src={noResultsSrc}
+              message={message}
+              height={250}
+              width={250}
+            />
+          )}
         </>
       ) : (
         <Asset spinner />
