@@ -25,9 +25,10 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [indoorOutdoorFilter, setIndoorOutdoorFilter] = useState("");
   const [eventLocations, setEventLocations] = useState([]);
-  const [futureEventLocations, setFutureEventLocations] = useState([]);
+  const [futureEventFilteredLocations, setFutureEventFilteredLocations] =
+    useState([]);
 
-  const filterSortEvents = (socialEvents) => {
+  const filterSortFutureEvents = (socialEvents) => {
     const currentDate = new Date();
     const future = socialEvents.results
       ?.filter((event) => new Date(event.event_date) >= currentDate)
@@ -38,9 +39,12 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
     });
 
     const displayedEventIds = new Set(future.map((event) => event.id));
-    setFutureEventLocations(
-      eventLocations.filter((location) => displayedEventIds.has(location.id))
+    const filteredLocations = eventLocations.filter((location) =>
+      displayedEventIds.has(location.id)
     );
+    console.log(filteredLocations);
+    setFutureEventFilteredLocations(filteredLocations);
+    console.log(futureEventFilteredLocations);
   };
 
   const handleLocationFetched = (locationData) => {
@@ -59,7 +63,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
         }
         const { data } = await axiosReq.get(query);
 
-        filterSortEvents(data);
+        filterSortFutureEvents(data);
         setHasLoaded(true);
       } catch (error) {
         console.log(error);
@@ -120,7 +124,6 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                         value={indoorOutdoorFilter}
                         onChange={(e) => {
                           setIndoorOutdoorFilter(e.target.value);
-                          console.log(futureEvents);
                         }}
                       >
                         <option value="">Indoor/Outdoor</option>
@@ -152,18 +155,18 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 </Col>
                 <Col className="d-none d-md-block">
                   <div className={`${styles.Sticky} ${styles.Map__Container}`}>
-                    {futureEventLocations.length > 0 && (
+                    {futureEventFilteredLocations.length > 0 && (
                       <MapContainer
                         center={[
-                          futureEventLocations[0]?.latitude,
-                          futureEventLocations[0]?.longitude,
+                          futureEventFilteredLocations[0].latitude,
+                          futureEventFilteredLocations[0].longitude,
                         ]}
                         zoom={13}
                         style={{ height: "350px", width: "100%" }}
                         className={styles.Map}
                       >
                         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                        {futureEventLocations?.map((location, idx) => (
+                        {futureEventFilteredLocations.map((location, idx) => (
                           <Marker
                             key={idx}
                             position={[location.latitude, location.longitude]}

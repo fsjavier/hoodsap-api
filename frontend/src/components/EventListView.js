@@ -109,7 +109,7 @@ const EventListView = (props) => {
     };
 
     fetchData();
-  }, [location, tags]);
+  }, [location, tags, id, handleLocationFetched, title]);
 
   return (
     <>
