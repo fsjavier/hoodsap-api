@@ -152,7 +152,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 </Col>
                 <Col className="d-none d-md-block">
                   <div className={`${styles.Sticky} ${styles.Map__Container}`}>
-                    {eventLocations.length > 0 && (
+                    {futureEventLocations.length > 0 && (
                       <MapContainer
                         center={[
                           futureEventLocations[0]?.latitude,
