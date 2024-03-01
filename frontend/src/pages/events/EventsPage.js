@@ -37,10 +37,6 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
     });
   };
 
-  const handleLocationFetched = (locationData) => {
-    setEventLocations((prevLocations) => [...prevLocations, locationData]);
-  };
-
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -133,7 +129,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                       <EventListView
                         key={futureEvent.id}
                         {...futureEvent}
-                        handleLocationFetched={handleLocationFetched}
+                        setEventLocations={setEventLocations}
                       />
                     ))}
                     dataLength={futureEvents.results.length}

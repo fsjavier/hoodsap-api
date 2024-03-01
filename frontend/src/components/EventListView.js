@@ -35,7 +35,7 @@ const EventListView = (props) => {
     event_registration,
     tags,
     comments_count,
-    handleLocationFetched,
+    setEventLocations,
   } = props;
 
   const [locationLocality, setLocationLocality] = useState(null);
@@ -62,7 +62,7 @@ const EventListView = (props) => {
         {indoor_outdoor === "indoor" ? (
           <BuildingLibraryIcon className={styles.Icon} />
         ) : (
-          <SunIcon className={styles.Icon}/>
+          <SunIcon className={styles.Icon} />
         )}
 
         {capitalizeFirstLetter(indoor_outdoor)}
@@ -86,12 +86,15 @@ const EventListView = (props) => {
             country: locationDetails.country,
             city: locationDetails.city,
           });
-          handleLocationFetched({
-            id: id,
-            latitude: locationDetails.latitude,
-            longitude: locationDetails.longitude,
-            title: title,
-          });
+          setEventLocations((prevEventLocations) => ([
+            ...prevEventLocations,
+            {
+              id: id,
+              latitude: locationDetails.latitude,
+              longitude: locationDetails.longitude,
+              title: title,
+            },
+          ]));
         }
 
         if (tags && tags.length > 0) {
@@ -109,7 +112,7 @@ const EventListView = (props) => {
     };
 
     fetchData();
-  }, [location, tags, id, handleLocationFetched, title]);
+  }, [location, tags, id, setEventLocations, title]);
 
   return (
     <>
