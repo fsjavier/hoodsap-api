@@ -24,11 +24,10 @@ const ProfilePage = () => {
   const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
   const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
+  const { latitude, longitude, city, country } = profile.location;
   const [profilePosts, setProfilePosts] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
 
-  const [locationPosition, setLocationPosition] = useState();
-  const [locationLocality, setLocationLocality] = useState();
   const fillRedOptions = { fillColor: "red" };
 
   const currentUser = useCurrentUser();
@@ -43,10 +42,6 @@ const ProfilePage = () => {
             axiosReq.get(`/posts/?owner__profile=${id}`),
           ]);
 
-        const { data: locationDetails } = await axiosReq.get(
-          `/locations/${pageProfile.location}`
-        );
-
         setProfileData((prevProfileData) => ({
           ...prevProfileData,
           pageProfile: { results: [pageProfile] },
@@ -54,22 +49,12 @@ const ProfilePage = () => {
 
         setProfilePosts(profilePosts);
 
-        setLocationPosition([
-          locationDetails.latitude,
-          locationDetails.longitude,
-        ]);
-
-        setLocationLocality({
-          country: locationDetails.country,
-          city: locationDetails.city,
-        });
         setHasLoaded(true);
       } catch (error) {
         console.log(error);
       }
     };
 
-    setLocationPosition(null);
     setHasLoaded(false);
     fetchProfile();
   }, [id, setProfileData]);
@@ -132,9 +117,9 @@ const ProfilePage = () => {
                 </div>
               </div>
               <div className={styles.Map__Container}>
-                {locationPosition && (
+
                   <MapContainer
-                    center={locationPosition}
+                    center={[latitude, longitude]}
                     zoom={12}
                     style={{ height: "200px", width: "100%" }}
                   >
@@ -143,13 +128,13 @@ const ProfilePage = () => {
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <Circle
-                      center={locationPosition}
+                      center={[latitude, longitude]}
                       pathOptions={fillRedOptions}
                       radius={1200}
                       stroke={false}
                     />
                   </MapContainer>
-                )}
+
               </div>
             </div>
           </Col>
@@ -158,11 +143,7 @@ const ProfilePage = () => {
               <h2>About {profile.display_name}</h2>
               <p>
                 <MapPinIcon className={appStyles.Icon} />
-                Based in{" "}
-                {locationLocality &&
-                  `${
-                    locationLocality?.city
-                  }, ${locationLocality?.country.toUpperCase()}`}
+                Based in {city && city}, {country.toUpperCase()}
               </p>
               {profile.bio && profile.bio}
               <div className="my-5">
