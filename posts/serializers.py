@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Post
 from likes.models import Like
+from locations.serializers import LocationSerializer
+from tags.serializers import TagSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -15,6 +17,8 @@ class PostSerializer(serializers.ModelSerializer):
     like_id = serializers.SerializerMethodField()
     comments_count = serializers.ReadOnlyField()
     likes_count = serializers.ReadOnlyField()
+    location = LocationSerializer(read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
 
     def get_is_owner(self, obj):
         request = self.context['request']

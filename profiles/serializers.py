@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Profile
 from followers.models import Follower
+from locations.serializers import LocationSerializer
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -10,6 +11,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     posts_count = serializers.ReadOnlyField()
     followers_count = serializers.ReadOnlyField()
     following_count = serializers.ReadOnlyField()
+    location = LocationSerializer(read_only=True)
 
     def get_is_owner(self, obj):
         request = self.context['request']
