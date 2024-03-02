@@ -27,16 +27,16 @@ const EventListView = (props) => {
     profile_name,
     title,
     image,
-    location,
+    location_data,
     event_date,
     event_category,
     indoor_outdoor,
     event_registration,
-    tags,
+    tags_data,
     comments_count,
   } = props;
 
-  const { city, country } = location;
+  const { city, country } = location_data;
 
   const eventSummary = (
     <ul className="d-flex flex-column">
@@ -96,8 +96,8 @@ const EventListView = (props) => {
           <Row className="justify-content-center align-items-center">
             <Col md={7}>
               <Link to={`/events/${id}`}>
-                {tags &&
-                  tags.map(tag => (
+                {tags_data &&
+                  tags_data.map(tag => (
                     <Badge
                       key={tag.id}
                       pill

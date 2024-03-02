@@ -33,18 +33,18 @@ const Event = (props) => {
     title,
     content,
     image,
-    location,
+    location_data,
     event_date,
     event_category,
     indoor_outdoor,
     event_registration,
-    tags,
+    tags_data,
     comments_count,
   } = props;
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
-  const { latitude, longitude, city, country } = location;
+  const { latitude, longitude, city, country } = location_data;
   const history = useHistory();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -122,8 +122,8 @@ const Event = (props) => {
                 <div>
                   <Link to={`/events/${id}`}>
                     {title && <h3 className="my-2">{title}</h3>}
-                    {tags &&
-                      tags.map((tag) => (
+                    {tags_data &&
+                      tags_data.map((tag) => (
                         <Badge
                           key={tag.id}
                           pill

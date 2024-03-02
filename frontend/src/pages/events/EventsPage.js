@@ -137,8 +137,8 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                   <div className={`${styles.Sticky} ${styles.Map__Container}`}>
                     <MapContainer
                       center={[
-                        futureEvents.results[0].location.latitude,
-                        futureEvents.results[0].location.longitude,
+                        futureEvents.results[0].location_data.latitude,
+                        futureEvents.results[0].location_data.longitude,
                       ]}
                       zoom={13}
                       style={{ height: "350px", width: "100%" }}
@@ -149,8 +149,8 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                         <Marker
                           key={event.id}
                           position={[
-                            event.location.latitude,
-                            event.location.longitude,
+                            event.location_data.latitude,
+                            event.location_data.longitude,
                           ]}
                         >
                           <Popup>{event.title}</Popup>

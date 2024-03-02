@@ -122,13 +122,13 @@ const EventEditForm = () => {
         const {
           title,
           content,
-          location,
+          location_data,
           image,
           event_date,
           event_category,
           indoor_outdoor,
           event_registration,
-          tags,
+          tags_data,
           is_owner,
         } = data;
 
@@ -137,27 +137,22 @@ const EventEditForm = () => {
           return;
         }
 
-        if (location) {
-          const response = await axiosReq.get(`/locations/${location}`);
-          const locationDetails = response.data;
-          setInitialPosition({
-            lat: locationDetails.latitude,
-            lng: locationDetails.longitude,
-          });
-        }
+        setInitialPosition({
+          lat: location_data.latitude,
+          lng: location_data.longitude,
+        });
 
-        if (tags.length > 0) {
+        if (tags_data.length > 0) {
           const fetchedTags = [];
-          for (let tag of tags) {
-            const response = await axiosReq.get(`/tags/${tag}`);
-            const tagDetails = response.data.name;
-            fetchedTags.push(tagDetails);
+          for (let tag of tags_data) {
+            fetchedTags.push(tag.name);
           }
           setInitialTags(fetchedTags);
         }
 
+
         setStartDate(new Date(event_date));
-        const formattedDate = new Date(event_date).toISOString()
+        const formattedDate = new Date(event_date).toISOString();
 
         setEventData((prevData) => ({
           ...prevData,
