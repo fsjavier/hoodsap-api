@@ -24,7 +24,6 @@ const ProfilePage = () => {
   const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
   const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
-  const { latitude, longitude, city, country } = profile.location;
   const [profilePosts, setProfilePosts] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
 
@@ -117,9 +116,12 @@ const ProfilePage = () => {
                 </div>
               </div>
               <div className={styles.Map__Container}>
-
+                {profile.location_data && (
                   <MapContainer
-                    center={[latitude, longitude]}
+                    center={[
+                      profile.location_data.latitude,
+                      profile.location_data.longitude,
+                    ]}
                     zoom={12}
                     style={{ height: "200px", width: "100%" }}
                   >
@@ -128,13 +130,16 @@ const ProfilePage = () => {
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <Circle
-                      center={[latitude, longitude]}
+                      center={[
+                        profile.location_data.latitude,
+                        profile.location_data.longitude,
+                      ]}
                       pathOptions={fillRedOptions}
                       radius={1200}
                       stroke={false}
                     />
                   </MapContainer>
-
+                )}
               </div>
             </div>
           </Col>
@@ -143,7 +148,8 @@ const ProfilePage = () => {
               <h2>About {profile.display_name}</h2>
               <p>
                 <MapPinIcon className={appStyles.Icon} />
-                Based in {city && city}, {country.toUpperCase()}
+                Based in {profile.location_data.city && profile.location_data.city},{" "}
+                {profile.location_data?.country.toUpperCase()}
               </p>
               {profile.bio && profile.bio}
               <div className="my-5">
@@ -171,7 +177,9 @@ const ProfilePage = () => {
           </Col>
         </>
       ) : (
-        <Asset spinner />
+        <Col>
+          <Asset spinner />
+        </Col>
       )}
     </Row>
   );

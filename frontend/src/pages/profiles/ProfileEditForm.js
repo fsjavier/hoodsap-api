@@ -52,24 +52,20 @@ const ProfileEditForm = () => {
       if (currentUser?.profile_id?.toString() === id) {
         try {
           const { data } = await axiosReq.get(`/profiles/${id}`);
-          const { display_name, bio, location, avatar } = data;
-
-          if (location) {
-            const { data: locationDetails } = await axiosReq.get(
-              `/locations/${location}`
-            );
-            setInitialPosition({
-              lat: locationDetails.latitude,
-              lng: locationDetails.longitude,
-            });
-          }
+          const { display_name, bio, location_data, avatar } = data;
 
           setUserData((prevData) => ({
             ...prevData,
             display_name,
             bio,
+            location_data,
             avatar,
           }));
+
+          setInitialPosition({
+            lat: location_data.latitude,
+            lng: location_data.longitude,
+          });
 
           setHasLoaded(true);
         } catch (error) {
