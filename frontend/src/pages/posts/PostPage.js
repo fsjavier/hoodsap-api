@@ -44,32 +44,29 @@ const PostPage = () => {
 
   return (
     <Container className="h-100 mt-4">
-      <Row>
-        <Col>
-          {hasLoadedPost ? (
-            <Post {...post.results[0]} setPosts={setPost} postPage />
-          ) : (
-            <Asset spinner />
-          )}
-        </Col>
-      </Row>
-      {currentUser && hasLoadedPost ? (
-        <Row>
-          <Col>
-            <CommentPostCreateForm
-              profile_id={currentUser?.profile_id}
-              profile_image={currentUser?.profile_image}
-              post={id}
-              setPost={setPost}
-              setComments={setComments}
-            />
-          </Col>
-        </Row>
-      ) : comments.results.length ? (
-        "Comments"
-      ) : null}
-      {hasLoadedComments ? (
-        comments.results.length ? (
+      {hasLoadedPost && hasLoadedComments ? (
+        <>
+          <Row>
+            <Col>
+              <Post {...post.results[0]} setPosts={setPost} postPage />
+            </Col>
+          </Row>
+          {currentUser && hasLoadedPost ? (
+            <Row>
+              <Col>
+                <CommentPostCreateForm
+                  profile_id={currentUser?.profile_id}
+                  profile_image={currentUser?.profile_image}
+                  post={id}
+                  setPost={setPost}
+                  setComments={setComments}
+                />
+              </Col>
+            </Row>
+          ) : comments.results.length ? (
+            "Comments"
+          ) : null}
+          comments.results.length ? (
           <InfiniteScroll
             children={comments.results.map((comment) => (
               <PostComment
@@ -85,11 +82,9 @@ const PostPage = () => {
             next={() => fetchMoreData(comments, setComments)}
             className={appStyles.InfiniteScroll}
           />
-        ) : currentUser ? (
-          <span>No comments yet, be the first!</span>
-        ) : (
-          <span>No comments yet.</span>
-        )
+          ) : currentUser ? (<span>No comments yet, be the first!</span>) : (
+          <span>No comments yet.</span>)
+        </>
       ) : (
         <Asset spinner />
       )}
