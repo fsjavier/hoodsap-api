@@ -30,8 +30,8 @@ const Post = (props) => {
     title,
     content,
     image,
-    location,
-    tags,
+    location_data,
+    tags_data,
     like_id,
     likes_count,
     comments_count,
@@ -42,7 +42,7 @@ const Post = (props) => {
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
-  const {latitude, longitude, city, country} = location
+  const {latitude, longitude, city, country} = location_data
   const history = useHistory();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -116,8 +116,8 @@ const Post = (props) => {
               <hr />
               <Link to={`/posts/${id}`}>
                 {title && <Card.Title className="my-2">{title}</Card.Title>}
-                {tags.length > 0 &&
-                  tags.map(tag => (
+                {tags_data.length > 0 &&
+                  tags_data.map(tag => (
                     <Badge
                       key={tag.id}
                       pill

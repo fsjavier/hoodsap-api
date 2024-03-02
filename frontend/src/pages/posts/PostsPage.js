@@ -76,8 +76,8 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                 <div className={`${styles.Sticky} ${styles.Map__Container}`}>
                   <MapContainer
                     center={[
-                      posts.results[0].location.latitude,
-                      posts.results[0].location.longitude,
+                      posts.results[0].location_data.latitude,
+                      posts.results[0].location_data.longitude,
                     ]}
                     zoom={13}
                     style={{ height: "350px", width: "100%" }}
@@ -87,7 +87,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                     {posts.results.map((post) => (
                       <Marker
                         key={post.id}
-                        position={[post.location.latitude, post.location.longitude]}
+                        position={[post.location_data.latitude, post.location_data.longitude]}
                       >
                         <Popup>{post.title}</Popup>
                       </Marker>

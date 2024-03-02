@@ -37,28 +37,22 @@ const PostEditForm = () => {
       try {
         const response = await axiosReq.get(`/posts/${id}`);
         const data = response.data;
-        const { title, content, location, tags, image, is_owner } = data;
+        const { title, content, location_data, tags_data, image, is_owner } = data;
 
         if (!is_owner) {
           history.push("/");
           return;
         }
 
-        if (location) {
-          const response = await axiosReq.get(`/locations/${location}`);
-          const locationDetails = response.data;
-          setInitialPosition({
-            lat: locationDetails.latitude,
-            lng: locationDetails.longitude,
-          });
-        }
+        setInitialPosition({
+          lat: location_data.latitude,
+          lng: location_data.longitude,
+        });
 
-        if (tags.length > 0) {
+        if (tags_data.length > 0) {
           const fetchedTags = [];
-          for (let tag of tags) {
-            const response = await axiosReq.get(`/tags/${tag}`);
-            const tagDetails = response.data.name;
-            fetchedTags.push(tagDetails);
+          for (let tag of tags_data) {
+            fetchedTags.push(tag.name);
           }
           setInitialTags(fetchedTags);
         }
