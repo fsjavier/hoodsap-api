@@ -1,29 +1,22 @@
-.LikesComments {
-  align-items: center;
+.Image__Container {
+  display: flex;
+  max-height: 500px;
+  max-width: 600px;
+}
+
+.Image {
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.Map__Container {
+  display: flex;
   justify-content: center;
-  text-align: center;
 }
 
-.LikesComments > span {
-  margin-inline: 0.5em;
-}
-
-.Icon {
-  width: 1.5em;
-  height: 1.5em;
-  margin-inline-end: 0.2em;
-  vertical-align: text-bottom;
-}
-
-.Icon:hover {
-  cursor: pointer;
-  color: var(--majorblue);
-}
-
-.IconSolid {
-  color: var(--majorblue);
-}
-
-.IconSolid:hover {
-  color: var(--off-majorblue);
+.Map {
+  border-radius: 10px;
+  height: 250px;
+  width: 90%;
 }
