@@ -26,7 +26,7 @@ const RecommendedProfiles = () => {
     <Container>
       <Row>
         <Col xs={12} md={7} className="mt-2">
-          <p>Recommended profiles</p>
+          <p className={styles.RecommendedProfiles}>Recommended profiles</p>
         </Col>
       </Row>
       <Row>

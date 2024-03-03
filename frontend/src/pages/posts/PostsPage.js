@@ -14,6 +14,7 @@ import appStyles from "../../App.module.css";
 import styles from "../../styles/PostsPage.module.css";
 import RecommendedProfiles from "../../components/RecommendedProfiles";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import PostListView from "../../components/PostListView";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -59,11 +60,16 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
             </Col>
           </Row>
           {posts.results.length ? (
-            <Row>
+            <Row className="my-4">
               <Col md={7}>
                 <InfiniteScroll
                   children={posts.results.map((post) => (
-                    <Post key={post.id} {...post} setPosts={setPosts} />
+                    <PostListView
+                      key={post.id}
+                      {...post}
+                      setPosts={setPosts}
+                      currentUser={currentUser}
+                    />
                   ))}
                   dataLength={posts.results.length}
                   loader={<Asset spinner />}
@@ -87,7 +93,10 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                     {posts.results.map((post) => (
                       <Marker
                         key={post.id}
-                        position={[post.location_data.latitude, post.location_data.longitude]}
+                        position={[
+                          post.location_data.latitude,
+                          post.location_data.longitude,
+                        ]}
                       >
                         <Popup>{post.title}</Popup>
                       </Marker>
