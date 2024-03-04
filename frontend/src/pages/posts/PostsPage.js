@@ -4,7 +4,6 @@ import { axiosReq } from "../../api/axiosDefault";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Post from "../../components/Post";
 import Asset from "../../components/Asset";
 import { useCurrentUser } from "../../context/CurrentUserContext";
 import { useCurrentSearch } from "../../context/SearchContext";
@@ -15,6 +14,9 @@ import styles from "../../styles/PostsPage.module.css";
 import RecommendedProfiles from "../../components/RecommendedProfiles";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import PostListView from "../../components/PostListView";
+import { Form } from "react-bootstrap";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -24,14 +26,27 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   const { pathname } = useLocation();
   const currentUser = useCurrentUser();
   const searchQuery = useCurrentSearch();
+  const [latitude, setLatitude] = useState(
+    currentUser?.profile_location_data?.latitude
+  );
+  const [longitude, setLongitude] = useState(
+    currentUser?.profile_location_data?.longitude
+  );
+  const [radius, setRadius] = useState(500);
 
   useEffect(() => {
+    setLatitude(currentUser?.profile_location_data?.latitude);
+    setLongitude(currentUser?.profile_location_data?.longitude);
+
     const fetchPosts = async () => {
       try {
-        const response = await axiosReq.get(
-          `/posts/?${filter}search=${searchQuery}`
-        );
-        const data = response.data;
+        let query = `/posts/?${filter}search=${searchQuery}`;
+        if (latitude && longitude && radius) {
+          query += `&latitude=${latitude}&longitude=${longitude}&radius=${radius}`;
+        }
+        console.log(query);
+        const { data } = await axiosReq.get(query);
+
         setPosts(data);
         setHasLoaded(true);
       } catch (error) {
@@ -48,10 +63,33 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     return () => {
       clearTimeout(timer);
     };
-  }, [filter, pathname, currentUser, searchQuery]);
+  }, [filter, pathname, currentUser, searchQuery, latitude, longitude, radius]);
 
   return (
     <Container>
+      {latitude && longitude && (
+        <Row>
+          <Col>
+            <Form onSubmit={(e) => e.preventDefault()}>
+              <Form.Group controlId="formRadius">
+                <Form.Label>Slide to select distance</Form.Label>
+                <Slider
+                  min={0}
+                  max={1000000}
+                  step={radius < 1000 ? 100 : 500}
+                  value={radius}
+                  onChange={(value) => setRadius(value)}
+                />
+                <Form.Text className="text-muted">
+                  {radius < 1000 ? radius : radius / 1000}{" "}
+                  {radius < 1000 ? "meters" : "km"}
+                </Form.Text>
+              </Form.Group>
+            </Form>
+          </Col>
+        </Row>
+      )}
+
       {hasLoaded ? (
         <>
           <Row>
