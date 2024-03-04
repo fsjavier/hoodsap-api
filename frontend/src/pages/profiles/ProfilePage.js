@@ -148,7 +148,7 @@ const ProfilePage = () => {
               <h2>About {profile.display_name}</h2>
               <p>
                 <MapPinIcon className={appStyles.Icon} />
-                Based in {profile.location_data.city && profile.location_data.city},{" "}
+                Based in {profile.location_data?.city && profile.location_data?.city},{" "}
                 {profile.location_data?.country.toUpperCase()}
               </p>
               {profile.bio && profile.bio}
