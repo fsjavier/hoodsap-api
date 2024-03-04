@@ -26,7 +26,7 @@ const EventPage = () => {
       try {
         const [{ data: socialEvent }, { data: comments }] = await Promise.all([
           axiosReq.get(`/events/${id}`),
-          axiosReq.get(`/event_comments/?event=${id}`),
+          axiosReq.get(`/event_comments/?social_event=${id}`),
         ]);
         setSocialEvent({ results: [socialEvent] });
         setComments(comments);
@@ -69,7 +69,7 @@ const EventPage = () => {
           ) : comments.results.length ? (
             "Comments"
           ) : null}
-          comments.results.length ? (
+          { comments.results.length ? (
           <InfiniteScroll
             children={comments.results.map((comment) => (
               <EventComment
@@ -87,7 +87,7 @@ const EventPage = () => {
           />
           ) : currentUser ? (
           <div className="text-center my-3">No comments yet, be the first!</div>
-          ) : (<div className="text-center my-3">No comments yet.</div>)
+          ) : (<div className="text-center my-3">No comments yet.</div>)}
         </>
       ) : (
         <Asset spinner />

@@ -66,7 +66,7 @@ const PostPage = () => {
           ) : comments.results.length ? (
             "Comments"
           ) : null}
-          comments.results.length ? (
+          { comments.results.length ? (
           <InfiniteScroll
             children={comments.results.map((comment) => (
               <PostComment
@@ -83,7 +83,7 @@ const PostPage = () => {
             className={appStyles.InfiniteScroll}
           />
           ) : currentUser ? (<span>No comments yet, be the first!</span>) : (
-          <span>No comments yet.</span>)
+          <span>No comments yet.</span>)}
         </>
       ) : (
         <Asset spinner />
