@@ -21,7 +21,7 @@ import {
 } from "@heroicons/react/24/outline";
 import appStyles from "../App.module.css";
 import styles from "../styles/NavBar.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   useCurrentUser,
   useSetCurrentUser,
@@ -38,6 +38,9 @@ function NavBar() {
   const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
   const setSearchQuery = useSetCurrentSearch();
+  const { pathname } = useLocation();
+  const showSearchBar =
+    pathname === "/" || pathname === "/events" || pathname === "/feed";
 
   const handleSignout = async () => {
     try {
@@ -150,21 +153,23 @@ function NavBar() {
           <img src={logo} height={45} alt="logo" />
         </NavLink>
 
-        <Form
-          inline
-          className={`${styles.SearchBar} mx-auto`}
-          onSubmit={(event) => event.preventDefault()}
-        >
-          <MagnifyingGlassIcon className={styles.SearchIcon} />
-          <FormControl
-            type="text"
-            placeholder="Search"
-            onChange={(event) => {
-              setSearchQuery(event.target.value);
-            }}
-            className="mr-sm-2"
-          />
-        </Form>
+        {showSearchBar && (
+          <Form
+            inline
+            className={`${styles.SearchBar} mx-auto`}
+            onSubmit={(event) => event.preventDefault()}
+          >
+            <MagnifyingGlassIcon className={styles.SearchIcon} />
+            <FormControl
+              type="text"
+              placeholder="Search"
+              onChange={(event) => {
+                setSearchQuery(event.target.value);
+              }}
+              className="mr-sm-2"
+            />
+          </Form>
+        )}
 
         <Navbar.Toggle
           ref={ref}
