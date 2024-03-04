@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.bf64b244.chunk.css",
-    "main.js": "/static/js/main.6d8d35a4.chunk.js",
-    "main.js.map": "/static/js/main.6d8d35a4.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.23e64d7a.js",
-    "runtime-main.js.map": "/static/js/runtime-main.23e64d7a.js.map",
-    "static/css/2.90e58d62.chunk.css": "/static/css/2.90e58d62.chunk.css",
-    "static/js/2.7d209946.chunk.js": "/static/js/2.7d209946.chunk.js",
-    "static/js/2.7d209946.chunk.js.map": "/static/js/2.7d209946.chunk.js.map",
-    "static/js/3.f83cb194.chunk.js": "/static/js/3.f83cb194.chunk.js",
-    "static/js/3.f83cb194.chunk.js.map": "/static/js/3.f83cb194.chunk.js.map",
+    "main.css": "/static/css/main.0b0755c8.chunk.css",
+    "main.js": "/static/js/main.2283a75c.chunk.js",
+    "main.js.map": "/static/js/main.2283a75c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.5b7a3fcc.js",
+    "runtime-main.js.map": "/static/js/runtime-main.5b7a3fcc.js.map",
+    "static/css/2.a841d03d.chunk.css": "/static/css/2.a841d03d.chunk.css",
+    "static/js/2.3c5b6f34.chunk.js": "/static/js/2.3c5b6f34.chunk.js",
+    "static/js/2.3c5b6f34.chunk.js.map": "/static/js/2.3c5b6f34.chunk.js.map",
+    "static/js/3.1fcf350a.chunk.js": "/static/js/3.1fcf350a.chunk.js",
+    "static/js/3.1fcf350a.chunk.js.map": "/static/js/3.1fcf350a.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/2.90e58d62.chunk.css.map": "/static/css/2.90e58d62.chunk.css.map",
-    "static/css/main.bf64b244.chunk.css.map": "/static/css/main.bf64b244.chunk.css.map",
-    "static/js/2.7d209946.chunk.js.LICENSE.txt": "/static/js/2.7d209946.chunk.js.LICENSE.txt",
+    "static/css/2.a841d03d.chunk.css.map": "/static/css/2.a841d03d.chunk.css.map",
+    "static/css/main.0b0755c8.chunk.css.map": "/static/css/main.0b0755c8.chunk.css.map",
+    "static/js/2.3c5b6f34.chunk.js.LICENSE.txt": "/static/js/2.3c5b6f34.chunk.js.LICENSE.txt",
     "static/media/hoodsap_logo.4deabc4a.webp": "/static/media/hoodsap_logo.4deabc4a.webp"
   },
   "entrypoints": [
-    "static/js/runtime-main.23e64d7a.js",
-    "static/css/2.90e58d62.chunk.css",
-    "static/js/2.7d209946.chunk.js",
-    "static/css/main.bf64b244.chunk.css",
-    "static/js/main.6d8d35a4.chunk.js"
+    "static/js/runtime-main.5b7a3fcc.js",
+    "static/css/2.a841d03d.chunk.css",
+    "static/js/2.3c5b6f34.chunk.js",
+    "static/css/main.0b0755c8.chunk.css",
+    "static/js/main.2283a75c.chunk.js"
   ]
 }
