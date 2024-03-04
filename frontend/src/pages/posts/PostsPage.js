@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefault";
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Asset from "../../components/Asset";
@@ -66,96 +65,98 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   }, [filter, pathname, currentUser, searchQuery, latitude, longitude, radius]);
 
   return (
-    <Container>
-      {latitude && longitude && (
-        <Row>
-          <Col>
-            <Form onSubmit={(e) => e.preventDefault()}>
-              <Form.Group controlId="formRadius">
-                <Form.Label>Slide to select distance</Form.Label>
-                <Slider
-                  min={0}
-                  max={1000000}
-                  step={radius < 1000 ? 100 : 500}
-                  value={radius}
-                  onChange={(value) => setRadius(value)}
-                />
-                <Form.Text className="text-muted">
-                  {radius < 1000 ? radius : radius / 1000}{" "}
-                  {radius < 1000 ? "meters" : "km"}
-                </Form.Text>
-              </Form.Group>
-            </Form>
-          </Col>
-        </Row>
-      )}
-
-      {hasLoaded ? (
-        <>
+    <Row>
+      <Col>
+        {latitude && longitude && (
           <Row>
             <Col>
-              <RecommendedProfiles />
+              <Form onSubmit={(e) => e.preventDefault()}>
+                <Form.Group controlId="formRadius">
+                  <Form.Label>Slide to select distance</Form.Label>
+                  <Slider
+                    min={0}
+                    max={1000000}
+                    step={radius < 1000 ? 100 : 500}
+                    value={radius}
+                    onChange={(value) => setRadius(value)}
+                  />
+                  <Form.Text className="text-muted">
+                    {radius < 1000 ? radius : radius / 1000}{" "}
+                    {radius < 1000 ? "meters" : "km"}
+                  </Form.Text>
+                </Form.Group>
+              </Form>
             </Col>
           </Row>
-          {posts.results.length ? (
-            <Row className="my-4">
-              <Col md={7}>
-                <InfiniteScroll
-                  children={posts.results.map((post) => (
-                    <PostListView
-                      key={post.id}
-                      {...post}
-                      setPosts={setPosts}
-                      currentUser={currentUser}
-                    />
-                  ))}
-                  dataLength={posts.results.length}
-                  loader={<Asset spinner />}
-                  hasMore={!!posts.next}
-                  next={() => fetchMoreData(posts, setPosts)}
-                  className={appStyles.InfiniteScroll}
-                />
-              </Col>
-              <Col className="d-none d-md-block">
-                <div className={`${styles.Sticky} ${styles.Map__Container}`}>
-                  <MapContainer
-                    center={[
-                      posts.results[0].location_data.latitude,
-                      posts.results[0].location_data.longitude,
-                    ]}
-                    zoom={13}
-                    style={{ height: "350px", width: "100%" }}
-                    className={styles.Map}
-                  >
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    {posts.results.map((post) => (
-                      <Marker
-                        key={post.id}
-                        position={[
-                          post.location_data.latitude,
-                          post.location_data.longitude,
-                        ]}
-                      >
-                        <Popup>{post.title}</Popup>
-                      </Marker>
-                    ))}
-                  </MapContainer>
-                </div>
+        )}
+
+        {hasLoaded ? (
+          <>
+            <Row>
+              <Col>
+                <RecommendedProfiles />
               </Col>
             </Row>
-          ) : (
-            <Asset
-              src={noResultsSrc}
-              message={message}
-              height={250}
-              width={250}
-            />
-          )}
-        </>
-      ) : (
-        <Asset spinner />
-      )}
-    </Container>
+            {posts.results.length ? (
+              <Row className="my-4">
+                <Col md={7}>
+                  <InfiniteScroll
+                    children={posts.results.map((post) => (
+                      <PostListView
+                        key={post.id}
+                        {...post}
+                        setPosts={setPosts}
+                        currentUser={currentUser}
+                      />
+                    ))}
+                    dataLength={posts.results.length}
+                    loader={<Asset spinner />}
+                    hasMore={!!posts.next}
+                    next={() => fetchMoreData(posts, setPosts)}
+                    className={appStyles.InfiniteScroll}
+                  />
+                </Col>
+                <Col className="d-none d-md-block">
+                  <div className={`${styles.Sticky} ${styles.Map__Container}`}>
+                    <MapContainer
+                      center={[
+                        posts.results[0].location_data.latitude,
+                        posts.results[0].location_data.longitude,
+                      ]}
+                      zoom={13}
+                      style={{ height: "350px", width: "100%" }}
+                      className={styles.Map}
+                    >
+                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                      {posts.results.map((post) => (
+                        <Marker
+                          key={post.id}
+                          position={[
+                            post.location_data.latitude,
+                            post.location_data.longitude,
+                          ]}
+                        >
+                          <Popup>{post.title}</Popup>
+                        </Marker>
+                      ))}
+                    </MapContainer>
+                  </div>
+                </Col>
+              </Row>
+            ) : (
+              <Asset
+                src={noResultsSrc}
+                message={message}
+                height={250}
+                width={250}
+              />
+            )}
+          </>
+        ) : (
+          <Asset spinner />
+        )}
+      </Col>
+    </Row>
   );
 };
 

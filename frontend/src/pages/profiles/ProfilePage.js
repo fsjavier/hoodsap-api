@@ -16,8 +16,9 @@ import CustomButton from "../../components/CustomButton";
 import { useCurrentUser } from "../../context/CurrentUserContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
-import Post from "../../components/Post";
 import { MapPinIcon } from "@heroicons/react/24/outline";
+import PostListView from "../../components/PostListView";
+import EventListView from "../../components/EventListView";
 
 const ProfilePage = () => {
   const { id } = useParams();
@@ -25,6 +26,8 @@ const ProfilePage = () => {
   const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
   const [profilePosts, setProfilePosts] = useState({ results: [] });
+  const [profileEvents, setProfileEvents] = useState({ results: [] });
+  const [displayProfileContent, setDisplayProfileContent] = useState("Posts");
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const fillRedOptions = { fillColor: "red" };
@@ -32,21 +35,67 @@ const ProfilePage = () => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === profile?.owner;
 
+  const postsContent = (
+    <>
+      {profilePosts.results.length ? (
+        <InfiniteScroll
+          children={profilePosts.results.map((post) => (
+            <PostListView key={post.id} {...post} setPosts={setProfilePosts} />
+          ))}
+          dataLength={profilePosts.results.length}
+          loader={<Asset spinner />}
+          hasMore={!!profilePosts.next}
+          next={() => fetchMoreData(profilePosts, setProfilePosts)}
+          className="px-5 my-4"
+        />
+      ) : (
+        <p>{profile?.display_name} hasn't posted yet</p>
+      )}
+    </>
+  );
+
+  const eventsContent = (
+    <>
+      {profileEvents.results.length ? (
+        <InfiniteScroll
+          children={profileEvents.results.map((event) => (
+            <EventListView
+              key={event.id}
+              {...event}
+              setPosts={setProfileEvents}
+            />
+          ))}
+          dataLength={profileEvents.results.length}
+          loader={<Asset spinner />}
+          hasMore={!!profileEvents.next}
+          next={() => fetchMoreData(profileEvents, setProfileEvents)}
+          className="px-5 my-4"
+        />
+      ) : (
+        <p>{profile?.display_name} hasn't created events yet</p>
+      )}
+    </>
+  );
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const [{ data: pageProfile }, { data: profilePosts }] =
-          await Promise.all([
-            axiosReq.get(`/profiles/${id}`),
-            axiosReq.get(`/posts/?owner__profile=${id}`),
-          ]);
+        const [
+          { data: pageProfile },
+          { data: profilePosts },
+          { data: profileEvents },
+        ] = await Promise.all([
+          axiosReq.get(`/profiles/${id}`),
+          axiosReq.get(`/posts/?owner__profile=${id}`),
+          axiosReq.get(`/events/?owner__profile=${id}`),
+        ]);
 
         setProfileData((prevProfileData) => ({
           ...prevProfileData,
           pageProfile: { results: [pageProfile] },
         }));
-
         setProfilePosts(profilePosts);
+        setProfileEvents(profileEvents);
 
         setHasLoaded(true);
       } catch (error) {
@@ -119,20 +168,17 @@ const ProfilePage = () => {
                 {profile.location_data && (
                   <MapContainer
                     center={[
-                      profile.location_data.latitude,
-                      profile.location_data.longitude,
+                      profile.location_data?.latitude,
+                      profile.location_data?.longitude,
                     ]}
                     zoom={12}
-                    style={{ height: "200px", width: "100%" }}
+                    className={styles.Map}
                   >
-                    <TileLayer
-                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <Circle
                       center={[
-                        profile.location_data.latitude,
-                        profile.location_data.longitude,
+                        profile.location_data?.latitude,
+                        profile.location_data?.longitude,
                       ]}
                       pathOptions={fillRedOptions}
                       radius={1200}
@@ -143,35 +189,37 @@ const ProfilePage = () => {
               </div>
             </div>
           </Col>
-          <Col>
+          <Col md={6} lg={7}>
             <div className={styles.About__Container}>
               <h2>About {profile.display_name}</h2>
               <p>
                 <MapPinIcon className={appStyles.Icon} />
-                Based in {profile.location_data?.city && profile.location_data?.city},{" "}
+                Based in{" "}
+                {profile.location_data?.city &&
+                  profile.location_data?.city},{" "}
                 {profile.location_data?.country.toUpperCase()}
               </p>
               {profile.bio && profile.bio}
               <div className="my-5">
                 <hr />
-                <h3>Posts</h3>
-                {profilePosts.results.length ? (
-                  <InfiniteScroll
-                    children={profilePosts.results.map((post) => (
-                      <Post
-                        key={post.id}
-                        {...post}
-                        setPosts={setProfilePosts}
-                      />
-                    ))}
-                    dataLength={profilePosts.results.length}
-                    loader={<Asset spinner />}
-                    hasMore={!!profilePosts.next}
-                    next={() => fetchMoreData(profilePosts, setProfilePosts)}
-                  />
-                ) : (
-                  <p>{profile.display_name} hasn't posted yet</p>
-                )}
+                <div className={styles.EventsPostsButtons}>
+                  <CustomButton
+                    variant="Light"
+                    onClick={() => setDisplayProfileContent("Posts")}
+                    selected={displayProfileContent === "Posts" && true}
+                  >
+                    Posts
+                  </CustomButton>
+                  <CustomButton
+                    variant="Light"
+                    onClick={() => setDisplayProfileContent("Events")}
+                    selected={displayProfileContent === "Events" && true}
+                  >
+                    Events
+                  </CustomButton>
+                </div>
+                {displayProfileContent === "Posts" && postsContent}
+                {displayProfileContent === "Events" && eventsContent}
               </div>
             </div>
           </Col>

@@ -23,8 +23,8 @@
 }
 
 .ProfileStats > * {
-    padding-block: 0.5em;
-  }
+  padding-block: 0.5em;
+}
 
 .ProfileNameImage__Container {
   text-align: center;
@@ -45,10 +45,25 @@
 
 .Map__Container {
   margin-block: 2em;
-  padding-inline: 1.2em;
+  padding-inline: 1.5em;
+}
+
+.Map {
+  height: 300px;
+  width: 100%;
+  border-radius: 10px;
 }
 
 .Bio__Container {
   height: 10em;
   overflow-y: scroll;
+}
+
+.EventsPostsButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.EventsPostsButtons > * {
+  margin-inline: 0.5em;
 }

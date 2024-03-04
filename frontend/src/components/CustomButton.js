@@ -6,14 +6,12 @@ function CustomButton({
   type = "button",
   variant = "Primary",
   size = "Medium",
-  block = false,
   disabled = false,
   selected = false,
   onClick,
 }) {
   const variantClassName = styles[variant] || styles.Primary;
   const sizeClassName = styles[size] || "";
-  const blockClassName = block ? styles.Block : "";
   const selectedClassName = selected ? styles.Selected : "";
 
   return (
@@ -21,7 +19,7 @@ function CustomButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${styles.Button} ${variantClassName} ${sizeClassName} ${blockClassName} ${selectedClassName}`}
+      className={`${styles.Button} ${variantClassName} ${sizeClassName} ${selectedClassName}`}
     >
       {children}
     </button>
