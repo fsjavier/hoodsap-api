@@ -16,17 +16,40 @@ import EventCreateForm from "./pages/events/EventCreateForm";
 import EventPage from "./pages/events/EventPage";
 import EventsPage from "./pages/events/EventsPage";
 import EventEditForm from "./pages/events/EventEditForm";
+import AddProfileLocation from "./components/AddProfileLocation";
+import { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
 
 function App() {
   const currentUser = useCurrentUser();
   const profile_id = currentUser?.profile_id || "";
+  const [isProfileLocationSet, setIsProfileLocationSet] = useState();
+
+  useEffect(() => {
+    if (currentUser) {
+      if (
+        !currentUser.profile_location_data?.latitude ||
+        !currentUser.profile_location_data?.longitude
+      ) {
+        setIsProfileLocationSet(false);
+      } else {
+        setIsProfileLocationSet(true);
+      }
+    }
+  }, [currentUser]);
 
   return (
     <div className={AppStyles.App}>
       <NavBar />
       <Container className={AppStyles.Main}>
         <Switch>
-          <Route exact path="/" render={() => <PostsPage />} />
+          <Route exact path="/">
+            {currentUser && !isProfileLocationSet ? (
+              <Redirect to="/add-location" />
+            ) : (
+              <PostsPage />
+            )}
+          </Route>
           <Route
             exact
             path="/feed"
@@ -47,7 +70,13 @@ function App() {
             path="/profile/:id/edit"
             render={() => <ProfileEditForm />}
           />
-          <Route exact path="/events" render={() => <EventsPage />} />
+          <Route exact path="/events">
+            {currentUser && !isProfileLocationSet ? (
+              <Redirect to="/add-location" />
+            ) : (
+              <EventsPage />
+            )}
+          </Route>
           <Route
             exact
             path="/events/create"
@@ -58,6 +87,11 @@ function App() {
             exact
             path="/events/:id/edit"
             render={() => <EventEditForm />}
+          />
+          <Route
+            exact
+            path="/add-location"
+            render={() => <AddProfileLocation />}
           />
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
