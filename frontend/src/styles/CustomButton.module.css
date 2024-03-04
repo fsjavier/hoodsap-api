@@ -1,27 +1,26 @@
 :root {
-    /* Fonts */
-    --title: "Raleway", sans-serif;
-    --body: "Nunito", sans-serif;
-  
-    /* Colors */
-    --majorblue: #5d4fe3;
-    --lavenderblush: #f5e6e8;
-    --thistle: #d5c6e0;
-    --raisinblack: #3a2e39;
-    --imperialred: #f15152;
-    --imperialredstrong: #931f1f;
-    --snowwhite: #fffafa;
-    --jetblack: #333;
-  
-    --off-raisinblack: rgba(58, 46, 57, 0.1);
-    --off-thistle: rgba(213, 198, 224, 0.1);
-  }
+  /* Fonts */
+  --title: "Raleway", sans-serif;
+  --body: "Nunito", sans-serif;
+
+  /* Colors */
+  --majorblue: #5d4fe3;
+  --lavenderblush: #f5e6e8;
+  --thistle: #d5c6e0;
+  --raisinblack: #3a2e39;
+  --imperialred: #f15152;
+  --imperialredstrong: #931f1f;
+  --snowwhite: #fffafa;
+  --jetblack: #333;
+
+  --off-raisinblack: rgba(58, 46, 57, 0.1);
+  --off-thistle: rgba(213, 198, 224, 0.1);
+}
 
 .Button {
   align-self: center;
   border-radius: 50px;
   border: none;
-  padding: 0.5em 1em;
 }
 
 .Primary {
@@ -30,18 +29,18 @@
 }
 
 .Primary:disabled {
-    background-color: var(--off-raisinblack);
-    color: var(--snowwhite);
+  background-color: var(--off-raisinblack);
+  color: var(--snowwhite);
 }
 
 .Primary:disabled:hover {
-    background-color: var(--off-raisinblack);
-    color: var(--snowwhite);
+  background-color: var(--off-raisinblack);
+  color: var(--snowwhite);
 }
 
 .Primary:hover {
-    background-color: var(--raisinblack);
-    color: var(--lavenderblush);
+  background-color: var(--raisinblack);
+  color: var(--lavenderblush);
 }
 
 .Secondary {
@@ -57,4 +56,42 @@
 .Danger:hover {
   background-color: var(--imperialredstrong);
   color: var(--snowwhite);
+}
+
+.Light {
+  background-color: var(--snowwhite);
+  color: var(--majorblue);
+  border: 1px solid var(--majorblue);
+}
+
+.Light:hover {
+  background-color: var(--off-thistle);
+  color: var(--raisinblack);
+}
+
+.Selected {
+  background-color: var(--thistle);
+  color: var(--raisinblack);
+  border: 1px solid transparent;
+}
+
+.Selected:hover {
+  background-color: var(--thistle);
+  color: var(--raisinblack);
+  opacity: 0.9;
+}
+
+.Small {
+  padding: 0.25em 0.5em;
+  font-size: 0.75rem;
+}
+
+.Medium {
+  padding: 0.5em 1em;
+  font-size: 1rem;
+}
+
+.Large {
+  padding: 0.75em 1.5em;
+  font-size: 1.25rem;
 }
