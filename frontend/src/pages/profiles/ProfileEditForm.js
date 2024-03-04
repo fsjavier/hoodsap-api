@@ -38,9 +38,9 @@ const ProfileEditForm = () => {
   const { id } = useParams();
   const [initialPosition, setInitialPosition] = useState(null);
   const [hasLoaded, setHasLoaded] = useState(false);
-  const locationTooltip = () => (
-    <Tooltip id="button-tooltip">
-      <p>Your location will be used to show you relevant content.</p>
+  const locationTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      <p>Your chosen location will be used to show you relevant content.</p>
       <p>In your profile we won't show your exact location.</p>
     </Tooltip>
   );
