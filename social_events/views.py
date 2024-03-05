@@ -31,6 +31,7 @@ class SocialEventList(generics.ListCreateAPIView):
     filterset_fields = [
         'event_category',
         'indoor_outdoor',
+        'owner__profile'
     ]
 
     def perform_create(self, serializer):
