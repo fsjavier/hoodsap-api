@@ -64,6 +64,7 @@ a:hover {
 }
 
 .Main {
+  max-width: 90vw;
   padding-top: 5rem;
 }
 
@@ -92,8 +93,14 @@ a:hover {
 }
 
 /* Media queries */
+@media screen and (min-width: 576px) {
+  .Main {
+    max-width: 85vw;
+  }
+}
+
 @media screen and (min-width: 1200px) {
   .Main {
-    max-width: 75vw;
+    max-width: 80vw;
   }
 }
