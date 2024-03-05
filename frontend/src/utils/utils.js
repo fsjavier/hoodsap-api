@@ -96,8 +96,8 @@ export const calculateRadiusStep = (radius) => {
 
 export const calculateMapZoom = (radius) => {
   if (radius < 1000) return 14;
-  if (radius < 5000) return 12;
-  if (radius < 10000) return 10;
+  if (radius < 5000) return 13;
+  if (radius < 10000) return 12;
   if (radius < 50000) return 8;
   return 5;
 };

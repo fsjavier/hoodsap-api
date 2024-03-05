@@ -11,6 +11,8 @@
 
 .Map {
   border-radius: 10px;
+  height: 350px;
+  width: 100%;
 }
 
 .Slider__Container {

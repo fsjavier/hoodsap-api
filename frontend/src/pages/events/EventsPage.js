@@ -13,7 +13,11 @@ import "rc-slider/assets/index.css";
 import styles from "../../styles/EventsPage.module.css";
 import "../../styles/Slider.css";
 import { axiosReq } from "../../api/axiosDefault";
-import { calculateRadiusStep, fetchMoreData } from "../../utils/utils";
+import {
+  calculateMapZoom,
+  calculateRadiusStep,
+  fetchMoreData,
+} from "../../utils/utils";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
 import Slider from "rc-slider";
@@ -34,6 +38,8 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   );
   const radius = useRadius();
   const setRadius = useSetRadius();
+  const [mapZoom, setMapZoom] = useState(5);
+  const [mapCenter, setMapCenter] = useState([null]);
   const [categoryFilter, setCategoryFilter] = useState("");
   const [indoorOutdoorFilter, setIndoorOutdoorFilter] = useState("");
 
@@ -95,6 +101,25 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
     longitude,
     radius,
   ]);
+
+  useEffect(() => {
+    const newMapCenter =
+      latitude && longitude
+        ? [latitude, longitude]
+        : futureEvents.results.length > 0
+        ? [
+            futureEvents.results[0].location_data.latitude,
+            futureEvents.results[0].location_data.longitude,
+          ]
+        : null;
+
+    setMapCenter(newMapCenter);
+    if (!latitude || !longitude) {
+      setMapZoom(4);
+    } else {
+      setMapZoom(calculateMapZoom(radius));
+    }
+  }, [latitude, longitude, futureEvents.results, radius]);
 
   return (
     <Row>
@@ -187,12 +212,8 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 <Col className="d-none d-md-block">
                   <div className={`${styles.Sticky} ${styles.Map__Container}`}>
                     <MapContainer
-                      center={[
-                        futureEvents.results[0].location_data.latitude,
-                        futureEvents.results[0].location_data.longitude,
-                      ]}
-                      zoom={13}
-                      style={{ height: "350px", width: "100%" }}
+                      center={mapCenter}
+                      zoom={mapZoom}
                       className={styles.Map}
                     >
                       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
