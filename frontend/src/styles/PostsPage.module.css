@@ -12,3 +12,12 @@
 .Map {
   border-radius: 10px;
 }
+
+
+.Slider__Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-block: 2em;
+}

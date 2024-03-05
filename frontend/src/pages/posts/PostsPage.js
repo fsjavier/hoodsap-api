@@ -9,13 +9,14 @@ import { useCurrentSearch } from "../../context/SearchContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 import appStyles from "../../App.module.css";
+import "rc-slider/assets/index.css";
 import styles from "../../styles/PostsPage.module.css";
+import "../../styles/Slider.css";
 import RecommendedProfiles from "../../components/RecommendedProfiles";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import PostListView from "../../components/PostListView";
 import { Form } from "react-bootstrap";
 import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
 import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
@@ -32,8 +33,8 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   const [longitude, setLongitude] = useState(
     currentUser?.profile_location_data?.longitude
   );
-  const radius = useRadius()
-  const setRadius = useSetRadius()
+  const radius = useRadius();
+  const setRadius = useSetRadius();
 
   useEffect(() => {
     setLatitude(currentUser?.profile_location_data?.latitude);
@@ -41,11 +42,13 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
 
     const fetchPosts = async () => {
       try {
-        let query = `/posts/?${filter}search=${searchQuery}`;
-        if (latitude && longitude && radius) {
-          query += `&latitude=${latitude}&longitude=${longitude}&radius=${radius}`;
-        }
-        console.log(query);
+        let queryBase = `/posts/?${filter}search=${searchQuery}`;
+        let location_query =
+          latitude && longitude && radius !== 500000
+            ? `&latitude=${latitude}&longitude=${longitude}&radius=${radius}`
+            : "";
+
+        let query = `${queryBase}${location_query}`;
         const { data } = await axiosReq.get(query);
 
         setPosts(data);
@@ -73,18 +76,24 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
           <Row>
             <Col>
               <Form onSubmit={(e) => e.preventDefault()}>
-                <Form.Group controlId="formRadius">
+                <Form.Group
+                  controlId="formRadius"
+                  className={styles.Slider__Container}
+                >
                   <Form.Label>Slide to select distance</Form.Label>
                   <Slider
                     min={0}
-                    max={1000000}
+                    max={500000}
                     step={radius < 1000 ? 100 : 500}
                     value={radius}
                     onChange={(value) => setRadius(value)}
                   />
                   <Form.Text className="text-muted">
-                    {radius < 1000 ? radius : radius / 1000}{" "}
-                    {radius < 1000 ? "meters" : "km"}
+                    {radius === 500000
+                      ? "All posts"
+                      : `${radius < 1000 ? radius : radius / 1000} ${
+                          radius < 1000 ? "meters" : "km"
+                        }`}
                   </Form.Text>
                 </Form.Group>
               </Form>
@@ -94,57 +103,74 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
 
         {hasLoaded ? (
           <>
-            <Row>
-              <Col>
-                <RecommendedProfiles />
-              </Col>
-            </Row>
             {posts.results.length ? (
-              <Row className="my-4">
-                <Col md={7}>
-                  <InfiniteScroll
-                    children={posts.results.map((post) => (
-                      <PostListView
-                        key={post.id}
-                        {...post}
-                        setPosts={setPosts}
-                        currentUser={currentUser}
-                      />
-                    ))}
-                    dataLength={posts.results.length}
-                    loader={<Asset spinner />}
-                    hasMore={!!posts.next}
-                    next={() => fetchMoreData(posts, setPosts)}
-                    className={appStyles.InfiniteScroll}
-                  />
-                </Col>
-                <Col className="d-none d-md-block">
-                  <div className={`${styles.Sticky} ${styles.Map__Container}`}>
-                    <MapContainer
-                      center={[
-                        posts.results[0].location_data.latitude,
-                        posts.results[0].location_data.longitude,
-                      ]}
-                      zoom={13}
-                      style={{ height: "350px", width: "100%" }}
-                      className={styles.Map}
-                    >
-                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                      {posts.results.map((post) => (
-                        <Marker
+              <>
+                <Row className="my-4">
+                  <Col>
+                    <h2>
+                      {radius === 500000
+                        ? "All posts"
+                        : `Posts ${radius < 1000 ? radius : radius / 1000} ${
+                            radius < 1000 ? "meters" : "km"
+                          } from your location`}
+                    </h2>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={7}>
+                    <InfiniteScroll
+                      children={posts.results.map((post) => (
+                        <PostListView
                           key={post.id}
-                          position={[
-                            post.location_data.latitude,
-                            post.location_data.longitude,
-                          ]}
-                        >
-                          <Popup>{post.title}</Popup>
-                        </Marker>
+                          {...post}
+                          setPosts={setPosts}
+                          currentUser={currentUser}
+                        />
                       ))}
-                    </MapContainer>
-                  </div>
-                </Col>
-              </Row>
+                      dataLength={posts.results.length}
+                      loader={<Asset spinner />}
+                      hasMore={!!posts.next}
+                      next={() => fetchMoreData(posts, setPosts)}
+                      className={appStyles.InfiniteScroll}
+                    />
+                  </Col>
+                  <Col md={5} className="d-none d-md-block">
+                    <Row className="mb-3">
+                      <Col>
+                        <RecommendedProfiles radius={radius} />
+                      </Col>
+                    </Row>
+                    <Row className={`${styles.Sticky}`}>
+                      <Col>
+                        <div className={`${styles.Map__Container}`}>
+                          <MapContainer
+                            center={[
+                              posts.results[0].location_data.latitude,
+                              posts.results[0].location_data.longitude,
+                            ]}
+                            zoom={13}
+                            style={{ height: "350px", width: "100%" }}
+                            className={styles.Map}
+                          >
+                            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                            {posts.results.map((post) => (
+                              <Marker
+                                key={post.id}
+                                position={[
+                                  post.location_data.latitude,
+                                  post.location_data.longitude,
+                                ]}
+                              >
+                                <Popup>{post.title}</Popup>
+                              </Marker>
+                            ))}
+                          </MapContainer>
+                        </div>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </>
             ) : (
               <Asset
                 src={noResultsSrc}
