@@ -17,6 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 import styles from "../styles/EventListView.module.css";
 import { capitalizeFirstLetter } from "../utils/utils";
+import { formatLocation } from "../utils/utils";
 
 const EventListView = (props) => {
   const {
@@ -36,7 +37,7 @@ const EventListView = (props) => {
     comments_count,
   } = props;
 
-  const { city, country } = location_data;
+  const formattedLocation = formatLocation(location_data);
 
   const eventSummary = (
     <ul className="d-flex flex-column">
@@ -46,7 +47,7 @@ const EventListView = (props) => {
       </li>
       <li>
         <MapPinIcon className={styles.Icon} />
-        {city && city}, {country.toUpperCase()}
+        {formattedLocation}
       </li>
       <li>
         <TagIcon className={styles.Icon} />
@@ -97,7 +98,7 @@ const EventListView = (props) => {
             <Col md={7}>
               <Link to={`/events/${id}`}>
                 {tags_data &&
-                  tags_data.map(tag => (
+                  tags_data.map((tag) => (
                     <Badge
                       key={tag.id}
                       pill

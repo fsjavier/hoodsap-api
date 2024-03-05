@@ -148,7 +148,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                       className={appStyles.InfiniteScroll}
                     />
                   </Col>
-                  <Col md={5} className="d-none d-md-block">
+                  <Col md={5} className="d-none d-md-block px-4">
                     <Row className="mb-3">
                       <Col>
                         <RecommendedProfiles radius={radius} />

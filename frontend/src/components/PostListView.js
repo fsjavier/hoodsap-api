@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
 import styles from "../styles/PostListView.module.css";
 import PostLikesAndComments from "./PostLikesAndComments";
+import { formatLocation } from "../utils/utils";
 
 const PostListView = (props) => {
   const {
@@ -24,33 +25,36 @@ const PostListView = (props) => {
     like_id,
     likes_count,
     comments_count,
+    updated_at,
     setPosts,
     currentUser,
   } = props;
 
-  const { city, country } = location_data;
+  const formattedLocation = formatLocation(location_data)
   const is_owner = currentUser?.username === owner;
 
   return (
     <>
       <Row className={styles.Post__Container}>
         <Col>
-          <Row>
-            <Col>
+          <Row className="pt-2">
+            <Col className="d-flex">
               <Media className="justify-content-between align-items-center">
                 <Link to={`/profile/${profile_id}`}>
                   <Avatar src={profile_image} height={50} />
                   {profile_name || owner}
                 </Link>
               </Media>
+              <div className="ml-auto align-self-end">{updated_at}</div>
             </Col>
           </Row>
 
           <Row>
-            <Col>
+            <Col className="d-flex">
               <Link to={`/posts/${id}`}>
                 {title && <h3 className="my-2">{title}</h3>}
               </Link>
+              <div className="ml-auto align-self-end">{formattedLocation}</div>
             </Col>
           </Row>
 
@@ -74,10 +78,10 @@ const PostListView = (props) => {
                   </div>
                 )}
               </Link>
-              <div>{content && content}</div>
+              <div className="mt-3">{content && content}</div>
             </Col>
           </Row>
-          <Row>
+          <Row className="pb-3">
             <Col className={styles.Comments}>
             <PostLikesAndComments
                     id={id}

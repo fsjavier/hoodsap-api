@@ -15,7 +15,7 @@ import styles from "../../styles/ProfilePage.module.css";
 import CustomButton from "../../components/CustomButton";
 import { useCurrentUser } from "../../context/CurrentUserContext";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { fetchMoreData } from "../../utils/utils";
+import { fetchMoreData, formatLocation } from "../../utils/utils";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import PostListView from "../../components/PostListView";
 import EventListView from "../../components/EventListView";
@@ -25,6 +25,9 @@ const ProfilePage = () => {
   const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
   const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
+  const formatted_location = profile?.location_data
+    ? formatLocation(profile.location_data)
+    : "No location set";
   const [profilePosts, setProfilePosts] = useState({ results: [] });
   const [profileEvents, setProfileEvents] = useState({ results: [] });
   const [displayProfileContent, setDisplayProfileContent] = useState("Posts");
@@ -54,7 +57,7 @@ const ProfilePage = () => {
           className="px-5 my-4"
         />
       ) : (
-        <p>{profile?.display_name} hasn't posted yet</p>
+        <p className="my-4">{profile?.display_name} hasn't posted yet</p>
       )}
     </>
   );
@@ -77,7 +80,7 @@ const ProfilePage = () => {
           className="px-5 my-4"
         />
       ) : (
-        <p>{profile?.display_name} hasn't created events yet</p>
+        <p className="my-4">{profile?.display_name} hasn't created events yet</p>
       )}
     </>
   );
@@ -199,10 +202,7 @@ const ProfilePage = () => {
               <h2>About {profile.display_name}</h2>
               <p>
                 <MapPinIcon className={appStyles.Icon} />
-                Based in{" "}
-                {profile.location_data?.city &&
-                  profile.location_data?.city},{" "}
-                {profile.location_data?.country.toUpperCase()}
+                {formatted_location}
               </p>
               {profile.bio && profile.bio}
               <div className="my-5">

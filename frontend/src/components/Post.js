@@ -14,6 +14,7 @@ import styles from "../styles/Post.module.css";
 import { MoreDropdown } from "./MoreDropDown";
 import ConfirmationModal from "../components/ConfirmationModal";
 import PostLikesAndComments from "./PostLikesAndComments";
+import { formatLocation } from "../utils/utils";
 
 const Post = (props) => {
   const {
@@ -36,7 +37,8 @@ const Post = (props) => {
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
-  const { latitude, longitude, city, country } = location_data;
+  const { latitude, longitude } = location_data;
+  const formattedLocation = formatLocation(location_data)
   const history = useHistory();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -121,7 +123,7 @@ const Post = (props) => {
             </Col>
             <Col md={5} className="d-flex flex-column">
               <div className="text-center mb-2">
-                {city && city}, {country.toUpperCase()}
+                {formattedLocation}
               </div>
               <div className={styles.Map__Container}>
                 <MapContainer

@@ -21,7 +21,7 @@ import {
   UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import styles from "../styles/Event.module.css";
-import { capitalizeFirstLetter } from "../utils/utils";
+import { formatLocation } from "../utils/utils";
 
 const Event = (props) => {
   const {
@@ -44,7 +44,8 @@ const Event = (props) => {
 
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
-  const { latitude, longitude, city, country } = location_data;
+  const { latitude, longitude } = location_data;
+  const formattedLocation = formatLocation(location_data)
   const history = useHistory();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -56,7 +57,7 @@ const Event = (props) => {
       </li>
       <li>
         <MapPinIcon className={styles.Icon} />
-        {city && city}, {country.toUpperCase()}
+        {formattedLocation}
       </li>
       <li>
         <TagIcon className={styles.Icon} />
