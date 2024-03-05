@@ -13,7 +13,7 @@ import "rc-slider/assets/index.css";
 import styles from "../../styles/EventsPage.module.css";
 import "../../styles/Slider.css";
 import { axiosReq } from "../../api/axiosDefault";
-import { fetchMoreData } from "../../utils/utils";
+import { calculateRadiusStep, fetchMoreData } from "../../utils/utils";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
 import Slider from "rc-slider";
@@ -56,7 +56,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
       try {
         let queryBase = `/events/?${filter}search=${searchQuery}`;
         let locationQuery =
-          latitude && longitude && radius !== 500000
+          latitude && longitude && radius !== 200000
             ? `&latitude=${latitude}&longitude=${longitude}&radius=${radius}`
             : "";
         let categoryFilterQuery =
@@ -110,13 +110,13 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                   <Form.Label>Slide to select distance</Form.Label>
                   <Slider
                     min={0}
-                    max={500000}
-                    step={radius < 1000 ? 100 : 500}
+                    max={200000}
+                    step={calculateRadiusStep(radius)}
                     value={radius}
                     onChange={(value) => setRadius(value)}
                   />
                   <Form.Text className="text-muted">
-                    {radius === 500000
+                    {radius === 200000
                       ? "All events"
                       : `${radius < 1000 ? radius : radius / 1000} ${
                           radius < 1000 ? "meters" : "km"

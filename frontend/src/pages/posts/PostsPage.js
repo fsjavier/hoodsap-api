@@ -19,6 +19,7 @@ import { Form } from "react-bootstrap";
 import Slider from "rc-slider";
 import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
 import { useProfileData } from "../../context/ProfileDataContext";
+import { calculateRadiusStep } from "../../utils/utils";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -47,7 +48,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
       try {
         let queryBase = `/posts/?${filter}search=${searchQuery}`;
         let locationQuery =
-          latitude && longitude && radius !== 500000
+          latitude && longitude && radius !== 200000
             ? `&latitude=${latitude}&longitude=${longitude}&radius=${radius}`
             : "";
 
@@ -95,13 +96,13 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                   <Form.Label>Slide to select distance</Form.Label>
                   <Slider
                     min={0}
-                    max={500000}
-                    step={radius < 1000 ? 100 : 500}
+                    max={200000}
+                    step={calculateRadiusStep(radius)}
                     value={radius}
                     onChange={(value) => setRadius(value)}
                   />
                   <Form.Text className="text-muted">
-                    {radius === 500000
+                    {radius === 200000
                       ? "All posts"
                       : `${radius < 1000 ? radius : radius / 1000} ${
                           radius < 1000 ? "meters" : "km"
@@ -121,7 +122,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                   <Row className="mt-4">
                     <Col>
                       <h2>
-                        {radius === 500000
+                        {radius === 200000
                           ? "All posts"
                           : `Posts ${radius < 1000 ? radius : radius / 1000} ${
                               radius < 1000 ? "meters" : "km"

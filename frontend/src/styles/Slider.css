@@ -1,11 +1,11 @@
 .rc-slider {
   margin: 0 auto;
-  width: 60%; 
+  width: 80%;
 }
 
 .rc-slider-rail {
-  background-color: var(--off-thistle); 
-  height: 8px; 
+  background-color: var(--off-thistle);
+  height: 8px;
 }
 
 .rc-slider-track {
@@ -37,4 +37,11 @@
 
 .rc-slider-handle:focus-visble {
   box-shadow: 0 0 0 3px var(--off-thistle);
+}
+
+@media screen and (min-width: 576px) {
+  .rc-slider {
+    margin: 0 auto;
+    width: 60%;
+  }
 }

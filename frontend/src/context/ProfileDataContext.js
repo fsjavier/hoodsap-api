@@ -83,7 +83,7 @@ export const ProfileDataProvider = ({ children }) => {
       try {
         let queryBase = "/profiles/";
         let location_query =
-          latitude && longitude && radius !== 500000
+          latitude && longitude && radius !== 200000
             ? `?latitude=${latitude}&longitude=${longitude}&radius=${radius}`
             : "";
 

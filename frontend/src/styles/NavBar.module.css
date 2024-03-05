@@ -8,7 +8,8 @@
 }
 
 .NavLink:active {
-  background-color: var(--off-raisinblack);
+  background-color: var(--snowwhite);
+  color: var(--majorblue);
 }
 
 .Active {
