@@ -45,9 +45,11 @@ const AddProfileLocation = () => {
   const createLocation = async (location) => {
     try {
       const locationData = {
-        latitude: location.lat,
-        longitude: location.lng,
+        latitude: location.location.lat,
+        longitude: location.location.lng,
       };
+      console.log(location)
+      console.log(locationData)
       const response = await axiosReq.post("/locations/", locationData);
       return response.data;
     } catch (error) {
@@ -66,7 +68,7 @@ const AddProfileLocation = () => {
       }
 
       await axiosReq.put(`/profiles/${profile_id}/`, formData);
-      history.goBack();
+      history.push("/");
     } catch (error) {
       setErrors(error.response.data);
     }
@@ -109,13 +111,6 @@ const AddProfileLocation = () => {
 
           <Row className={styles.Buttons__Container}>
             <Col className="my-3">
-              <CustomButton
-                type="button"
-                variant="Secondary"
-                onClick={() => history.goBack()}
-              >
-                Cancel
-              </CustomButton>
               <CustomButton variant="Primary" type="submit">
                 Save location
               </CustomButton>
