@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useCurrentUser } from "./CurrentUserContext";
 import { axiosReq, axiosRes } from "../api/axiosDefault";
 import { followHelper, unfollowHelper } from "../utils/utils";
+import { useRadius } from "./RadiusFilterContext";
 
 const ProfileDataContext = createContext();
 const SetProfileDataContext = createContext();
@@ -16,6 +17,13 @@ export const ProfileDataProvider = ({ children }) => {
   });
 
   const currentUser = useCurrentUser();
+  const [latitude, setLatitude] = useState(
+    currentUser?.profile_location_data?.latitude
+  );
+  const [longitude, setLongitude] = useState(
+    currentUser?.profile_location_data?.longitude
+  );
+  const radius = useRadius();
 
   const handleFollow = async (clickedProfile) => {
     try {
@@ -68,11 +76,17 @@ export const ProfileDataProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    setLatitude(currentUser?.profile_location_data?.latitude);
+    setLongitude(currentUser?.profile_location_data?.longitude);
+
     const fetchProfiles = async () => {
       try {
-        const { data } = await axiosReq.get(
-          "/profiles/?ordering=-followers_count"
-        );
+        let query = "/profiles/";
+        if (latitude && longitude && radius) {
+          query += `?latitude=${latitude}&longitude=${longitude}&radius=${radius}`;
+        }
+        const { data } = await axiosReq.get(query);
+
         setProfileData((prevProfileData) => ({
           ...prevProfileData,
           recommendedProfiles: data,
@@ -82,8 +96,16 @@ export const ProfileDataProvider = ({ children }) => {
       }
     };
 
-    fetchProfiles();
-  }, [currentUser]);
+    const timer = setTimeout(() => {
+      // Wait to fetch profiles to avoid fetching them before filters are set
+      fetchProfiles();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+    // fetchProfiles();
+  }, [currentUser, latitude, longitude, radius]);
 
   return (
     <ProfileDataContext.Provider value={profileData}>

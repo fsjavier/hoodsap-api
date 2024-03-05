@@ -7,16 +7,19 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { CurrentUserProvider } from "./context/CurrentUserContext";
 import { CurrentSearchProvider } from "./context/SearchContext";
 import { ProfileDataProvider } from "./context/ProfileDataContext";
+import { RadiusProvider } from "./context/RadiusFilterContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <CurrentUserProvider>
-        <ProfileDataProvider>
-          <CurrentSearchProvider>
-            <App />
-          </CurrentSearchProvider>
-        </ProfileDataProvider>
+        <RadiusProvider>
+          <ProfileDataProvider>
+            <CurrentSearchProvider>
+              <App />
+            </CurrentSearchProvider>
+          </ProfileDataProvider>
+        </RadiusProvider>
       </CurrentUserProvider>
     </Router>
   </React.StrictMode>,
