@@ -81,10 +81,14 @@ export const ProfileDataProvider = ({ children }) => {
 
     const fetchProfiles = async () => {
       try {
-        let query = "/profiles/";
-        if (latitude && longitude && radius) {
-          query += `?latitude=${latitude}&longitude=${longitude}&radius=${radius}`;
-        }
+        let queryBase = "/profiles/";
+        let location_query =
+          latitude && longitude && radius !== 500000
+            ? `?latitude=${latitude}&longitude=${longitude}&radius=${radius}`
+            : "";
+
+        let query = `${queryBase}${location_query}`;
+        console.log(query)
         const { data } = await axiosReq.get(query);
 
         setProfileData((prevProfileData) => ({
@@ -104,7 +108,6 @@ export const ProfileDataProvider = ({ children }) => {
     return () => {
       clearTimeout(timer);
     };
-    // fetchProfiles();
   }, [currentUser, latitude, longitude, radius]);
 
   return (

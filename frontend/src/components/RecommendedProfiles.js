@@ -8,7 +8,7 @@ import Profile from "./Profile";
 import { useProfileData } from "../context/ProfileDataContext";
 import { useCurrentUser } from "../context/CurrentUserContext";
 
-const RecommendedProfiles = () => {
+const RecommendedProfiles = ({ radius }) => {
   const currentUser = useCurrentUser();
   const { recommendedProfiles } = useProfileData();
 
@@ -27,15 +27,21 @@ const RecommendedProfiles = () => {
         1 /* The user's profile will be returned but not displayed */ && (
         <>
           <Row>
-            <Col xs={12} md={7} className="mt-2">
-              <p className={styles.RecommendedProfiles}>Recommended profiles</p>
+            <Col className="mt-2">
+              <p className={styles.RecommendedProfiles}>
+                {" "}
+                {radius === 500000
+                  ? "All profiles"
+                  : `Profiles ${radius < 1000 ? radius : radius / 1000} ${
+                      radius < 1000 ? "meters" : "km"
+                    } from your location`}
+              </p>
             </Col>
           </Row>
 
           <Row>
             <Col
-              xs={12}
-              md={7}
+
               className="d-flex align-items-center justify-content-between"
             >
               <div>
