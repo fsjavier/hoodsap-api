@@ -19,7 +19,7 @@ import { Form } from "react-bootstrap";
 import Slider from "rc-slider";
 import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
 import { useProfileData } from "../../context/ProfileDataContext";
-import { calculateRadiusStep } from "../../utils/utils";
+import { calculateRadiusStep, calculateMapZoom } from "../../utils/utils";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -39,6 +39,8 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   const setRadius = useSetRadius();
   const profileData = useProfileData();
   const isFeedPage = pathname === "/feed";
+  const [mapZoom, setMapZoom] = useState(5);
+  const [mapCenter, setMapCenter] = useState([null]);
 
   useEffect(() => {
     setLatitude(currentUser?.profile_location_data?.latitude);
@@ -81,6 +83,25 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     radius,
     isFeedPage ? profileData : null,
   ]);
+
+  useEffect(() => {
+    const newMapCenter =
+      latitude && longitude
+        ? [latitude, longitude]
+        : posts.results.length > 0
+        ? [
+            posts.results[0].location_data.latitude,
+            posts.results[0].location_data.longitude,
+          ]
+        : null;
+
+    setMapCenter(newMapCenter);
+    if (!latitude || !longitude) {
+      setMapZoom(4);
+    } else {
+      setMapZoom(calculateMapZoom(radius));
+    }
+  }, [latitude, longitude, posts.results, radius]);
 
   return (
     <Row>
@@ -159,12 +180,8 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                       <Col>
                         <div className={`${styles.Map__Container}`}>
                           <MapContainer
-                            center={[
-                              posts.results[0].location_data.latitude,
-                              posts.results[0].location_data.longitude,
-                            ]}
-                            zoom={13}
-                            style={{ height: "350px", width: "100%" }}
+                            center={mapCenter}
+                            zoom={mapZoom}
                             className={styles.Map}
                           >
                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
