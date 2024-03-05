@@ -56,10 +56,7 @@ const LocationPicker = ({ initialPosition, handleLocationChange }) => {
         zoom={3}
         style={{ height: "300px", width: "100%" }}
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <LocationMarker
           setPosition={setPosition}
           position={position}
