@@ -43,12 +43,12 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     const fetchPosts = async () => {
       try {
         let queryBase = `/posts/?${filter}search=${searchQuery}`;
-        let location_query =
+        let locationQuery =
           latitude && longitude && radius !== 500000
             ? `&latitude=${latitude}&longitude=${longitude}&radius=${radius}`
             : "";
 
-        let query = `${queryBase}${location_query}`;
+        let query = `${queryBase}${locationQuery}`;
         const { data } = await axiosReq.get(query);
 
         setPosts(data);
