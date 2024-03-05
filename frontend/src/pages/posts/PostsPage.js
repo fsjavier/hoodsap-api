@@ -37,7 +37,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   const radius = useRadius();
   const setRadius = useSetRadius();
   const profileData = useProfileData();
-  const isFeedPage = pathname === "/feed"
+  const isFeedPage = pathname === "/feed";
 
   useEffect(() => {
     setLatitude(currentUser?.profile_location_data?.latitude);
@@ -117,18 +117,20 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
           <>
             {posts.results.length ? (
               <>
-                <Row className="my-4">
-                  <Col>
-                    <h2>
-                      {radius === 500000
-                        ? "All posts"
-                        : `Posts ${radius < 1000 ? radius : radius / 1000} ${
-                            radius < 1000 ? "meters" : "km"
-                          } from your location`}
-                    </h2>
-                  </Col>
-                </Row>
-                <Row>
+                {latitude && longitude && (
+                  <Row className="mt-4">
+                    <Col>
+                      <h2>
+                        {radius === 500000
+                          ? "All posts"
+                          : `Posts ${radius < 1000 ? radius : radius / 1000} ${
+                              radius < 1000 ? "meters" : "km"
+                            } from your location`}
+                      </h2>
+                    </Col>
+                  </Row>
+                )}
+                <Row className="mt-4">
                   <Col md={7}>
                     <InfiniteScroll
                       children={posts.results.map((post) => (

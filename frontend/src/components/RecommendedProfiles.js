@@ -26,24 +26,23 @@ const RecommendedProfiles = ({ radius }) => {
       {recommendedProfiles?.results?.length >
         1 /* The user's profile will be returned but not displayed */ && (
         <>
-          <Row>
-            <Col className="mt-2">
-              <p className={styles.RecommendedProfiles}>
-                {" "}
-                {radius === 500000
-                  ? "All profiles"
-                  : `Profiles ${radius < 1000 ? radius : radius / 1000} ${
-                      radius < 1000 ? "meters" : "km"
-                    } from your location`}
-              </p>
-            </Col>
-          </Row>
+          {currentUser && (
+            <Row>
+              <Col className="mt-2">
+                <p className={styles.RecommendedProfiles}>
+                  {" "}
+                  {radius === 500000
+                    ? "All profiles"
+                    : `Profiles ${radius < 1000 ? radius : radius / 1000} ${
+                        radius < 1000 ? "meters" : "km"
+                      } from your location`}
+                </p>
+              </Col>
+            </Row>
+          )}
 
-          <Row>
-            <Col
-
-              className="d-flex align-items-center justify-content-between"
-            >
+          <Row className="mt-2">
+            <Col className="d-flex align-items-center justify-content-between">
               <div>
                 <ChevronLeftIcon
                   className={styles.Chevron}
