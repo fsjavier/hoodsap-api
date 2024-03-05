@@ -16,9 +16,6 @@ class SocialEventList(generics.ListCreateAPIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly
     ]
-    # queryset = SocialEvent.objects.annotate(
-    #    comments_count=Count('socialeventcomment', distinct=True) 
-    # )
 
     filter_backends = [
         filters.OrderingFilter,
