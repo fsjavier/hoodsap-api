@@ -9,10 +9,14 @@ import Asset from "../../components/Asset";
 import EventListView from "../../components/EventListView";
 import InfiniteScroll from "react-infinite-scroll-component";
 import appStyles from "../../App.module.css";
+import "rc-slider/assets/index.css";
 import styles from "../../styles/EventsPage.module.css";
+import "../../styles/Slider.css";
 import { axiosReq } from "../../api/axiosDefault";
 import { fetchMoreData } from "../../utils/utils";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
+import Slider from "rc-slider";
 
 const EventsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -22,6 +26,14 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   const { pathname } = useLocation();
   const currentUser = useCurrentUser();
   const searchQuery = useCurrentSearch();
+  const [latitude, setLatitude] = useState(
+    currentUser?.profile_location_data?.latitude
+  );
+  const [longitude, setLongitude] = useState(
+    currentUser?.profile_location_data?.longitude
+  );
+  const radius = useRadius();
+  const setRadius = useSetRadius();
   const [categoryFilter, setCategoryFilter] = useState("");
   const [indoorOutdoorFilter, setIndoorOutdoorFilter] = useState("");
 
@@ -37,15 +49,23 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   };
 
   useEffect(() => {
+    setLatitude(currentUser?.profile_location_data?.latitude);
+    setLongitude(currentUser?.profile_location_data?.longitude);
+
     const fetchEvents = async () => {
       try {
-        let query = `/events/?${filter}search=${searchQuery}`;
-        if (categoryFilter) {
-          query += `&event_category=${categoryFilter}`;
-        }
-        if (indoorOutdoorFilter) {
-          query += `&indoor_outdoor=${indoorOutdoorFilter}`;
-        }
+        let queryBase = `/events/?${filter}search=${searchQuery}`;
+        let locationQuery =
+          latitude && longitude && radius !== 500000
+            ? `&latitude=${latitude}&longitude=${longitude}&radius=${radius}`
+            : "";
+        let categoryFilterQuery =
+          categoryFilter && `&event_category=${categoryFilter}`;
+
+        let indoorOutdoorFilterQuery =
+          indoorOutdoorFilter && `&indoor_outdoor=${indoorOutdoorFilter}`;
+
+        let query = `${queryBase}${locationQuery}${categoryFilterQuery}${indoorOutdoorFilterQuery}`;
         const { data } = await axiosReq.get(query);
 
         filterSortFutureEvents(data);
@@ -71,56 +91,87 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
     searchQuery,
     categoryFilter,
     indoorOutdoorFilter,
+    latitude,
+    longitude,
+    radius,
   ]);
 
   return (
-    <>
-      {hasLoaded ? (
+    <Row>
+      <Col>
+        {latitude && longitude && (
+          <Row>
+            <Col>
+              <Form onSubmit={(e) => e.preventDefault()}>
+                <Form.Group
+                  controlId="formRadius"
+                  className={styles.Slider__Container}
+                >
+                  <Form.Label>Slide to select distance</Form.Label>
+                  <Slider
+                    min={0}
+                    max={500000}
+                    step={radius < 1000 ? 100 : 500}
+                    value={radius}
+                    onChange={(value) => setRadius(value)}
+                  />
+                  <Form.Text className="text-muted">
+                    {radius === 500000
+                      ? "All events"
+                      : `${radius < 1000 ? radius : radius / 1000} ${
+                          radius < 1000 ? "meters" : "km"
+                        }`}
+                  </Form.Text>
+                </Form.Group>
+              </Form>
+            </Col>
+          </Row>
+        )}
+
         <Row>
           <Col>
-            <Row>
-              <Col>
-                <Form>
-                  <Form.Row>
-                    <Form.Group as={Col}>
-                      <Form.Label className="d-none">Category:</Form.Label>
-                      <Form.Control
-                        as="select"
-                        value={categoryFilter}
-                        onChange={(e) => setCategoryFilter(e.target.value)}
-                      >
-                        <option value="">Any category</option>
-                        <option value="games">Games</option>
-                        <option value="movies">Movies</option>
-                        <option value="street_art">Street Art</option>
-                        <option value="sport">Sport</option>
-                        <option value="languages">Languages</option>
-                        <option value="other">Other</option>
-                      </Form.Control>
-                    </Form.Group>
+            <Form>
+              <Form.Row>
+                <Form.Group as={Col}>
+                  <Form.Label className="d-none">Category:</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={categoryFilter}
+                    onChange={(e) => setCategoryFilter(e.target.value)}
+                  >
+                    <option value="">Any category</option>
+                    <option value="games">Games</option>
+                    <option value="movies">Movies</option>
+                    <option value="street_art">Street Art</option>
+                    <option value="sport">Sport</option>
+                    <option value="languages">Languages</option>
+                    <option value="other">Other</option>
+                  </Form.Control>
+                </Form.Group>
 
-                    <Form.Group as={Col}>
-                      <Form.Label className="d-none">
-                        Indoor/Outdoor:
-                      </Form.Label>
-                      <Form.Control
-                        as="select"
-                        value={indoorOutdoorFilter}
-                        onChange={(e) => {
-                          setIndoorOutdoorFilter(e.target.value);
-                        }}
-                      >
-                        <option value="">Indoor/Outdoor</option>
-                        <option value="indoor">Indoor</option>
-                        <option value="outdoor">Outdoor</option>
-                      </Form.Control>
-                    </Form.Group>
-                  </Form.Row>
-                </Form>
-              </Col>
-            </Row>
+                <Form.Group as={Col}>
+                  <Form.Label className="d-none">Indoor/Outdoor:</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={indoorOutdoorFilter}
+                    onChange={(e) => {
+                      setIndoorOutdoorFilter(e.target.value);
+                    }}
+                  >
+                    <option value="">Indoor/Outdoor</option>
+                    <option value="indoor">Indoor</option>
+                    <option value="outdoor">Outdoor</option>
+                  </Form.Control>
+                </Form.Group>
+              </Form.Row>
+            </Form>
+          </Col>
+        </Row>
+
+        {hasLoaded ? (
+          <>
             {futureEvents.results?.length ? (
-              <Row>
+              <Row className="my-4">
                 <Col md={7}>
                   <InfiniteScroll
                     children={futureEvents.results.map((futureEvent) => (
@@ -161,7 +212,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 </Col>
               </Row>
             ) : (
-              <Row>
+              <Row className="my-4">
                 <Col>
                   <Asset
                     src={noResultsSrc}
@@ -172,12 +223,16 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
                 </Col>
               </Row>
             )}
-          </Col>
-        </Row>
-      ) : (
-        <Asset spinner />
-      )}
-    </>
+          </>
+        ) : (
+          <Row className="my-4">
+            <Col>
+              <Asset spinner />
+            </Col>
+          </Row>
+        )}
+      </Col>
+    </Row>
   );
 };
 
