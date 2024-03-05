@@ -7,6 +7,10 @@
   padding-inline-end: 1em;
 }
 
+.NavLink:active {
+  background-color: var(--off-raisinblack);
+}
+
 .Active {
   color: var(--majorblue);
 }

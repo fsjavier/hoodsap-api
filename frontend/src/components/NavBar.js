@@ -88,6 +88,7 @@ function NavBar() {
           as={NavLink}
           to="/posts/create"
           className={styles.NavLink}
+          activeClassName={styles.Active}
         >
           <PlusIcon className={appStyles.Icon} /> Add post
         </NavDropdown.Item>
@@ -95,17 +96,23 @@ function NavBar() {
           as={NavLink}
           to="/events/create"
           className={styles.NavLink}
+          activeClassName={styles.Active}
         >
           <UserGroupIcon className={appStyles.Icon} /> Add event
         </NavDropdown.Item>
         <NavDropdown.Item
           as={NavLink}
           to={`/profile/${currentUser?.profile_id}`}
+          activeClassName={styles.Active}
+          className={styles.NavLink}
         >
           <UserCircleIcon className={appStyles.Icon} /> Profile
         </NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item onClick={handleSignout}>
+        <NavDropdown.Item
+          onClick={handleSignout}
+          className={styles.NavLink}
+        >
           <ArrowRightStartOnRectangleIcon className={appStyles.Icon} />
           Sign out
         </NavDropdown.Item>
@@ -134,10 +141,7 @@ function NavBar() {
   );
 
   return (
-    <Navbar
-      fixed="top"
-      className={styles.NavBar}
-    >
+    <Navbar fixed="top" className={styles.NavBar}>
       <Container fluid>
         <NavLink to="/">
           <img src={logo} height={45} alt="logo" />
