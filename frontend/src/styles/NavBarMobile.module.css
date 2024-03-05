@@ -1,0 +1,19 @@
+.NavBarMobile {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  background-color: var(--snowwhite);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+}
+
+.Active {
+  color: var(--majorblue);
+}
+
+@media screen and (min-width: 576px) {
+  .NavBarMobile {
+    display: none;
+  }
+}

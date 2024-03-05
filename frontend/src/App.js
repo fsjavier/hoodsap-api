@@ -19,6 +19,7 @@ import EventEditForm from "./pages/events/EventEditForm";
 import AddProfileLocation from "./components/AddProfileLocation";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
+import NavBarMobile from "./components/NavBarMobile";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -96,6 +97,7 @@ function App() {
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
       </Container>
+      <NavBarMobile/>
     </div>
   );
 }
