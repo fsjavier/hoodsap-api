@@ -18,6 +18,7 @@ import PostListView from "../../components/PostListView";
 import { Form } from "react-bootstrap";
 import Slider from "rc-slider";
 import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
+import { useProfileData } from "../../context/ProfileDataContext";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -35,6 +36,8 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   );
   const radius = useRadius();
   const setRadius = useSetRadius();
+  const profileData = useProfileData();
+  const isFeedPage = pathname === "/feed"
 
   useEffect(() => {
     setLatitude(currentUser?.profile_location_data?.latitude);
@@ -67,7 +70,16 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     return () => {
       clearTimeout(timer);
     };
-  }, [filter, pathname, currentUser, searchQuery, latitude, longitude, radius]);
+  }, [
+    filter,
+    pathname,
+    currentUser,
+    searchQuery,
+    latitude,
+    longitude,
+    radius,
+    isFeedPage ? profileData : null,
+  ]);
 
   return (
     <Row>
