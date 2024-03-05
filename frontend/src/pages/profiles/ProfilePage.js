@@ -40,7 +40,12 @@ const ProfilePage = () => {
       {profilePosts.results.length ? (
         <InfiniteScroll
           children={profilePosts.results.map((post) => (
-            <PostListView key={post.id} {...post} setPosts={setProfilePosts} />
+            <PostListView
+              key={post.id}
+              {...post}
+              setPosts={setProfilePosts}
+              currentUser={currentUser}
+            />
           ))}
           dataLength={profilePosts.results.length}
           loader={<Asset spinner />}
