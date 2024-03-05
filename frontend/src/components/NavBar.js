@@ -27,15 +27,12 @@ import {
   useSetCurrentUser,
 } from "../context/CurrentUserContext";
 import axios from "axios";
-import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
 import { useSetCurrentSearch } from "../context/SearchContext";
 import { removeTokenTimestamp } from "../utils/utils";
 
 function NavBar() {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
-
-  const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
   const setSearchQuery = useSetCurrentSearch();
   const { pathname } = useLocation();
@@ -57,40 +54,35 @@ function NavBar() {
       <NavLink
         exact
         to="/"
-        className={styles.NavLink}
+        className={`${styles.NavLink} ${styles.HideLinkMobile}`}
         activeClassName={styles.Active}
       >
         <HomeIcon className={appStyles.Icon} />
-        Home
+        <span className={styles.HideTextMobile}>Home</span>
       </NavLink>
       <NavLink
         exact
         to="/events"
-        className={styles.NavLink}
+        className={`${styles.NavLink} ${styles.HideLinkMobile}`}
         activeClassName={styles.Active}
       >
         <TicketIcon className={appStyles.Icon} />
-        Events
+        <span className={styles.HideTextMobile}>Events</span>
       </NavLink>
       <NavLink
         exact
         to="/feed"
-        className={styles.NavLink}
+        className={`${styles.NavLink} ${styles.HideLinkMobile}`}
         activeClassName={styles.Active}
       >
         <Bars3CenterLeftIcon className={appStyles.Icon} />
-        Feed
+        <span className={styles.HideTextMobile}>Feed</span>
       </NavLink>
 
       <NavDropdown
-        title={
-          <Avatar
-            src={currentUser?.profile_image}
-            height={40}
-            text={`Hi ${currentUser?.username}`}
-          />
-        }
-        id="basic-nav-dropdown"
+        title={<Avatar src={currentUser?.profile_image} height={40} />}
+        alignRight
+        id="dropdown-menu-align-right"
       >
         <NavDropdown.Item
           as={NavLink}
@@ -124,7 +116,7 @@ function NavBar() {
     <>
       <NavLink
         to="/signup"
-        className={styles.NavLink}
+        className={`${styles.NavLink} ${styles.HideLinkMobile}`}
         activeClassName={styles.Active}
       >
         <UserPlusIcon className={appStyles.Icon} />
@@ -132,7 +124,7 @@ function NavBar() {
       </NavLink>
       <NavLink
         to="/signin"
-        className={styles.NavLink}
+        className={`${styles.NavLink} ${styles.HideLinkMobile}`}
         activeClassName={styles.Active}
       >
         <KeyIcon className={appStyles.Icon} />
@@ -143,8 +135,6 @@ function NavBar() {
 
   return (
     <Navbar
-      expanded={expanded}
-      expand="md"
       fixed="top"
       className={styles.NavBar}
     >
@@ -154,33 +144,28 @@ function NavBar() {
         </NavLink>
 
         {showSearchBar && (
-          <Form
-            inline
-            className={`${styles.SearchBar} mx-auto`}
-            onSubmit={(event) => event.preventDefault()}
-          >
-            <MagnifyingGlassIcon className={styles.SearchIcon} />
-            <FormControl
-              type="text"
-              placeholder="Search"
-              onChange={(event) => {
-                setSearchQuery(event.target.value);
-              }}
-              className="mr-sm-2"
-            />
-          </Form>
+          <div className={styles.SearchBar__Container}>
+            <Form
+              inline
+              className={`${styles.SearchBar}`}
+              onSubmit={(event) => event.preventDefault()}
+            >
+              <MagnifyingGlassIcon className={styles.SearchIcon} />
+              <FormControl
+                type="text"
+                placeholder="Search"
+                onChange={(event) => {
+                  setSearchQuery(event.target.value);
+                }}
+                className="mr-sm-2"
+              />
+            </Form>
+          </div>
         )}
 
-        <Navbar.Toggle
-          ref={ref}
-          onClick={() => setExpanded(!expanded)}
-          aria-controls="basic-navbar-nav"
-        />
-        <Navbar.Collapse id="basic-navbar-nav" className="flex-grow-0">
-          <Nav className="ml-auto align-items-center">
-            {currentUser ? loggedInIcons : loggedOutIcons}
-          </Nav>
-        </Navbar.Collapse>
+        <Nav className="ml-auto align-items-center flex-row">
+          {currentUser ? loggedInIcons : loggedOutIcons}
+        </Nav>
       </Container>
     </Navbar>
   );

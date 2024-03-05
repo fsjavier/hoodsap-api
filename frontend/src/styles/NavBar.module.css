@@ -1,18 +1,31 @@
 .NavBar {
-  background-color: var(--snowwhite)
+  background-color: var(--snowwhite);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .NavLink {
-    padding-inline-end: 1em;
+  padding-inline-end: 1em;
 }
 
 .Active {
   color: var(--majorblue);
 }
 
+.SearchBar__Container {
+  display: flex;
+  margin: 0.5em;
+  flex: 1;
+  justify-content: center;
+}
+
+.SearchBar {
+  width: 90%;
+}
+
 .SearchBar input {
   border-radius: 20px;
   padding-left: 40px;
+  width: 100% !important;
 }
 
 .SearchIcon {
@@ -25,4 +38,29 @@
 .SearchIcon:hover {
   cursor: default;
   color: var(--majorblue);
+}
+
+/* Media queries */
+@media screen and (min-width: 576px) {
+  .SearchBar {
+    width: 75%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .SearchBar {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .HideLinkMobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .HideTextMobile {
+    display: none;
+  }
 }
