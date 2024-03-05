@@ -21,7 +21,7 @@ import {
   UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import styles from "../styles/Event.module.css";
-import { formatLocation } from "../utils/utils";
+import { capitalizeFirstLetter, formatLocation } from "../utils/utils";
 
 const Event = (props) => {
   const {
