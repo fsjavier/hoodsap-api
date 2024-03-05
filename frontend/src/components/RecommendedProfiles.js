@@ -31,7 +31,7 @@ const RecommendedProfiles = ({ radius }) => {
               <Col className="mt-2">
                 <p className={styles.RecommendedProfiles}>
                   {" "}
-                  {radius === 500000
+                  {radius === 200000
                     ? "All profiles"
                     : `Profiles ${radius < 1000 ? radius : radius / 1000} ${
                         radius < 1000 ? "meters" : "km"
