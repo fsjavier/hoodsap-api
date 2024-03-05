@@ -59,3 +59,29 @@ export const removeTokenTimestamp = () => {
 export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+export const formatLocation = (location) => {
+  const locationFields = [
+    "city",
+    "town",
+    "village",
+    "locality",
+    "suburb",
+    "city_district",
+    "postcode"
+  ];
+  let city;
+
+  for (let field of locationFields) {
+    if (location[field]) {
+      city = location[field];
+      break;
+    } else {
+      city = ""
+    }
+  }
+
+  const country = location.country.toUpperCase() || "";
+
+  return `${city}${city && country && ","} ${country}`
+};
