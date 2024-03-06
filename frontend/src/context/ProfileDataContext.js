@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useCurrentUser } from "./CurrentUserContext";
-import { axiosReq, axiosRes } from "../api/axiosDefault";
+import { axiosReq } from "../api/axiosDefault";
 import { followHelper, unfollowHelper } from "../utils/utils";
 import { useRadius } from "./RadiusFilterContext";
 
@@ -27,7 +27,7 @@ export const ProfileDataProvider = ({ children }) => {
 
   const handleFollow = async (clickedProfile) => {
     try {
-      const { data } = await axiosRes.post("/followers/", {
+      const { data } = await axiosReq.post("/followers/", {
         followed: clickedProfile.id,
       });
 
@@ -54,7 +54,7 @@ export const ProfileDataProvider = ({ children }) => {
 
   const handleUnfollow = async (clickedProfile) => {
     try {
-      await axiosRes.delete(`/followers/${clickedProfile.following_id}/`);
+      await axiosReq.delete(`/followers/${clickedProfile.following_id}/`);
 
       setProfileData((prevProfileData) => ({
         ...prevProfileData,
