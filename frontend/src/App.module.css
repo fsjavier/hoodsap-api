@@ -66,6 +66,8 @@ a:hover {
 .Main {
   max-width: 90vw;
   padding-top: 5rem;
+  padding-inline: 0.5em;
+  margin-bottom: 5em;
 }
 
 .Icon {
