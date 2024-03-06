@@ -43,56 +43,62 @@ const EventPage = () => {
   }, [id]);
 
   return (
-    <Container className="h-100 mt-4">
-      {hasLoadedEvent && hasLoadedComments ? (
-        <>
-          <Row>
-            <Col>
-              <Event
-                {...socialEvent.results[0]}
-                setSocialEvents={setSocialEvent}
-              />
-            </Col>
-          </Row>
-          {currentUser && hasLoadedEvent ? (
+    <Row>
+      <Col>
+        {hasLoadedEvent && hasLoadedComments ? (
+          <>
             <Row>
               <Col>
-                <CommentEventCreateForm
-                  profile_id={currentUser?.profile_id}
-                  profile_image={currentUser?.profile_image}
-                  socialEvent={id}
-                  setSocialEvent={setSocialEvent}
-                  setComments={setComments}
+                <Event
+                  {...socialEvent.results[0]}
+                  setSocialEvents={setSocialEvent}
                 />
               </Col>
             </Row>
-          ) : comments.results.length ? (
-            "Comments"
-          ) : null}
-          { comments.results.length ? (
-          <InfiniteScroll
-            children={comments.results.map((comment) => (
-              <EventComment
-                key={comment.id}
-                {...comment}
-                setSocialEvent={setSocialEvent}
-                setComments={setComments}
+            {currentUser && hasLoadedEvent ? (
+              <Row>
+                <Col>
+                  <CommentEventCreateForm
+                    profile_id={currentUser?.profile_id}
+                    profile_image={currentUser?.profile_image}
+                    socialEvent={id}
+                    setSocialEvent={setSocialEvent}
+                    setComments={setComments}
+                  />
+                </Col>
+              </Row>
+            ) : comments.results.length ? (
+              "Comments"
+            ) : null}
+            {comments.results.length ? (
+              <InfiniteScroll
+                children={comments.results.map((comment) => (
+                  <EventComment
+                    key={comment.id}
+                    {...comment}
+                    setSocialEvent={setSocialEvent}
+                    setComments={setComments}
+                  />
+                ))}
+                dataLength={comments.results.length}
+                loader={<Asset spinner />}
+                hasMore={!!comments.next}
+                next={() => fetchMoreData(comments, setComments)}
+                className={appStyles.InfiniteScroll}
               />
-            ))}
-            dataLength={comments.results.length}
-            loader={<Asset spinner />}
-            hasMore={!!comments.next}
-            next={() => fetchMoreData(comments, setComments)}
-            className={appStyles.InfiniteScroll}
-          />
-          ) : currentUser ? (
-          <div className="text-center my-3">No comments yet, be the first!</div>
-          ) : (<div className="text-center my-3">No comments yet.</div>)}
-        </>
-      ) : (
-        <Asset spinner />
-      )}
-    </Container>
+            ) : currentUser ? (
+              <div className="text-center my-3">
+                No comments yet, be the first!
+              </div>
+            ) : (
+              <div className="text-center my-3">No comments yet.</div>
+            )}
+          </>
+        ) : (
+          <Asset spinner />
+        )}
+      </Col>
+    </Row>
   );
 };
 

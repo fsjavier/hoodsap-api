@@ -96,8 +96,8 @@ const Event = (props) => {
 
   return (
     <>
-      <Row className="h-100 mx-0">
-        <Col>
+      <Row>
+        <Col className="px-0">
           <Row>
             <Col xs={12} md={7}>
               <Media className="justify-content-between align-items-center">
