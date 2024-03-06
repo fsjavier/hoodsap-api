@@ -7,7 +7,7 @@ export const useRadius = () => useContext(RadiusContext);
 export const useSetRadius = () => useContext(SetRadiusContext);
 
 export const RadiusProvider = ({ children }) => {
-  const [radius, setRadius] = useState(500);
+  const [radius, setRadius] = useState(200000);
 
   return (
     <RadiusContext.Provider value={radius}>
