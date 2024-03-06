@@ -16,13 +16,17 @@ import { useHistory, useParams } from "react-router-dom";
 import LocationPicker from "../../components/LocationPicker";
 import { axiosReq } from "../../api/axiosDefault";
 import Asset from "../../components/Asset";
-import { useCurrentUser } from "../../context/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "../../context/CurrentUserContext";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import ChangePasswordModal from "../../components/ChangePasswordModal";
 import ChangeUsernameModal from "../../components/ChangeUsernameModal";
 import { useRedirect } from "../../hooks/useRedirect";
 
 const ProfileEditForm = () => {
+  const setCurrentUser = useSetCurrentUser();
   useRedirect("loggedOut");
   const currentUser = useCurrentUser();
   const history = useHistory();
@@ -62,10 +66,12 @@ const ProfileEditForm = () => {
             avatar,
           }));
 
-          setInitialPosition({
-            lat: location_data.latitude,
-            lng: location_data.longitude,
-          });
+          location_data?.latitude &&
+            location_data?.longitude &&
+            setInitialPosition({
+              lat: location_data.latitude,
+              lng: location_data.longitude,
+            });
 
           setHasLoaded(true);
         } catch (error) {
@@ -179,6 +185,8 @@ const ProfileEditForm = () => {
       }
 
       await axiosReq.put(`/profiles/${id}/`, formData);
+      const { data: updatedUser } = await axiosReq.get("/dj-rest-auth/user/");
+      setCurrentUser(updatedUser);
       history.push(`/profile/${id}`);
     } catch (error) {
       setErrors(error.response.data);
@@ -219,7 +227,7 @@ const ProfileEditForm = () => {
                   <Form.Label>
                     Select your location
                     <OverlayTrigger
-                      placement="right"
+                      placement="bottom"
                       delay={{ show: 250, hide: 400 }}
                       overlay={locationTooltip}
                     >
