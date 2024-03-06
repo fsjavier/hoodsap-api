@@ -159,7 +159,10 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
           currentUser && (
             <Row className="mt-2 text-center">
               <Col>
-                <Alert variant="info">Hoodsap is better with location! Don't forget to set your location in your profile.</Alert>
+                <Alert variant="info">
+                  Hoodsap is better with location! Don't forget to set your
+                  location in your profile.
+                </Alert>
               </Col>
             </Row>
           )
@@ -169,6 +172,11 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
           <>
             {posts.results.length ? (
               <>
+                <Row className="d-md-none">
+                  <Col>
+                    <RecommendedProfiles radius={radius} />
+                  </Col>
+                </Row>
                 {latitude && longitude && (
                   <Row className="mt-4">
                     <Col>
