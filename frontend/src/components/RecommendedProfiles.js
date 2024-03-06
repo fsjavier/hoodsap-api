@@ -11,14 +11,18 @@ import { useCurrentUser } from "../context/CurrentUserContext";
 const RecommendedProfiles = ({ radius }) => {
   const currentUser = useCurrentUser();
   const { recommendedProfiles } = useProfileData();
+  console.log(recommendedProfiles);
 
   const scrollRef = useRef(null);
 
   const scroll = (scrollOffset) => {
-    scrollRef.current.scroll({
-      left: scrollOffset,
-      behavior: "smooth",
-    });
+    if (scrollRef.current) {
+      const currentScroll = scrollRef.current.scrollLeft;
+      scrollRef.current.scroll({
+        left: currentScroll + scrollOffset,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
