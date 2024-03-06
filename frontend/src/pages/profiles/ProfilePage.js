@@ -54,7 +54,7 @@ const ProfilePage = () => {
           loader={<Asset spinner />}
           hasMore={!!profilePosts.next}
           next={() => fetchMoreData(profilePosts, setProfilePosts)}
-          className="px-5 my-4"
+          className="px-3 my-4"
         />
       ) : (
         <p className="my-4">{profile?.display_name} hasn't posted yet</p>
@@ -77,10 +77,12 @@ const ProfilePage = () => {
           loader={<Asset spinner />}
           hasMore={!!profileEvents.next}
           next={() => fetchMoreData(profileEvents, setProfileEvents)}
-          className="px-5 my-4"
+          className="px-3 my-4"
         />
       ) : (
-        <p className="my-4">{profile?.display_name} hasn't created events yet</p>
+        <p className="my-4">
+          {profile?.display_name} hasn't created events yet
+        </p>
       )}
     </>
   );
@@ -120,6 +122,14 @@ const ProfilePage = () => {
       {hasLoaded ? (
         <>
           <Col xs={12} md={6} lg={5}>
+            <div className="d-md-none">
+              <h2>About {profile.display_name}</h2>
+              <p>
+                <MapPinIcon className={appStyles.Icon} />
+                {formatted_location}
+              </p>
+              {profile.bio && profile.bio}
+            </div>
             <div className={styles.ProfileAvatarLocation__Container}>
               <div className={styles.ProfileAvatar__Container}>
                 <div className={styles.ProfileNameImage__Container}>
@@ -199,12 +209,14 @@ const ProfilePage = () => {
           </Col>
           <Col md={6} lg={7}>
             <div className={styles.About__Container}>
-              <h2>About {profile.display_name}</h2>
-              <p>
-                <MapPinIcon className={appStyles.Icon} />
-                {formatted_location}
-              </p>
-              {profile.bio && profile.bio}
+              <div className="d-none d-md-block">
+                <h2>About {profile.display_name}</h2>
+                <p>
+                  <MapPinIcon className={appStyles.Icon} />
+                  {formatted_location}
+                </p>
+                {profile.bio && profile.bio}
+              </div>
               <div className="my-5">
                 <hr />
                 <div className={styles.EventsPostsButtons}>
