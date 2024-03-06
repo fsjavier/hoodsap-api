@@ -11,7 +11,6 @@ import { useCurrentUser } from "../context/CurrentUserContext";
 const RecommendedProfiles = ({ radius }) => {
   const currentUser = useCurrentUser();
   const { recommendedProfiles } = useProfileData();
-  console.log(recommendedProfiles);
 
   const scrollRef = useRef(null);
 

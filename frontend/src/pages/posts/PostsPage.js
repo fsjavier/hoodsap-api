@@ -69,7 +69,6 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     const timer = setTimeout(() => {
       fetchPosts();
     }, 1000);
-    console.log(posts)
 
     return () => {
       clearTimeout(timer);
