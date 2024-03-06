@@ -267,7 +267,7 @@ const ProfileEditForm = () => {
                   Cancel
                 </CustomButton>
                 <CustomButton variant="Primary" type="submit">
-                  Edit profile
+                  Save
                 </CustomButton>
               </Col>
             </Row>
@@ -276,6 +276,8 @@ const ProfileEditForm = () => {
           <Asset spinner />
         )}
       </Form>
+
+      <hr />
 
       <Row className={styles.AccountSettings__Container}>
         <Col md={6} className="text-center">
