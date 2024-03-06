@@ -10,11 +10,13 @@ import { Link, useHistory } from "react-router-dom";
 import Avatar from "./Avatar";
 import { axiosReq } from "../api/axiosDefault";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import appStyles from "../App.module.css";
 import styles from "../styles/Post.module.css";
 import { MoreDropdown } from "./MoreDropDown";
 import ConfirmationModal from "../components/ConfirmationModal";
 import PostLikesAndComments from "./PostLikesAndComments";
 import { formatLocation } from "../utils/utils";
+import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 
 const Post = (props) => {
   const {
@@ -59,6 +61,13 @@ const Post = (props) => {
     <>
       <Row>
         <Col className="px-0">
+        <Row className="py-3">
+            <Col>
+              <span onClick={() => history.goBack()} className={appStyles.Link}>
+                <ArrowLeftCircleIcon className={appStyles.Icon} /> Go Back
+              </span>
+            </Col>
+          </Row>
           <Row>
             <Col xs={12} md={7}>
               <Media className="justify-content-between align-items-center">

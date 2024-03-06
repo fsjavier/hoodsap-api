@@ -19,7 +19,9 @@ import {
   BuildingLibraryIcon,
   SunIcon,
   UserPlusIcon,
+  ArrowLeftCircleIcon,
 } from "@heroicons/react/24/outline";
+import appStyles from "../App.module.css";
 import styles from "../styles/Event.module.css";
 import { capitalizeFirstLetter, formatLocation } from "../utils/utils";
 
@@ -45,7 +47,7 @@ const Event = (props) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
   const { latitude, longitude } = location_data;
-  const formattedLocation = formatLocation(location_data)
+  const formattedLocation = formatLocation(location_data);
   const history = useHistory();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -96,8 +98,15 @@ const Event = (props) => {
 
   return (
     <>
-      <Row>
+      <Row className="mt-3">
         <Col className="px-0">
+          <Row className="py-3">
+            <Col>
+              <span onClick={() => history.goBack()} className={appStyles.Link}>
+                <ArrowLeftCircleIcon className={appStyles.Icon} /> Go Back
+              </span>
+            </Col>
+          </Row>
           <Row>
             <Col xs={12} md={7}>
               <Media className="justify-content-between align-items-center">

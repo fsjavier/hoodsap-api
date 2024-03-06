@@ -88,6 +88,7 @@ a:hover {
 
 .Link:hover {
   color: var(--off-majorblue);
+  cursor: pointer;
 }
 
 .InfiniteScroll {
