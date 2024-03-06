@@ -21,6 +21,7 @@ import {
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
 import Slider from "rc-slider";
+import { Alert } from "react-bootstrap";
 
 const EventsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -124,7 +125,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
   return (
     <Row>
       <Col>
-        {latitude && longitude && (
+        {latitude && longitude ? (
           <Row>
             <Col>
               <Form onSubmit={(e) => e.preventDefault()}>
@@ -151,6 +152,17 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
               </Form>
             </Col>
           </Row>
+        ) : (
+          currentUser && (
+            <Row className="mt-2 text-center">
+              <Col>
+                <Alert variant="info">
+                  Hoodsap is better with location! Don't forget to set your
+                  location in your profile.
+                </Alert>
+              </Col>
+            </Row>
+          )
         )}
 
         <Row>
