@@ -15,11 +15,11 @@ import "../../styles/Slider.css";
 import RecommendedProfiles from "../../components/RecommendedProfiles";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import PostListView from "../../components/PostListView";
-import { Form } from "react-bootstrap";
+import { Alert, Form } from "react-bootstrap";
 import Slider from "rc-slider";
 import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
-import { useProfileData } from "../../context/ProfileDataContext";
 import { calculateRadiusStep, calculateMapZoom } from "../../utils/utils";
+import { useProfileData } from "../../context/ProfileDataContext";
 
 const PostsPage = ({ message = "No results found", filter = "" }) => {
   const noResultsSrc =
@@ -27,6 +27,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   const [posts, setPosts] = useState({ results: [] });
   const [hasLoaded, setHasLoaded] = useState(false);
   const { pathname } = useLocation();
+  const isFeedPage = pathname === "/feed";
   const currentUser = useCurrentUser();
   const searchQuery = useCurrentSearch();
   const [latitude, setLatitude] = useState(
@@ -37,10 +38,9 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   );
   const radius = useRadius();
   const setRadius = useSetRadius();
-  const profileData = useProfileData();
-  const isFeedPage = pathname === "/feed";
   const [mapZoom, setMapZoom] = useState(5);
   const [mapCenter, setMapCenter] = useState([null]);
+  const { recommendedProfiles } = useProfileData();
 
   useEffect(() => {
     setLatitude(currentUser?.profile_location_data?.latitude);
@@ -69,20 +69,12 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     const timer = setTimeout(() => {
       fetchPosts();
     }, 1000);
+    console.log(posts)
 
     return () => {
       clearTimeout(timer);
     };
-  }, [
-    filter,
-    pathname,
-    currentUser,
-    searchQuery,
-    latitude,
-    longitude,
-    radius,
-    isFeedPage ? profileData : null,
-  ]);
+  }, [filter, pathname, currentUser, searchQuery, latitude, longitude, radius]);
 
   useEffect(() => {
     const newMapCenter =
@@ -103,10 +95,41 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     }
   }, [latitude, longitude, posts.results, radius]);
 
+  useEffect(() => {
+    if (isFeedPage) {
+      const fetchPosts = async () => {
+        try {
+          let queryBase = `/posts/?${filter}search=${searchQuery}`;
+          let locationQuery =
+            latitude && longitude && radius !== 200000
+              ? `&latitude=${latitude}&longitude=${longitude}&radius=${radius}`
+              : "";
+
+          let query = `${queryBase}${locationQuery}`;
+          const { data } = await axiosReq.get(query);
+
+          setPosts(data);
+          setHasLoaded(true);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      setHasLoaded(false);
+      const timer = setTimeout(() => {
+        fetchPosts();
+      }, 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [recommendedProfiles]);
+
   return (
     <Row>
       <Col>
-        {latitude && longitude && (
+        {latitude && longitude ? (
           <Row>
             <Col>
               <Form onSubmit={(e) => e.preventDefault()}>
@@ -133,6 +156,14 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
               </Form>
             </Col>
           </Row>
+        ) : (
+          currentUser && (
+            <Row className="mt-2 text-center">
+              <Col>
+                <Alert variant="info">Hoodsap is better with location! Don't forget to set your location in your profile.</Alert>
+              </Col>
+            </Row>
+          )
         )}
 
         {hasLoaded ? (
@@ -144,8 +175,12 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                     <Col>
                       <h2>
                         {radius === 200000
-                          ? "All posts"
-                          : `Posts ${radius < 1000 ? radius : radius / 1000} ${
+                          ? `All posts ${
+                              isFeedPage ? "from the users you follow" : ""
+                            }`
+                          : `Posts ${
+                              isFeedPage ? "from the users you follow" : ""
+                            } ${radius < 1000 ? radius : radius / 1000} ${
                               radius < 1000 ? "meters" : "km"
                             } from your location`}
                       </h2>
@@ -189,8 +224,8 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                               <Marker
                                 key={post.id}
                                 position={[
-                                  post.location_data.latitude,
-                                  post.location_data.longitude,
+                                  post.location_data?.latitude,
+                                  post.location_data?.longitude,
                                 ]}
                               >
                                 <Popup>{post.title}</Popup>
