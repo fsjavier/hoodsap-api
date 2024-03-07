@@ -19,7 +19,7 @@ const FormImageField = ({ image, imageInputRef, handleChangeImage }) => {
           <div>
             <Form.Label
               htmlFor="image-upload"
-              className={`${buttonStyles.Button} ${buttonStyles.Primary}`}
+              className={`${buttonStyles.Button} ${buttonStyles.Primary} ${buttonStyles.Medium}`}
             >
               Change the image
             </Form.Label>
