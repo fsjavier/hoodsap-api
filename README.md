@@ -272,6 +272,8 @@ All features have been prioritized and developed in response to the needs outlin
 #### Short term goals
 
 - Reporting System for users to report posts, profiles, or events that violate community guidelines. This feature is already prepared on the backend.
+- Allowing users to post more than image (up to 3) for a post.
+- Enabling social accounts registration.
 - Switching to a Geospatial Database to enhance the precision and efficiency of location-based filtering.
 - Implementing a dedicated notifications section to keep users informed about important activities related to their posts, events, and interactions. This includes new followers, comments, likes, and updates on events they're interested in.
 
@@ -282,20 +284,75 @@ All features have been prioritized and developed in response to the needs outlin
 - Allowing users to RSVP to events directly through the platform.
 - Integrating an emergency alert feature that can be used to share critical information with the neighborhood, such as weather warnings.
 
+### Main components
+
+The application is structured around a series of React components and pages. The components are organized to align closely with the user stories.
+
+#### Registration and Authentication
+SignInForm.js & SignUpForm.js: Facilitates user stories #16 and #17 by providing UI components for account creation and login functionalities.
+
+CurrentUserContext.js: Supports user story #18 by maintaining the authentication state across sessions.
+
+#### Navigation
+NavBar.js & NavBarMobile.js: Addresses user story #22 by rendering different navigation menus based on the user's authentication state.
+
+#### User Profiles
+ProfilePage.js & ProfileEditForm.js: Enable user stories #20 and #21 by displaying public profile information and allowing authenticated users to update their profiles.
+
+#### Posts
+PostCreateForm.js & PostEditForm.js: Cater to user stories #23 and #30 by providing interfaces for creating and editing posts.
+
+Post.js, PostsPage.js, PostListView.js & PostPage.js: Serve user stories #28 and #29 by displaying a list of posts and detailed views for individual posts.
+
+#### Social Events
+EventCreateForm.js & EventEditForm.js: Facilitate user stories #36 and #41 by offering interfaces for users to create and edit their events.
+
+Event.js, EventsPage.js, EventListView.js & EventPage.js: Address user stories #37 and #38 by showing a list of events and detailed views for individual events.
+
+#### Location
+PostsPage.js & EventsPage.js utilize RadiusFilterContext.js to implement location-based filtering as per user stories #43, #44, and #45.
+
+#### Comments
+CommentPostCreateForm.js, CommentEditForm.js, CommentEventCreateForm.js: Address user stories #31, #32, #39, and #40 by allowing users to add, edit, and delete comments on posts and events.
+
+#### Followers
+Profile.js & RecommendedProfiles.js: Support user story #33 by recommending profiles to users based on location. ProfileDataContext.js aids in managing follow/unfollow actions as per user story #34.
+
+#### Tags
+FormTagsField.js: Enables user story #25 by allowing users to add tags to their posts, enhancing the post's context and discoverability.
+
+#### Reusable components
+The creation of reusable components, significantly enhances efficiency and consistency across the application. These components, including Asset.js, Avatar.js, ConfirmationModal.js, LocationPicker.js, FormImageField.js, MoreDropdown.js, and CustomButton.js, serve as versatile building blocks.
+
 ## UI / UX
 
 Hoodsap is designed with a mobile-first approach, ensuring it's accessible on-the-go, including bottom navigation bar for mobile users. Designed to cater to users of all demographics, the application facilitates effortless interactions through a clean and intuitive interface. The site is responsive, providing a consistent experience across a wide range of devices. The top navigation bar makes the profile menu accessible via a simple avatar click or tap.
 
 ### Wireframes
 
+The initial wireframes served as a starting point for the layout and functionality of Hoodsap. Throughout the development process, various enhancements and design adjustments were introduced to improve the user experience and interaction.
 
-### Design Choices
+The most significant deviation from the initial wireframes is the implementation of a distance slider, which became a key feature. The original plan was to filter posts and events directly based on the user's location. This change grants users the flexibility to adjust the radius for filtering posts and events, rather than relying on automatic content visibility determined by their location.
+
+Additionally, a bottom navigation bar for mobile users was introduced, enhancing navigation on smaller devices. The search bar was consistently positioned in the top navigation bar and made visible only on relevant pages.
+
+Minor changes were also made, refining the overall aesthetics and usability of the platform.
+
+<details><summary>Posts wireframe</summary>
+<img src="documentation/readme_images/wireframes/wireframe_posts.png">
+</details>
+<details><summary>Events wireframe</summary>
+<img src="documentation/readme_images/wireframes/wireframe_posts.png">
+</details>
+<details><summary>Profile wireframe</summary>
+<img src="documentation/readme_images/wireframes/wireframe_posts.png">
+</details>
 
 
-#### Colors
+### Colors
 
 
-#### Fonts
+### Fonts
 
 
 ## Technologies Used
