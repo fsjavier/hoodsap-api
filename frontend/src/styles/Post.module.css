@@ -2,6 +2,7 @@
   display: flex;
   max-height: 500px;
   max-width: 600px;
+  place-content: center;
 }
 
 .Image {

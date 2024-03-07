@@ -7,17 +7,19 @@
   align-items: center;
   align-self: center;
   box-shadow: var(--box-shadow-small-lavender);
+  padding-block: 0.7em;
 }
 
 .Image__Container {
   max-height: 500px;
   display: flex;
+  place-content: center;
 }
 
 .Image {
   max-width: 100%;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .Comments {
