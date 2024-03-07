@@ -109,6 +109,7 @@ const PostEditForm = () => {
           name="title"
           value={title}
           onChange={handleChangeField}
+          aria-label="title"
         />
       </Form.Group>
       {!title &&
@@ -126,6 +127,7 @@ const PostEditForm = () => {
           value={content}
           rows={5}
           onChange={handleChangeField}
+          aria-label="text"
         />
       </Form.Group>
       {errors.content?.map((message, idx) => (

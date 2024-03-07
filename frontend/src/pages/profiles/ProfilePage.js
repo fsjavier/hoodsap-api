@@ -133,8 +133,7 @@ const ProfilePage = () => {
             <div className={styles.ProfileAvatarLocation__Container}>
               <div className={styles.ProfileAvatar__Container}>
                 <div className={styles.ProfileNameImage__Container}>
-                  <Image src={profile.avatar} className={styles.ProfileImage} />
-                  <h2 className={styles.ProfileName}>{profile.display_name}</h2>
+                  <Image src={profile.avatar} className={styles.ProfileImage} alt={profile.display_name}/>
                   {is_owner ? (
                     <div className={styles.EditFollow__Container}>
                       <Link to={`/profile/${id}/edit/`}>

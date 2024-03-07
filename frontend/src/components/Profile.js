@@ -9,7 +9,7 @@ import CustomButton from "./CustomButton";
 import { useSetProfileData } from "../context/ProfileDataContext";
 
 const Profile = ({ profile }) => {
-  const { id, following_id, avatar, owner } = profile;
+  const { id, following_id, avatar, owner, display_name } = profile;
 
   const [showPopover, setShowPopover] = useState(false);
   const [target, setTarget] = useState(null);
@@ -29,7 +29,7 @@ const Profile = ({ profile }) => {
       <Popover.Content className={styles.Popover__Container}>
         <Link to={`/profile/${id}`}>
           <Avatar src={avatar} height={54} />
-          <span className={styles.User}>{owner}</span>
+          <span className={styles.User}>{display_name || owner}</span>
         </Link>
         {currentUser ? (
           following_id ? (
@@ -52,7 +52,7 @@ const Profile = ({ profile }) => {
     <div ref={ref}>
       <div className={`${styles.Profile__Container}`} onClick={handleClick}>
         <Avatar src={avatar} height={24} />
-        <div className={`${styles.Truncate}`}>{owner}</div>
+        <div className={`${styles.Truncate}`}>{display_name || owner}</div>
       </div>
       <Overlay
         show={showPopover}

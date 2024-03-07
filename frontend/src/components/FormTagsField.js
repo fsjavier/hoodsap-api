@@ -58,6 +58,7 @@ const FormTagsField = ({ initialTags, handleTagsChange }) => {
           onChange={handleTagInputChange}
           onKeyDown={handleTagInputSubmit}
           disabled={isDisabled}
+          aria-label="Tags"
         />
       </Form.Group>
       {errors && <Alert variant="warning">{errors}</Alert>}

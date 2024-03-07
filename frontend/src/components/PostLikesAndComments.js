@@ -82,7 +82,7 @@ const PostLikesAndComments = ({
         {likes_count}
       </span>
       <span>
-        <Link to={`/posts/${id}`}>
+        <Link to={`/posts/${id}`} aria-label="link to comments">
           <ChatBubbleLeftIcon className={styles.Icon} />
         </Link>
         {comments_count}

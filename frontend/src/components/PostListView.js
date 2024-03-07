@@ -60,7 +60,7 @@ const PostListView = (props) => {
 
           <Row className="justify-content-center align-items-center">
             <Col>
-              <Link to={`/posts/${id}`}>
+              <Link to={`/posts/${id}`} aria-label="link to post">
                 {tags_data &&
                   tags_data.map(tag => (
                     <Badge

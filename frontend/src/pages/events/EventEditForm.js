@@ -186,6 +186,7 @@ const EventEditForm = () => {
           name="title"
           value={title}
           onChange={handleChangeField}
+          aria-label="title"
         />
       </Form.Group>
       {!title &&
@@ -203,6 +204,7 @@ const EventEditForm = () => {
           value={content}
           rows={5}
           onChange={handleChangeField}
+          aria-label="description"
         />
       </Form.Group>
       {errors.content?.map((message, idx) => (

@@ -159,7 +159,7 @@ const Event = (props) => {
                   {content && <div>{content}</div>}
                   <div className={styles.Comments}>
                     <span>
-                      <Link to={`/events/${id}`}>
+                      <Link to={`/events/${id}`} aria-label="link to comments" >
                         <ChatBubbleLeftIcon className={styles.Icon} />
                       </Link>
                       {comments_count}

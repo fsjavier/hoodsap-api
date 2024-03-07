@@ -14,7 +14,7 @@ const FormImageField = ({ image, imageInputRef, handleChangeImage }) => {
       {image ? (
         <>
           <figure className={styles.Image__Container}>
-            <Image src={image} className={styles.Image} />
+            <Image src={image} className={styles.Image} alt="image"/>
           </figure>
           <div>
             <Form.Label

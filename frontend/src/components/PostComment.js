@@ -59,7 +59,7 @@ const PostComment = ({
             <span className={styles.Owner}>{owner}</span>
           </Link>
           <span>·</span>
-          <span className={styles.CommentTime}>{updated_at_naturaltime}</span>
+          <span className={`${styles.CommentTime} text-muted`}>{updated_at_naturaltime}</span>
         </Col>
         {is_owner && !showEditForm && (
           <Col xs={1}>

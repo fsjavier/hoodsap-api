@@ -109,10 +109,7 @@ function NavBar() {
           <UserCircleIcon className={appStyles.Icon} /> Profile
         </NavDropdown.Item>
         <NavDropdown.Divider />
-        <NavDropdown.Item
-          onClick={handleSignout}
-          className={styles.NavLink}
-        >
+        <NavDropdown.Item onClick={handleSignout} className={styles.NavLink}>
           <ArrowRightStartOnRectangleIcon className={appStyles.Icon} />
           Sign out
         </NavDropdown.Item>
@@ -156,6 +153,7 @@ function NavBar() {
             >
               <MagnifyingGlassIcon className={styles.SearchIcon} />
               <FormControl
+                aria-label="search"
                 type="text"
                 placeholder="Search"
                 onChange={(event) => {

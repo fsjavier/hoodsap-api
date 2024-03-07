@@ -60,6 +60,7 @@ const PostCreateForm = () => {
           name="title"
           value={title}
           onChange={handleChangeField}
+          aria-label="Title"
         />
       </Form.Group>
       {!title &&
@@ -71,6 +72,7 @@ const PostCreateForm = () => {
       <Form.Group controlId="content">
         <Form.Label className="d-none">Text</Form.Label>
         <Form.Control
+          aria-label="Text"
           as="textarea"
           placeholder="Text (Optional)"
           name="content"

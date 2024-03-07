@@ -5,7 +5,7 @@ import {
   TicketIcon,
   Bars3CenterLeftIcon,
   UserPlusIcon,
-  KeyIcon
+  KeyIcon,
 } from "@heroicons/react/24/outline";
 import appStyles from "../App.module.css";
 import styles from "../styles/NavBarMobile.module.css";
@@ -16,13 +16,28 @@ function NavBarMobile() {
   const currentUser = useCurrentUser();
   const loggedInIcons = (
     <>
-      <NavLink exact to="/" activeClassName={styles.Active}>
+      <NavLink
+        exact
+        to="/"
+        activeClassName={styles.Active}
+        aria-label="link to home page"
+      >
         <HomeIcon className={appStyles.Icon} />
       </NavLink>
-      <NavLink exact to="/events" activeClassName={styles.Active}>
+      <NavLink
+        exact
+        to="/events"
+        activeClassName={styles.Active}
+        aria-label="link to events page"
+      >
         <TicketIcon className={appStyles.Icon} />
       </NavLink>
-      <NavLink exact to="/feed" activeClassName={styles.Active}>
+      <NavLink
+        exact
+        to="/feed"
+        activeClassName={styles.Active}
+        aria-label="link to feed page"
+      >
         <Bars3CenterLeftIcon className={appStyles.Icon} />
       </NavLink>
     </>
@@ -30,17 +45,11 @@ function NavBarMobile() {
 
   const loggedOutIcons = (
     <>
-      <NavLink
-        to="/signup"
-        activeClassName={styles.Active}
-      >
+      <NavLink to="/signup" activeClassName={styles.Active}>
         <UserPlusIcon className={appStyles.Icon} />
         Sign up
       </NavLink>
-      <NavLink
-        to="/signin"
-        activeClassName={styles.Active}
-      >
+      <NavLink to="/signin" activeClassName={styles.Active}>
         <KeyIcon className={appStyles.Icon} />
         Sign in
       </NavLink>

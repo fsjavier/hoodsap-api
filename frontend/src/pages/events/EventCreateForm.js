@@ -77,6 +77,7 @@ const EventCreateForm = () => {
           name="title"
           value={title}
           onChange={handleChangeField}
+          aria-label="title"
         />
       </Form.Group>
       {!title &&
@@ -94,6 +95,7 @@ const EventCreateForm = () => {
           value={content}
           rows={5}
           onChange={handleChangeField}
+          aria-label="description"
         />
       </Form.Group>
       {errors.content?.map((message, idx) => (
@@ -117,6 +119,7 @@ const EventCreateForm = () => {
           <Form.Label>Date</Form.Label>
         </div>
         <DatePicker
+          aria-label="Select date"
           timeFormat="HH:mm"
           timeIntervals={15}
           minDate={new Date()}
@@ -130,6 +133,7 @@ const EventCreateForm = () => {
           showTimeSelect
           dateFormat="MMMM d, yyyy h:mm aa"
           withPortal
+          name="event_date"
         />
       </Form.Group>
       <Row className="d-md-none">
