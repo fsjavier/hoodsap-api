@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/static/css/main.81b3da07.chunk.css",
-    "main.js": "/static/js/main.b24c88cf.chunk.js",
-    "main.js.map": "/static/js/main.b24c88cf.chunk.js.map",
+    "main.js": "/static/js/main.1832ebbf.chunk.js",
+    "main.js.map": "/static/js/main.1832ebbf.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.f21c0224.js",
     "runtime-main.js.map": "/static/js/runtime-main.f21c0224.js.map",
     "static/css/2.a841d03d.chunk.css": "/static/css/2.a841d03d.chunk.css",
-    "static/js/2.34902f5d.chunk.js": "/static/js/2.34902f5d.chunk.js",
-    "static/js/2.34902f5d.chunk.js.map": "/static/js/2.34902f5d.chunk.js.map",
+    "static/js/2.f54b701e.chunk.js": "/static/js/2.f54b701e.chunk.js",
+    "static/js/2.f54b701e.chunk.js.map": "/static/js/2.f54b701e.chunk.js.map",
     "static/js/3.adcc4507.chunk.js": "/static/js/3.adcc4507.chunk.js",
     "static/js/3.adcc4507.chunk.js.map": "/static/js/3.adcc4507.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.a841d03d.chunk.css.map": "/static/css/2.a841d03d.chunk.css.map",
     "static/css/main.81b3da07.chunk.css.map": "/static/css/main.81b3da07.chunk.css.map",
-    "static/js/2.34902f5d.chunk.js.LICENSE.txt": "/static/js/2.34902f5d.chunk.js.LICENSE.txt",
+    "static/js/2.f54b701e.chunk.js.LICENSE.txt": "/static/js/2.f54b701e.chunk.js.LICENSE.txt",
     "static/media/hoodsap_logo.4deabc4a.webp": "/static/media/hoodsap_logo.4deabc4a.webp"
   },
   "entrypoints": [
     "static/js/runtime-main.f21c0224.js",
     "static/css/2.a841d03d.chunk.css",
-    "static/js/2.34902f5d.chunk.js",
+    "static/js/2.f54b701e.chunk.js",
     "static/css/main.81b3da07.chunk.css",
-    "static/js/main.b24c88cf.chunk.js"
+    "static/js/main.1832ebbf.chunk.js"
   ]
 }
