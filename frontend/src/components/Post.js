@@ -76,7 +76,7 @@ const Post = (props) => {
                   {profile_name || owner}
                 </Link>
                 <div className="d-flex">
-                  <span>{updated_at}</span>
+                  <span className="text-muted">{updated_at}</span>
                   {is_owner && (
                     <MoreDropdown
                       handleEdit={handleEdit}

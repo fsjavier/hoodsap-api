@@ -45,7 +45,7 @@ const PostListView = (props) => {
                   {profile_name || owner}
                 </Link>
               </Media>
-              <div className="ml-auto align-self-end">{updated_at}</div>
+              <div className="ml-auto align-self-end text-muted">{updated_at}</div>
             </Col>
           </Row>
 
@@ -54,7 +54,7 @@ const PostListView = (props) => {
               <Link to={`/posts/${id}`}>
                 {title && <h3 className="my-2">{title}</h3>}
               </Link>
-              <div className="ml-auto align-self-end">{formattedLocation}</div>
+              <div className="ml-auto align-self-end text-muted">{formattedLocation}</div>
             </Col>
           </Row>
 
