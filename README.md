@@ -2,7 +2,7 @@
 
 Hoodsap is a community-based platform that connects neighborhoods through shared experiences and local insights. It fosters community engagement by providing a space for residents to share updates, organize events, and support one another. Neighbors can stay informed about what's happening locally, from discovering architectural gems to addressing communal concerns.
 
-For details onn the backend application, plese see the [API documentation](./README_BE.md)
+For details on the backend application, plese see the [API documentation](./README_BE.md)
 
 [View the live site here](https://hoodsap-api-d42fd4bc31f5.herokuapp.com/)
 
@@ -91,11 +91,34 @@ All features have been prioritized and developed in response to the needs outlin
     - They won't see the location slider filter
     - They will be redirected back to the home page if they try access pages restricted to logged in users, like create a post.
 
+<details><summary>Logged out user</summary>
+<img src="documentation/readme_images/authentication/logged_out_user.png">
+</details>
+<details><summary>Logged in user</summary>
+<img src="documentation/readme_images/authentication/logged_in_user.png">
+</details>
+<details><summary>Account settings</summary>
+<img src="documentation/readme_images/authentication/account_settings.png">
+</details>
+<details><summary>Change username</summary>
+<img src="documentation/readme_images/authentication/change_username.png">
+</details>
+<details><summary>Change password</summary>
+<img src="documentation/readme_images/authentication/change_password.png">
+</details>
+
 #### Navigation
 
 - Responsive top navigation bar adaptable to various screen sizes.
 - For logged-in users, additional options are accessible, including direct links to their profiles, ability to create posts or events, and logout option.
 - A bottom navigation bar on mobile devices for easy access to core sections: Home, Events, Feed.
+
+<details><summary>Navigation</summary>
+<img src="documentation/readme_images/navigation/navigation.png">
+</details>
+<details><summary>Navigation bottom bar</summary>
+<img src="documentation/readme_images/navigation/navigation_bar_bottom.png">
+</details>
 
 #### Profiles
 
@@ -104,11 +127,28 @@ All features have been prioritized and developed in response to the needs outlin
 - Features an edit option for users to update their profile information and avatar.
 - The user's exact location is not displayed (only approximate location) to preserve users privacy.
 
+<details><summary>Own profile</summary>
+<img src="documentation/readme_images/profiles/own_profile.png">
+</details>
+<details><summary>Profile - looged in</summary>
+<img src="documentation/readme_images/profiles/profile_loggedin.png">
+</details>
+<details><summary>Profile - looged out</summary>
+<img src="documentation/readme_images/profiles/profile_loggedout.png">
+</details>
+
 #### Home Page / Posts
 
 - The home page dynamically adjusts based on user authentication status.
 - When logged out displays all posts.
 - When logged in it incorporates a location-based filtering system, allowing users to discover posts within a specified radius.
+
+<details><summary>Posts - looged out</summary>
+<img src="documentation/readme_images/posts/posts_loggedout.png">
+</details>
+<details><summary>Posts - looged in</summary>
+<img src="documentation/readme_images/posts/posts_loggedin.png">
+</details>
 
 #### Add / Edit / Delete Post
 
@@ -117,11 +157,25 @@ All features have been prioritized and developed in response to the needs outlin
 - Editing functionality enables users to update their posts, ensuring the information remains relevant and accurate.
 - Users can delete their own posts. Deletion must be confirmed.
 
+<details><summary>Add post</summary>
+<img src="documentation/readme_images/posts/add_post.png">
+</details>
+<details><summary>Edit post</summary>
+<img src="documentation/readme_images/posts/edit_post.png">
+</details>
+<details><summary>Delete post</summary>
+<img src="documentation/readme_images/posts/delete_post.png">
+</details>
+
 #### Events
 
 - A dedicated section for viewing and organizing neighborhood events.
 - Events are categorized and can be filtered by category and if they are indoor or outdoor, offering a tailored experience.
 - When logged in it incorporates a location-based filtering system.
+
+<details><summary>Events</summary>
+<img src="documentation/readme_images/events/events.png">
+</details>
 
 #### Add / Edit / Delete Events
 
@@ -130,6 +184,16 @@ All features have been prioritized and developed in response to the needs outlin
 - Event creators can edit their events to adjust details or provide updates.
 - Users can delete their own events. Deletion must be confirmed.
 
+<details><summary>Add event</summary>
+<img src="documentation/readme_images/events/add_event.png">
+</details>
+<details><summary>Edit Event</summary>
+<img src="documentation/readme_images/events/edit_event.png">
+</details>
+<details><summary>Delete Event</summary>
+<img src="documentation/readme_images/events/delete_event.png">
+</details>
+
 #### Location
 
 - A cornerstone feature, allowing users to set their location for personalized content based on geographical proximity.
@@ -137,6 +201,16 @@ All features have been prioritized and developed in response to the needs outlin
 - Location picker aids in accurately setting the user's location, enhancing the relevance of posts and events displayed.
 - Location is set automatically on the map if the user gives permission.
 - Users can explore posts and events within a set radius from their location, promoting local interaction and participation.
+- When users are logged in and have location set, the map is centered based on their location.
+- When users are not logged in, the map is centered based on the first result (post or event).
+- As the users reduces the distance filter, the map zooms in.
+
+<details><summary>Logged in - No location</summary>
+<img src="documentation/readme_images/location/no_location_set.png">
+</details>
+<details><summary>Location - Distance filter</summary>
+<img src="documentation/readme_images/location/location_distance_filter.png">
+</details>
 
 #### Follow / Unfollow Profiles
 
@@ -144,20 +218,54 @@ All features have been prioritized and developed in response to the needs outlin
 - The following system updates content feeds to include posts from followed users.
 - Following / unfollowing users in the Feed Page updates instantly the page to include / exclude the posts.
 
+<details><summary>Follow - Recommended profiles</summary>
+<img src="documentation/readme_images/follow/follow_recommended.png">
+</details>
+<details><summary>Follow - Profile page</summary>
+<img src="documentation/readme_images/follow/follow_profile.png">
+</details>
+
 #### Like / Unlike Posts
 
 - Like functionality for posts to express appreciation or interest.
 - Users can easily like or unlike posts, with updates reflected in real-time.
+
+<details><summary>Liked post</summary>
+<img src="documentation/readme_images/likes/liked_post.png">
+</details>
+<details><summary>Like own post</summary>
+<img src="documentation/readme_images/likes/like_own_post.png">
+</details>
 
 #### Comment and Edit / Delete Comments (Posts and Events)
 
 - Commenting feature available on both posts and events for users to engage in discussions.
 - Provides options to edit or delete their comments, ensuring flexibility in communication.
 
+<details><summary>Comment field</summary>
+<img src="documentation/readme_images/comments/comment_field.png">
+</details>
+<details><summary>Comment</summary>
+<img src="documentation/readme_images/comments/comment.png">
+</details>
+<details><summary>Edit Comment</summary>
+<img src="documentation/readme_images/comments/edit_comment.png">
+</details>
+<details><summary>Delete Comment</summary>
+<img src="documentation/readme_images/comments/delete_comment.png">
+</details>
+
 #### Search
 
 - Comprehensive search functionality that applies to posts, user feeds, and events.
 - Supports filtering by titles and descriptions, making it easier to find relevant content.
+
+<details><summary>Search - post</summary>
+<img src="documentation/readme_images/search/search_post.png">
+</details>
+<details><summary>Search - event</summary>
+<img src="documentation/readme_images/search/search_events.png">
+</details>
 
 ### Future Features
 
