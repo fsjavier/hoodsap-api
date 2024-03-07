@@ -11,7 +11,7 @@ For details onn the backend application, plese see the [API documentation](./REA
 
 ## Table of Contents
 
-* [Agile]
+* [Agile](#agile)
 * [Features](#features)
 * [UX / UI](#ui-/-ux) 
 * [Technologies Used](#technologies-used)
@@ -79,10 +79,100 @@ EPIC: Tags
 
 ## Features
 
+All features have been prioritized and developed in response to the needs outlined in the user stories during the planning stage.
+
 ### Existing Features
+
+#### Authentication
+
+- Secure registraion and login process to ensure user authenticity.
+- Once registered and logged in, users can set a new username and password in their profile.
+- Logged out users have limited access to the features:
+    - They won't see the location slider filter
+    - They will be redirected back to the home page if they try access pages restricted to logged in users, like create a post.
+
+#### Navigation
+
+- Responsive top navigation bar adaptable to various screen sizes.
+- For logged-in users, additional options are accessible, including direct links to their profiles, ability to create posts or events, and logout option.
+- A bottom navigation bar on mobile devices for easy access to core sections: Home, Events, Feed.
+
+#### Profiles
+
+- Personalized profiles showcasing user details, posts, and events.
+- Displays follower counts and provides follow/unfollow functionality directly from the profile view if the visiting user is logged in.
+- Features an edit option for users to update their profile information and avatar.
+- The user's exact location is not displayed (only approximate location) to preserve users privacy.
+
+#### Home Page / Posts
+
+- The home page dynamically adjusts based on user authentication status.
+- When logged out displays all posts.
+- When logged in it incorporates a location-based filtering system, allowing users to discover posts within a specified radius.
+
+#### Add / Edit / Delete Post
+
+- Users can add new posts, specifying details such as an image, title, content, and location.
+- Users can add up to 5 tags to their posts.
+- Editing functionality enables users to update their posts, ensuring the information remains relevant and accurate.
+- Users can delete their own posts. Deletion must be confirmed.
+
+#### Events
+
+- A dedicated section for viewing and organizing neighborhood events.
+- Events are categorized and can be filtered by category and if they are indoor or outdoor, offering a tailored experience.
+- When logged in it incorporates a location-based filtering system.
+
+#### Add / Edit / Delete Events
+
+- User can create new events, including image, date, time, location, category, and description.
+- Users can add up to 5 tags to their events.
+- Event creators can edit their events to adjust details or provide updates.
+- Users can delete their own events. Deletion must be confirmed.
+
+#### Location
+
+- A cornerstone feature, allowing users to set their location for personalized content based on geographical proximity.
+- It is possible to use the application without setting the user's prefered location, but the location filter is not visible.
+- Location picker aids in accurately setting the user's location, enhancing the relevance of posts and events displayed.
+- Location is set automatically on the map if the user gives permission.
+- Users can explore posts and events within a set radius from their location, promoting local interaction and participation.
+
+#### Follow / Unfollow Profiles
+
+- Users can follow or unfollow others directly from their profiles, facilitating community building and interaction.
+- The following system updates content feeds to include posts from followed users.
+- Following / unfollowing users in the Feed Page updates instantly the page to include / exclude the posts.
+
+#### Like / Unlike Posts
+
+- Like functionality for posts to express appreciation or interest.
+- Users can easily like or unlike posts, with updates reflected in real-time.
+
+#### Comment and Edit / Delete Comments (Posts and Events)
+
+- Commenting feature available on both posts and events for users to engage in discussions.
+- Provides options to edit or delete their comments, ensuring flexibility in communication.
+
+#### Search
+
+- Comprehensive search functionality that applies to posts, user feeds, and events.
+- Supports filtering by titles and descriptions, making it easier to find relevant content.
 
 ### Future Features
 
+#### Short term goals
+
+- Reporting System for users to report posts, profiles, or events that violate community guidelines. This feature is already prepared on the backend.
+- Switching to a Geospatial Database to enhance the precision and efficiency of location-based filtering.
+- Implementing a dedicated notifications section to keep users informed about important activities related to their posts, events, and interactions. This includes new followers, comments, likes, and updates on events they're interested in.
+
+#### Long term goals
+
+- Creating a dedicated section for local businesses, handymen, nannies, etc., allowing community members to easily find and offer services within their neighborhood.
+- Developing a real-time chat feature to enable direct communication among users.
+- Allowing users to RSVP to events directly through the platform.
+- Integrating an emergency alert feature that can be used to share critical information with the neighborhood, such as weather warnings.
 
 ## UI / UX
 
@@ -119,6 +209,7 @@ Hoodsap is designed with a mobile-first approach, ensuring it's accessible on-th
 
 ## Testing
 
+The full testing documentation can be found in [TESTING.md](./TESTING.md)
 
 ## Deployment
 
