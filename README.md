@@ -348,29 +348,46 @@ Minor changes were also made, refining the overall aesthetics and usability of t
 <img src="documentation/readme_images/wireframes/wireframe_posts.png">
 </details>
 
-
 ### Colors
 
+The color palette, drawn from a range of blues, purples, and reds, is designed to foster an environment that is both vibrant and calm. Majorelle Blue serves as the primary color, lending a lively yet sophisticated air to the interface, while Lavender Blush and Thistle provide a soothing backdrop that enhances usability. Raisin Black and Imperial Red are used strategically to draw attention to critical elements and interactive features.
+
+![](documentation/readme_images/colors_palette.png)
 
 ### Fonts
+
+The combination of Raleway for headings and Nunito for body text was chosen for their readability and modern feel, contributing to the platform's friendly and contemporary aesthetic. This blend of typefaces contributes to the overall user-friendly experience of the platform.
 
 
 ## Technologies Used
 
-### Languages
+- React: Utilized as the core JavaScript library for building the user interface.
+- Create React App: Employed to initialize the React project, providing a standardized setup.
 
+### JavaScript and React Libraries
 
-### Frameworks
-
-
-### Libraries and Dependencies
-
-
-### Hosting and Deployment
-
+- Axios: Used to make requests to the backend API.
+- Bootsrap and React Bootstrap: For responsive styling and layout design.
+- React Router: To enabled routing.
+- React Infinite Scroll Component: To add infinite scroll functionality.
+- JWT Decode: For decoding JSON Web Tokens for authentication purposes.
+- Leaflet and React Leaflet: Provided interactive mapping features.
+- rc-slider: Used for creating a slider for users to set distance radius.
+- React Datepicker: Used for a user-friendly date input experience.
+- Jest and React Testing Library: To perform automated tests.
 
 ### Other Technologies
 
+- Heroku: To host and deploy the application.
+- Git: Used for version control.
+- GitHub: To host the code.
+- Gitpod: As the IDE used to develop the application.
+- Balsamiq: To create the wireframes.
+- Google Fonts: To import Montserrat and Lato fonts.
+- Fontjoy: To find pairing fonts.
+- heroicons: For icons used in the application.
+- Favicon: To create the favicon files.
+- Adobe Express logo maker tool: Used to create the logo.
 
 ## Testing
 
@@ -378,11 +395,43 @@ The full testing documentation can be found in [TESTING.md](./TESTING.md)
 
 ## Deployment
 
+The React project has been created within the existing DRF Hoodsap API. The steps followed are:
+
+1. Open the workspace for your DRF project
+2. Open the terminal window and create a new folder called "frontend" in the root directory
+3. Change directory to be inside the frontend folder with the following command
+4. From inside the frontend directory, run the following command to create a new React app and install all the working dependencies used in the Moments application:
+````
+npx create-react-app . --template git+https://github.com/Code-Institute-Org/cra-template-moments.git --use-npm
+````
+5. Enter y to confirm and then click enter
+6. Open the package.json file in the frontend directory, and at the bottom of the file, add a new key to the JSON object
+````
+"proxy": "http://localhost:8000/"
+````
+7. Once the BE is set up, run the following command in the frontend directory:
+```npm run build && mv build ../staticfiles/.```
+
+You will need to re-run this command any time you want to deploy changes to the static files in your project, including the React code. To do this, you need to delete the existing build folder and rebuild it.
+This command will delete the old folder and replace it with the new one:
+````
+npm run build && rm -rf ../staticfiles/build && mv build ../staticfiles/.
+````
 
 ## Credits
 
 ### Code
 
+- The foundational architecture of Hoodsap took its initial cues from the guidelines provided in the Code Institute's Moments walkthrough project.
+- I made extensive use of the following documentations:
+    - [React](https://react.dev/)
+    - [React Bootstrap](https://react-bootstrap-v4.netlify.app/)
+    - [Leaflet](https://leafletjs.com/index.html) and [React Leaflet](https://react-leaflet.js.org/)
+    - [Date Picker](https://www.npmjs.com/package/react-datepicker)
+    - [Slider React](https://slider-react-component.vercel.app)
+- How to sort future events by date: https://www.geeksforgeeks.org/sort-an-object-array-by-date-in-javascript/
+- Scroll recommended profiles: https://developer.mozilla.org/en-US/docs/Web/API/Element/scroll
+- Hide scrollbar keeping the functionality for different browsers: https://www.w3schools.com/howto/howto_css_hide_scrollbars.asp
 
 ### Content
 
@@ -390,16 +439,20 @@ The full testing documentation can be found in [TESTING.md](./TESTING.md)
 
 ### Media
 
-#### Icons
-
-
-#### Images
-
-- User John: Image by [Sasin Tipchai](https://pixabay.com/users/sasint-3639875) from [Pixabay](https://pixabay.com/)
-- User Sarah: Image by [Uschi Dugulin](https://pixabay.com/users/uschi_du-6837866) from [Pixabay](https://pixabay.com/)
-- User Michael: Image by [stephanfredthielen](https://pixabay.com/users/stephanfredthielen-17479201) from [Pixabay](https://pixabay.com/)
-- User Lisa: Image by [Jill Wellington](https://pixabay.com/users/jillwellington-334088) from [Pixabay](https://pixabay.com/)
-- User Robert: Image by [Michael Strobel](https://pixabay.com/users/lichtsammler-11059614) from [Pixabay](https://pixabay.com/)
+- User Sean: Image by [Sasin Tipchai](https://pixabay.com/users/sasint-3639875) from [Pixabay](https://pixabay.com/)
+- Claddagh -> Image by [Snail](https://pixabay.com/users/snail_makes_art-14054534) from [Pixabay](https://pixabay.com/)
+- Kayak -> Image by [PublicDomainPictures](https://pixabay.com/users/publicdomainpictures-14) from [Pixabay](https://pixabay.com/)
+- User Aisling: Image by [Uschi Dugulin](https://pixabay.com/users/uschi_du-6837866) from [Pixabay](https://pixabay.com/)
+- Temple bar -> Image by [Patrick](https://pixabay.com/users/patricklfc93-21328154) from [Pixabay](https://pixabay.com/)
+- Dublin Castle -> Image by [Luca](https://pixabay.com/users/papagnoc-1605484) from [Pixabay](https://pixabay.com/)
+- Phoenix Park -> Image by [Carina Chen](https://pixabay.com/users/carinachen-4974913) from [Pixabay](https://pixabay.com/)
+- Yoga -> Image by [Trung Nguyễn](https://pixabay.com/users/trunggom-29069499) from [Pixabay](https://pixabay.com/)
+- User Brendan: Image by [stephanfredthielen](https://pixabay.com/users/stephanfredthielen-17479201) from [Pixabay](https://pixabay.com/)
+- Cathedral -> Image by [mmundy2](https://pixabay.com/users/mmundy2-4608604) from [Pixabay](https://pixabay.com/)
+- Trasure_map -> Image by [MasterTux](https://pixabay.com/users/mastertux-470906) from [Pixabay](https://pixabay.com/)
+- User Ciara: Image by [Jill Wellington](https://pixabay.com/users/jillwellington-334088) from [Pixabay](https://pixabay.com/)
+- Urban garden -> Image by [Patricia Maine Degrave](https://pixabay.com/users/portaljardin-1499694) from [Pixabay](https://pixabay.com/)
+- Poetry -> Image by [Myriams-Fotos](https://pixabay.com/users/myriams-fotos-1627417) from [Pixabay](https://pixabay.com/)
 
 ### Acknowledgments
 

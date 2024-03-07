@@ -139,6 +139,8 @@ The project is developed in Python.
 
 - Lucidchart to create the ERD.
 
+- Nominatim for reverse geocoding.
+
 
 The [requirements.txt](requirements.txt) file specifies the full list of packages and their versions of these packages.
 
@@ -288,7 +290,61 @@ This site has been deployed to Heroku, using ElephantSQL database and Cloudinary
     - Click "Deploy Branch" or enable "Automatic Deploys"
 
 
+As the React project is in the same repository a few extra adjustments are required:
+
+- Setting up WhiteNoise for static files:
+1. Ensure your terminal location is in the root directory, then install whitenoise with the following command:
+```pip3 install whitenoise==6.4.0```
+
+2. Create a new empty folder called staticfiles in the root directly
+
+3. In the INSTALLED_APPS list, ensure that the ‘cloudinary_storage’ app name is below ‘django.contrib.staticfiles’.
+
+4. In the MIDDLEWARE list, add WhiteNoise below the SecurityMiddleware and above the SessionMiddleware
+``` 'whitenoise.middleware.WhiteNoiseMiddleware',```
+
+5. In the TEMPLATES list at the DIRS key, add the following code to the DIRS list, to tell Django and WhiteNoise where to look for Reacts index.html file in deployment
+```os.path.join(BASE_DIR, 'staticfiles', 'build')```
+
+6. In the static files section, add the STATIC_ROOT and WHITENOISE_ROOT variables and values to tell Django and WhiteNoise where to look for the admin static files and Reacts static files during deployment
+````
+ STATIC_ROOT = BASE_DIR / 'staticfiles'
+ WHITENOISE_ROOT = BASE_DIR / 'staticfiles' / 'build'
+````
+
+7. Remove the root_route view from the .views imports
+
+8. Import the TemplateView from the generic Django views
+```from django.views.generic import TemplateView```
+
+9. In the url_patterns list, remove the root_route code and replace it with the TemplateView pointing to the index.html file
+```path('', TemplateView.as_view(template_name='index.html')),```
+
+10. At the bottom of the file, add the 404 handler to allow React to handle 404 errors
+```handler404 = TemplateView.as_view(template_name='index.html')```
+
+Add ```api/``` to the beginning of all the API URLs, excluding the path for the home page and admin panel
+
+11. In axiosDefault.js set:
+````
+axios.defaults.baseURL = "/api"
+````
+
+12. Collect the admin and DRF staticfiles to the empty staticfiles directory created earlier, with the following command in the terminal
+```python3 manage.py collectstatic```
+
+13. In the root directory of the project, create a new file named runtime.txt and add the following line:
+```python-3.9.16```
+
+14. In Heroku ensure the application has an ALLOWED_HOST key, set to the URL of the combined project.
+
+15. Ensure the application has a CLIENT_ORGIN key and set it to the URL of the combined project.
+
+
 ## Credits
 
-The structure of the project, especially project set up and the posts, profiles, likes, comments and followers apps, is based on Code Institute's Django REST Framework project ([drf-api](https://github.com/Code-Institute-Solutions/drf-api)).
-
+- The structure of the project, especially project set up and the posts, profiles, likes, comments and followers apps, is based on Code Institute's Django REST Framework project ([drf-api](https://github.com/Code-Institute-Solutions/drf-api)).
+- Deployment steps from Code Institure tutorial to create a combined project.
+- Nominatim reverse geocoding: https://nominatim.org/release-docs/latest/api/Reverse/
+- Requests to an external API: https://reintech.io/blog/connecting-to-external-api-in-django and: https://pypi.org/project/requests/
+- How to calculate distance between locations: https://www.askpython.com/python/examples/find-distance-between-two-geo-locations
