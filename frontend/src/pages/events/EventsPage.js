@@ -77,9 +77,7 @@ const EventsPage = ({ message = "No results found", filter = "" }) => {
 
         filterSortFutureEvents(data);
         setHasLoaded(true);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     setHasLoaded(false);

@@ -10,7 +10,6 @@ import { ProfileDataProvider } from "./context/ProfileDataContext";
 import { RadiusProvider } from "./context/RadiusFilterContext";
 
 ReactDOM.render(
-  <React.StrictMode>
     <Router>
       <CurrentUserProvider>
         <RadiusProvider>
@@ -21,8 +20,7 @@ ReactDOM.render(
           </ProfileDataProvider>
         </RadiusProvider>
       </CurrentUserProvider>
-    </Router>
-  </React.StrictMode>,
+    </Router>,
   document.getElementById("root")
 );
 

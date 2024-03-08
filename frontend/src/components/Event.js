@@ -92,7 +92,7 @@ const Event = (props) => {
       await axiosReq.delete(`/events/${id}`);
       history.goBack();
     } catch (error) {
-      console.log(error);
+      
     }
   };
 

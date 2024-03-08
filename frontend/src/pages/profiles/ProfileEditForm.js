@@ -162,9 +162,7 @@ const ProfileEditForm = () => {
       };
       const response = await axiosReq.post("/locations/", locationData);
       return response.data;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleSubmit = async (event) => {

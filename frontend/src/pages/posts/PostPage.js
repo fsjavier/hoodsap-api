@@ -32,9 +32,7 @@ const PostPage = () => {
         setComments(comments);
         setHasLoadedPost(true);
         setHasLoadedComments(true);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     setHasLoadedPost(false);
@@ -66,24 +64,27 @@ const PostPage = () => {
           ) : comments.results.length ? (
             "Comments"
           ) : null}
-          { comments.results.length ? (
-          <InfiniteScroll
-            children={comments.results.map((comment) => (
-              <PostComment
-                key={comment.id}
-                {...comment}
-                setPost={setPost}
-                setComments={setComments}
-              />
-            ))}
-            dataLength={comments.results.length}
-            loader={<Asset spinner />}
-            hasMore={!!comments.next}
-            next={() => fetchMoreData(comments, setComments)}
-            className={appStyles.InfiniteScroll}
-          />
-          ) : currentUser ? (<span>No comments yet, be the first!</span>) : (
-          <span>No comments yet.</span>)}
+          {comments.results.length ? (
+            <InfiniteScroll
+              children={comments.results.map((comment) => (
+                <PostComment
+                  key={comment.id}
+                  {...comment}
+                  setPost={setPost}
+                  setComments={setComments}
+                />
+              ))}
+              dataLength={comments.results.length}
+              loader={<Asset spinner />}
+              hasMore={!!comments.next}
+              next={() => fetchMoreData(comments, setComments)}
+              className={appStyles.InfiniteScroll}
+            />
+          ) : currentUser ? (
+            <span>No comments yet, be the first!</span>
+          ) : (
+            <span>No comments yet.</span>
+          )}
         </>
       ) : (
         <Asset spinner />

@@ -79,9 +79,7 @@ const EventEditForm = () => {
       };
       const response = await axiosReq.post("/locations/", locationData);
       return response.data;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const createTags = async (tags) => {
@@ -106,9 +104,7 @@ const EventEditForm = () => {
           const response = await axiosReq.post("/tags/", { name: tag });
           userAddedTags.push(response.data);
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
 
     return userAddedTags;
@@ -150,7 +146,6 @@ const EventEditForm = () => {
           setInitialTags(fetchedTags);
         }
 
-
         setStartDate(new Date(event_date));
         const formattedDate = new Date(event_date).toISOString();
 
@@ -166,9 +161,7 @@ const EventEditForm = () => {
         }));
 
         setHasLoaded(true);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     setHasLoaded(false);

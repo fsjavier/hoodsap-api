@@ -248,9 +248,7 @@ const EventCreateForm = () => {
       };
       const response = await axiosReq.post("/locations/", locationData);
       return response.data;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const createTags = async (tags) => {
@@ -276,9 +274,7 @@ const EventCreateForm = () => {
           const response = await axiosReq.post("/tags/", { name: tag });
           userAddedTags.push(response.data);
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
 
     return userAddedTags;

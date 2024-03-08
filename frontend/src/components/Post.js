@@ -40,7 +40,7 @@ const Post = (props) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
   const { latitude, longitude } = location_data;
-  const formattedLocation = formatLocation(location_data)
+  const formattedLocation = formatLocation(location_data);
   const history = useHistory();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -52,16 +52,14 @@ const Post = (props) => {
     try {
       await axiosReq.delete(`/posts/${id}`);
       history.goBack();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (
     <>
       <Row>
         <Col className="px-0">
-        <Row className="py-3">
+          <Row className="py-3">
             <Col>
               <span onClick={() => history.goBack()} className={appStyles.Link}>
                 <ArrowLeftCircleIcon className={appStyles.Icon} /> Go Back
@@ -131,9 +129,7 @@ const Post = (props) => {
               </div>
             </Col>
             <Col md={5} className="d-flex flex-column">
-              <div className="text-center mb-2">
-                {formattedLocation}
-              </div>
+              <div className="text-center mb-2">{formattedLocation}</div>
               <div className={styles.Map__Container}>
                 <MapContainer
                   center={[latitude, longitude]}

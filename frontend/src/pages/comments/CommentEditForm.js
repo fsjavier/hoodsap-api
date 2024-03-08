@@ -7,7 +7,13 @@ import styles from "../../styles/CommentCreateEditForm.module.css";
 import { axiosReq } from "../../api/axiosDefault";
 import { useRedirect } from "../../hooks/useRedirect";
 
-const CommentEditForm = ({ id, content, setShowEditForm, setComments, endpoint }) => {
+const CommentEditForm = ({
+  id,
+  content,
+  setShowEditForm,
+  setComments,
+  endpoint,
+}) => {
   useRedirect("loggedOut");
   const [formContent, setFormContent] = useState(content);
 
@@ -36,9 +42,7 @@ const CommentEditForm = ({ id, content, setShowEditForm, setComments, endpoint }
         }),
       }));
       setShowEditForm(false);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

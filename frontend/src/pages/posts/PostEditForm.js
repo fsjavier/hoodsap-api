@@ -37,7 +37,8 @@ const PostEditForm = () => {
       try {
         const response = await axiosReq.get(`/posts/${id}`);
         const data = response.data;
-        const { title, content, location_data, tags_data, image, is_owner } = data;
+        const { title, content, location_data, tags_data, image, is_owner } =
+          data;
 
         if (!is_owner) {
           history.push("/");
@@ -65,9 +66,7 @@ const PostEditForm = () => {
         }));
 
         setHasLoaded(true);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     setHasLoaded(false);
@@ -163,9 +162,7 @@ const PostEditForm = () => {
       };
       const response = await axiosReq.post("/locations/", locationData);
       return response.data;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const createTags = async (tags) => {
@@ -190,9 +187,7 @@ const PostEditForm = () => {
           const response = await axiosReq.post("/tags/", { name: tag });
           userAddedTags.push(response.data);
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
 
     return userAddedTags;

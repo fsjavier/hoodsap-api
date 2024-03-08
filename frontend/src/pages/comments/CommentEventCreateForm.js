@@ -45,9 +45,7 @@ const CommentEventCreateForm = ({
         ...prevComments,
         results: [data, ...prevComments.results],
       }));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
 
     setContent("");
   };

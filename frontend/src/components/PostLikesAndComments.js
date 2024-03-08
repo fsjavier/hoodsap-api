@@ -19,7 +19,6 @@ const PostLikesAndComments = ({
   likes_count,
   setPosts,
 }) => {
-
   const handleLike = async () => {
     try {
       const response = await axiosReq.post(`/likes/`, { post: id });
@@ -32,9 +31,7 @@ const PostLikesAndComments = ({
             : post;
         }),
       }));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleUnlike = async () => {
@@ -48,9 +45,7 @@ const PostLikesAndComments = ({
             : post;
         }),
       }));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

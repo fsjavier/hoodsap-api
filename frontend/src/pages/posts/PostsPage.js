@@ -59,9 +59,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
 
         setPosts(data);
         setHasLoaded(true);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     setHasLoaded(false);
@@ -109,9 +107,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
 
           setPosts(data);
           setHasLoaded(true);
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       };
 
       setHasLoaded(false);

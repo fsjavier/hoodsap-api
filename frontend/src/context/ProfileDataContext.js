@@ -48,9 +48,7 @@ export const ProfileDataProvider = ({ children }) => {
           ),
         },
       }));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleUnfollow = async (clickedProfile) => {
@@ -72,9 +70,7 @@ export const ProfileDataProvider = ({ children }) => {
           ),
         },
       }));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -96,9 +92,7 @@ export const ProfileDataProvider = ({ children }) => {
           ...prevProfileData,
           recommendedProfiles: data,
         }));
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     fetchProfiles();

@@ -31,9 +31,7 @@ const EventPage = () => {
         setComments(comments);
         setHasLoadedEvent(true);
         setHasLoadedComments(true);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     setHasLoadedEvent(false);
