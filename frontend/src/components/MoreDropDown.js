@@ -20,6 +20,7 @@ const EllipsisVertical = React.forwardRef(({ onClick }, ref) => (
     className={appStyles.Icon}
   />
 ));
+EllipsisVertical.displayName = "EllipsisVertical";
 
 export const MoreDropdown = ({ handleEdit, handleShowDeleteModal }) => {
   return (
