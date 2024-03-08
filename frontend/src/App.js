@@ -17,6 +17,7 @@ import EventPage from "./pages/events/EventPage";
 import EventsPage from "./pages/events/EventsPage";
 import EventEditForm from "./pages/events/EventEditForm";
 import NavBarMobile from "./components/NavBarMobile";
+import NotFound from "./components/NotFound";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -60,7 +61,7 @@ function App() {
             path="/events/:id/edit"
             render={() => <EventEditForm />}
           />
-          <Route render={() => <p>Page not found!</p>} />
+          <Route render={() => <NotFound message="Page not found"/>} />
         </Switch>
       </Container>
       <NavBarMobile />
