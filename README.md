@@ -342,10 +342,10 @@ Minor changes were also made, refining the overall aesthetics and usability of t
 <img src="documentation/readme_images/wireframes/wireframe_posts.png">
 </details>
 <details><summary>Events wireframe</summary>
-<img src="documentation/readme_images/wireframes/wireframe_posts.png">
+<img src="documentation/readme_images/wireframes/wireframe_events.png">
 </details>
 <details><summary>Profile wireframe</summary>
-<img src="documentation/readme_images/wireframes/wireframe_posts.png">
+<img src="documentation/readme_images/wireframes/wireframes_profile.png">
 </details>
 
 ### Colors
@@ -374,7 +374,6 @@ The combination of Raleway for headings and Nunito for body text was chosen for 
 - Leaflet and React Leaflet: Provided interactive mapping features.
 - rc-slider: Used for creating a slider for users to set distance radius.
 - React Datepicker: Used for a user-friendly date input experience.
-- Jest and React Testing Library: To perform automated tests.
 
 ### Other Technologies
 
@@ -440,19 +439,19 @@ npm run build && rm -rf ../staticfiles/build && mv build ../staticfiles/.
 ### Media
 
 - User Sean: Image by [Sasin Tipchai](https://pixabay.com/users/sasint-3639875) from [Pixabay](https://pixabay.com/)
-- Claddagh -> Image by [Snail](https://pixabay.com/users/snail_makes_art-14054534) from [Pixabay](https://pixabay.com/)
-- Kayak -> Image by [PublicDomainPictures](https://pixabay.com/users/publicdomainpictures-14) from [Pixabay](https://pixabay.com/)
+- Claddagh: Image by [Snail](https://pixabay.com/users/snail_makes_art-14054534) from [Pixabay](https://pixabay.com/)
+- Kayak: Image by [PublicDomainPictures](https://pixabay.com/users/publicdomainpictures-14) from [Pixabay](https://pixabay.com/)
 - User Aisling: Image by [Uschi Dugulin](https://pixabay.com/users/uschi_du-6837866) from [Pixabay](https://pixabay.com/)
-- Temple bar -> Image by [Patrick](https://pixabay.com/users/patricklfc93-21328154) from [Pixabay](https://pixabay.com/)
-- Dublin Castle -> Image by [Luca](https://pixabay.com/users/papagnoc-1605484) from [Pixabay](https://pixabay.com/)
-- Phoenix Park -> Image by [Carina Chen](https://pixabay.com/users/carinachen-4974913) from [Pixabay](https://pixabay.com/)
-- Yoga -> Image by [Trung Nguyễn](https://pixabay.com/users/trunggom-29069499) from [Pixabay](https://pixabay.com/)
+- Temple bar: Image by [Patrick](https://pixabay.com/users/patricklfc93-21328154) from [Pixabay](https://pixabay.com/)
+- Dublin Castle: Image by [Luca](https://pixabay.com/users/papagnoc-1605484) from [Pixabay](https://pixabay.com/)
+- Phoenix Park: Image by [Carina Chen](https://pixabay.com/users/carinachen-4974913) from [Pixabay](https://pixabay.com/)
+- Yoga: Image by [Trung Nguyễn](https://pixabay.com/users/trunggom-29069499) from [Pixabay](https://pixabay.com/)
 - User Brendan: Image by [stephanfredthielen](https://pixabay.com/users/stephanfredthielen-17479201) from [Pixabay](https://pixabay.com/)
-- Cathedral -> Image by [mmundy2](https://pixabay.com/users/mmundy2-4608604) from [Pixabay](https://pixabay.com/)
-- Trasure_map -> Image by [MasterTux](https://pixabay.com/users/mastertux-470906) from [Pixabay](https://pixabay.com/)
+- Cathedral: Image by [mmundy2](https://pixabay.com/users/mmundy2-4608604) from [Pixabay](https://pixabay.com/)
+- Trasure map: Image by [MasterTux](https://pixabay.com/users/mastertux-470906) from [Pixabay](https://pixabay.com/)
 - User Ciara: Image by [Jill Wellington](https://pixabay.com/users/jillwellington-334088) from [Pixabay](https://pixabay.com/)
-- Urban garden -> Image by [Patricia Maine Degrave](https://pixabay.com/users/portaljardin-1499694) from [Pixabay](https://pixabay.com/)
-- Poetry -> Image by [Myriams-Fotos](https://pixabay.com/users/myriams-fotos-1627417) from [Pixabay](https://pixabay.com/)
+- Urban garden: Image by [Patricia Maine Degrave](https://pixabay.com/users/portaljardin-1499694) from [Pixabay](https://pixabay.com/)
+- Poetry: Image by [Myriams-Fotos](https://pixabay.com/users/myriams-fotos-1627417) from [Pixabay](https://pixabay.com/)
 
 ### Acknowledgments
 
