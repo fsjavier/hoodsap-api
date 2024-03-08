@@ -7,7 +7,7 @@ For details on the backend application, plese see the [API documentation](./READ
 [View the live site here](https://hoodsap-api-d42fd4bc31f5.herokuapp.com/)
 
 
-![Mockup]()
+![Mockup](/documentation/readme_images/mockup.png)
 
 ## Table of Contents
 

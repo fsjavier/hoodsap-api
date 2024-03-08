@@ -52,6 +52,16 @@
 
 All pages have been tested for responsiveness with Google Chrome Developer Tools on screens from 320px, making sure the content adjusts correctly on all screen sizes.
 
+### Browser Compatibilty
+
+The website has been tested in the following browsers on desktop, without finding any significant problems, besides the grey map described below:
+
+Chrome
+Safari
+Firefox
+Opera›
+Edge
+
 ### Fixed Bugs
 
 | Bug | Solution |
@@ -67,8 +77,7 @@ All pages have been tested for responsiveness with Google Chrome Developer Tools
 
 - When the user gives location permission and the user wants to edit a post or the profile, the location picker moves from the current position to the user position.
 - After creating an event the hour is disregarded.
-
-## Unit Testing
+- A new issue has been identified in the final stages of development, where the map display turns grey, predominantly affecting logged-out users on the Home Page. Interestingly, this issue does not seem to affect logged-in users, and the map functions correctly on other pages. This problem is currently under investigation to determine its cause and find a resolution.
 
 
 ## Validator Testing
