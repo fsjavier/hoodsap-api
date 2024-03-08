@@ -9,7 +9,8 @@ import { CurrentSearchProvider } from "./context/SearchContext";
 import { ProfileDataProvider } from "./context/ProfileDataContext";
 import { RadiusProvider } from "./context/RadiusFilterContext";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
     <Router>
       <CurrentUserProvider>
         <RadiusProvider>
