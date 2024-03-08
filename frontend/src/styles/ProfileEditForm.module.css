@@ -49,7 +49,6 @@
   justify-content: center;
 }
 
-
 /* Media queries */
 @media screen and (min-width: 1200px) {
   .Map__Container {

@@ -36,10 +36,6 @@
   border-color: var(--majorblue);
 }
 
-.rc-slider-handle:focus-visble {
-  box-shadow: 0 0 0 3px var(--off-thistle);
-}
-
 @media screen and (min-width: 576px) {
   .rc-slider {
     margin: 0 auto;

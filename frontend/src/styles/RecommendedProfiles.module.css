@@ -2,10 +2,9 @@
   display: flex;
   align-items: center;
   overflow-x: auto;
-  scrollbar-width: 0;
   padding-block: 0.5em;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

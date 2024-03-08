@@ -1,28 +1,11 @@
-:root {
-  /* Fonts */
-  --title: "Raleway", sans-serif;
-  --body: "Nunito", sans-serif;
-
-  /* Colors */
-  --majorblue: #5d4fe3;
-  --lavenderblush: #f5e6e8;
-  --thistle: #d5c6e0;
-  --raisinblack: #3a2e39;
-  --imperialred: #f15152;
-  --snowwhite: #fffafa;
-  --jetblack: #333;
-
-  --off-raisinblack: rgba(58, 46, 57, 0.1);
-  --off-thistle: rgba(213, 198, 224, 0.1);
-}
-
 .Row {
   height: calc(100vh - 5rem);
   margin-inline: 0;
 }
 
 .Background {
-  background: url('https://res.cloudinary.com/drffvkjy6/image/upload/v1707302130/city_map_g6evtw.webp') no-repeat center center fixed;
+  background: url("https://res.cloudinary.com/drffvkjy6/image/upload/v1707302130/city_map_g6evtw.webp")
+    no-repeat center center fixed;
   background-size: cover;
   top: 0;
   left: 0;

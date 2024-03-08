@@ -1,36 +1,36 @@
 .Form {
-    display: flex;
-    padding: 1em;
+  display: flex;
+  padding: 1em;
 }
 
 .Avatar__Container {
-    display: flex;
-    flex-shrink: 1;
+  display: flex;
+  flex-shrink: 1;
 }
 
 .Textarea__Container {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 10;
-    background-color: white;
-    border-radius: 10px;
-    padding: 0.5em;
-    border: 1px solid var(--off-raisinblack);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 10;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0.5em;
+  border: 1px solid var(--off-raisinblack);
 }
 
 .Textarea {
-    border: none;
-    margin-bottom: 0.5em;
+  border: none;
+  margin-bottom: 0.5em;
 }
 
 .Textarea:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .Button__Container {
-    text-align: right;
+  text-align: right;
 }
 
 .Button__Container button {
-    margin: 0.5em;
-  }
+  margin: 0.5em;
+}
