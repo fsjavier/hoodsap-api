@@ -108,7 +108,7 @@ For all other files the result was "All clear, no errors found"
 
 ### Unit Test
 
-Basic unit tests have been implemented testing the posts endpoints.
+Basic unit tests have been implemented testing the posts and events endpoints.
 
 ![](documentation/tests/unit_test.png)
 
