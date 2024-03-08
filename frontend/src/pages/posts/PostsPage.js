@@ -74,6 +74,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   }, [filter, pathname, currentUser, searchQuery, latitude, longitude, radius]);
 
   useEffect(() => {
+    const defaultMapCenter = [53, 14];
     const newMapCenter =
       latitude && longitude
         ? [latitude, longitude]
@@ -82,11 +83,11 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
             posts.results[0].location_data.latitude,
             posts.results[0].location_data.longitude,
           ]
-        : null;
+        : defaultMapCenter;
 
     setMapCenter(newMapCenter);
     if (!latitude || !longitude) {
-      setMapZoom(4);
+      setMapZoom(3);
     } else {
       setMapZoom(calculateMapZoom(radius));
     }
