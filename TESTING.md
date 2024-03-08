@@ -71,6 +71,7 @@ Edge
 | When the distance filter is set to 0 all events, profiles, posts are loaded | Check `{latitude && longitude && radius !=={maxValue}}` instead of `{latitude && longitude && radius}`
 | Profile location data wouldn’t persist after updating the profile, causing that the slider location filter doesn’t work | Use `setCurrent` with updated user data when updating the profile to have access to the `profile_location_data` field from the serializer |
 | Following some users would return a 400 error (Invalid pk - object does not exist) | The issue was a mismatch between user ids and profile ids when sending the follow profile request with the profile id. The solution was to include the `user_id` in the Profile serializer and use this instead of the `profile_id` in the request. |
+| Map display turns grey, affecting logged-out users on the Home Page. This issue doesn't affect logged-in users, and the map functions correctly on other pages | The issue seemed to be that the map center was being calculated using posts or users location, but the map loaded before them. The solution was to give the map coordinates to fallback in case there was no center. |
 
 
 ### Unfixed Bugs
