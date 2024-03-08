@@ -14,7 +14,7 @@ class Post(models.Model):
         upload_to='images/', blank=True
     )
     title = models.CharField(max_length=255)
-    content = models.TextField(blank=True)
+    content = models.TextField(max_legth=1000, blank=True)
     location = models.ForeignKey(
         Location, on_delete=models.CASCADE
     )
