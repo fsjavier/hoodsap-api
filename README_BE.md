@@ -94,6 +94,25 @@ The applicatopn leverages a relational database structured around Django models.
 
 ## Testing
 
+All endpoints underwent manual testing during the development phase by accessing the URLs directly. The API was rigorously evaluated through various request types (GET, POST, PUT, DELETE) both during development and in the production environment, as initiated from the Front End Application.
+
+### Python Linter (PEP 8)
+
+Only the files with custom written python coded have been tested:
+
+In settings.py five instances of the 'E501 line too long' error have been identified. In these specific cases, it is considered acceptable not to break the line.
+
+In the locations.views.py there is a line too long (140 characters). However, that line corresponds to an URL, I considered acceptable no to break it.
+
+For all other files the result was "All clear, no errors found"
+
+### Unit Test
+
+Basic unit tests have been implemented testing the posts endpoints.
+
+![](documentation/tests/unit_test.png)
+
+
 ## Technologies used
 
 The project is developed in Python.
@@ -105,20 +124,14 @@ The project is developed in Python.
 ### Libraries and Packages
 
 - Gunicorn to handle web requests.
-
 - Dj-Database-URL to configure the database management.
-
 - Django-CORS-Headers to handle the server headers required for Cross-Origin Resource Sharing (CORS).
-
 - Django Filters to allow users filtering querysets dynamically.
-
 - Pillow for image processing.
-
 - Psycopg2 as an adapter used for database connectivity.
-
 - PyJWT to encode and decode JSON Web Tokens (JWT).
-
 - Django Allauth and Dj-Rest-Auth to handle user authentication, registration, and account management.
+- GeoPy to calculate distance between locations.
 
 ### Database
 
@@ -129,18 +142,13 @@ The project is developed in Python.
 - Heroku to host and deploy the appliocation.
 
 ### Other Technologies
+
 - Git for version control.
-
 - GitHub to host the code.
-
 - Cloudinary to manage media assets.
-
 - Gitpod as the IDE used to develop the website.
-
 - Lucidchart to create the ERD.
-
 - Nominatim for reverse geocoding.
-
 
 The [requirements.txt](requirements.txt) file specifies the full list of packages and their versions of these packages.
 
