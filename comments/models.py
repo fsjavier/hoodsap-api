@@ -28,7 +28,7 @@ class PostComment(Comment):
 
     class Meta:
         ordering = ['-created_at']
-    
+
     def __str__(self):
         return self.content
 
@@ -41,6 +41,6 @@ class SocialEventComment(Comment):
 
     class Meta:
         ordering = ['-created_at']
-    
+
     def __str__(self):
         return self.content

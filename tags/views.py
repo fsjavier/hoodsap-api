@@ -19,7 +19,7 @@ class TagList(generics.ListCreateAPIView):
     search_fields = [
         'name',
     ]
-    
+
     def perform_create(self, serializer):
         serializer.save()
 

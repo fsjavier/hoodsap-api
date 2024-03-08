@@ -15,4 +15,5 @@ class UserSerializer(UserDetailsSerializer):
 
     def get_profile_location_data(self, obj):
         profile = obj.profile
-        return ProfileSerializer(profile, context=self.context).data.get('location_data')
+        return ProfileSerializer(
+            profile, context=self.context).data.get('location_data')

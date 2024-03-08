@@ -13,7 +13,9 @@ class SocialEventSerializer(serializers.ModelSerializer):
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
-    profile_image = serializers.ReadOnlyField(source='owner.profile.avatar.url')
+    profile_image = serializers.ReadOnlyField(
+        source='owner.profile.avatar.url'
+    )
     is_owner = serializers.SerializerMethodField()
     comments_count = serializers.ReadOnlyField()
     location_data = serializers.SerializerMethodField()
@@ -53,15 +55,18 @@ class SocialEventSerializer(serializers.ModelSerializer):
 
     def get_tags_data(self, obj):
         if obj.tags:
-            tags = Tag.objects.filter(id__in=obj.tags.values_list('id', flat=True))
+            tags = Tag.objects.filter(
+                id__in=obj.tags.values_list('id', flat=True)
+            )
             return TagSerializer(tags, many=True).data
         return []
 
     class Meta:
         model = SocialEvent
         fields = [
-            'id', 'owner', 'image', 'title', 'content', 'location', 'tags',
-            'event_date', 'event_category', 'indoor_outdoor', 'event_registration',
-            'created_at', 'updated_at', 'is_owner', 'profile_id', 'profile_image',
-            'comments_count', 'location_data', 'tags_data'
+            'id', 'owner', 'image', 'title', 'content', 'location',
+            'tags', 'event_date', 'event_category', 'indoor_outdoor',
+            'event_registration', 'created_at', 'updated_at', 'is_owner',
+            'profile_id', 'profile_image', 'comments_count', 'location_data',
+            'tags_data'
         ]

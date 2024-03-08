@@ -10,8 +10,10 @@ class PostCommentSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
-    profile_image = serializers.ReadOnlyField(source='owner.profile.avatar.url')
-    created_at_naturaltime= serializers.SerializerMethodField()
+    profile_image = serializers.ReadOnlyField(
+        source='owner.profile.avatar.url'
+    )
+    created_at_naturaltime = serializers.SerializerMethodField()
     updated_at_naturaltime = serializers.SerializerMethodField()
 
     def get_is_owner(self, obj):
@@ -28,8 +30,8 @@ class PostCommentSerializer(serializers.ModelSerializer):
         model = PostComment
         fields = [
             'id', 'owner', 'content', 'post', 'created_at', 'updated_at',
-            'is_owner', 'profile_id', 'profile_image', 'created_at_naturaltime',
-            'updated_at_naturaltime'
+            'is_owner', 'profile_id', 'profile_image',
+            'created_at_naturaltime', 'updated_at_naturaltime'
         ]
 
 
@@ -47,8 +49,10 @@ class SocialEventCommentSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
-    profile_image = serializers.ReadOnlyField(source='owner.profile.avatar.url')
-    created_at_naturaltime= serializers.SerializerMethodField()
+    profile_image = serializers.ReadOnlyField(
+        source='owner.profile.avatar.url'
+    )
+    created_at_naturaltime = serializers.SerializerMethodField()
     updated_at_naturaltime = serializers.SerializerMethodField()
 
     def get_is_owner(self, obj):
@@ -64,9 +68,9 @@ class SocialEventCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialEventComment
         fields = [
-            'id', 'owner', 'content', 'social_event', 'created_at', 'updated_at',
-            'is_owner', 'profile_id', 'profile_image', 'created_at_naturaltime',
-            'updated_at_naturaltime'
+            'id', 'owner', 'content', 'social_event', 'created_at',
+            'updated_at', 'is_owner', 'profile_id', 'profile_image',
+            'created_at_naturaltime', 'updated_at_naturaltime'
         ]
 
 

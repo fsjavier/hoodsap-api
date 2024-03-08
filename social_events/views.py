@@ -36,12 +36,14 @@ class SocialEventList(generics.ListCreateAPIView):
         queryset = SocialEvent.objects.annotate(
             comments_count=Count('socialeventcomment', distinct=True)
         ).order_by('-created_at')
-        
+
         latitude = self.request.query_params.get('latitude', None)
         longitude = self.request.query_params.get('longitude', None)
         radius = self.request.query_params.get('radius', None)
 
-        if latitude is not None and longitude is not None and radius is not None:
+        if (latitude is not None and
+                longitude is not None and
+                radius is not None):
             radius = float(radius)
             latitude = float(latitude)
             radius = float(radius)
@@ -50,7 +52,9 @@ class SocialEventList(generics.ListCreateAPIView):
             filtered_events = []
             for event in queryset:
                 if event.location:
-                    event_location = (event.location.latitude, event.location.longitude)
+                    event_location = (
+                        event.location.latitude, event.location.longitude
+                    )
                     distance = GD(user_location, event_location).meters
                     if distance <= radius:
                         filtered_events.append(event.id)
@@ -67,5 +71,5 @@ class SocialEventDetail(generics.RetrieveUpdateDestroyAPIView):
         IsOwnerOrReadOnly
     ]
     queryset = SocialEvent.objects.annotate(
-       comments_count=Count('socialeventcomment', distinct=True) 
+       comments_count=Count('socialeventcomment', distinct=True)
     )

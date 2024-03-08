@@ -40,12 +40,14 @@ class PostList(generics.ListCreateAPIView):
             comments_count=Count('postcomment', distinct=True),
             likes_count=Count('likes', distinct=True)
         ).order_by('-created_at')
-        
+
         latitude = self.request.query_params.get('latitude', None)
         longitude = self.request.query_params.get('longitude', None)
         radius = self.request.query_params.get('radius', None)
 
-        if latitude is not None and longitude is not None and radius is not None:
+        if (latitude is not None and
+                longitude is not None and
+                radius is not None):
             radius = float(radius)
             latitude = float(latitude)
             radius = float(radius)
@@ -54,7 +56,9 @@ class PostList(generics.ListCreateAPIView):
             filtered_posts = []
             for post in queryset:
                 if post.location:
-                    post_location = (post.location.latitude, post.location.longitude)
+                    post_location = (
+                        post.location.latitude, post.location.longitude
+                    )
                     distance = GD(user_location, post_location).meters
                     if distance <= radius:
                         filtered_posts.append(post.id)

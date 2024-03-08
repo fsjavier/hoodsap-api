@@ -13,8 +13,12 @@ class PostSerializer(serializers.ModelSerializer):
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
-    profile_image = serializers.ReadOnlyField(source='owner.profile.avatar.url')
-    profile_name = serializers.ReadOnlyField(source='owner.profile.display_name')
+    profile_image = serializers.ReadOnlyField(
+        source='owner.profile.avatar.url'
+    )
+    profile_name = serializers.ReadOnlyField(
+        source='owner.profile.display_name'
+    )
     is_owner = serializers.SerializerMethodField()
     like_id = serializers.SerializerMethodField()
     comments_count = serializers.ReadOnlyField()
@@ -58,7 +62,9 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_tags_data(self, obj):
         if obj.tags:
-            tags = Tag.objects.filter(id__in=obj.tags.values_list('id', flat=True))
+            tags = Tag.objects.filter(
+                id__in=obj.tags.values_list('id', flat=True)
+            )
             return TagSerializer(tags, many=True).data
         return []
 

@@ -36,12 +36,14 @@ class ProfileList(generics.ListAPIView):
             followers_count=Count('owner__followed', distinct=True),
             following_count=Count('owner__following', distinct=True),
         ).order_by('-followers_count')
-        
+
         latitude = self.request.query_params.get('latitude', None)
         longitude = self.request.query_params.get('longitude', None)
         radius = self.request.query_params.get('radius', None)
 
-        if latitude is not None and longitude is not None and radius is not None:
+        if (latitude is not None and
+                longitude is not None and
+                radius is not None):
             radius = float(radius)
             latitude = float(latitude)
             radius = float(radius)
@@ -50,7 +52,9 @@ class ProfileList(generics.ListAPIView):
             filtered_profiles = []
             for profile in queryset:
                 if profile.location:
-                    profile_location = (profile.location.latitude, profile.location.longitude)
+                    profile_location = (
+                        profile.location.latitude, profile.location.longitude
+                    )
                     distance = GD(user_location, profile_location).meters
                     if distance <= radius:
                         filtered_profiles.append(profile.id)
