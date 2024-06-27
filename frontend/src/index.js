@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -9,8 +9,15 @@ import { CurrentSearchProvider } from "./context/SearchContext";
 import { ProfileDataProvider } from "./context/ProfileDataContext";
 import { RadiusProvider } from "./context/RadiusFilterContext";
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <QueryClientProvider client={queryClient}>
+    <ReactQueryDevtools/>
     <Router>
       <CurrentUserProvider>
         <RadiusProvider>
@@ -21,8 +28,8 @@ root.render(
           </ProfileDataProvider>
         </RadiusProvider>
       </CurrentUserProvider>
-    </Router>,
-  document.getElementById("root")
+    </Router>
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
