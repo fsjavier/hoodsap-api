@@ -20,6 +20,7 @@ import Slider from "rc-slider";
 import { useRadius, useSetRadius } from "../../context/RadiusFilterContext";
 import { calculateRadiusStep, calculateMapZoom } from "../../utils/utils";
 import { useProfileData } from "../../context/ProfileDataContext";
+import { useDebounce } from "../../hooks/useDebounce";
 
 const fetchPosts = async ({ queryKey }) => {
   const [_, filter, searchQuery, latitude, longitude, radius] = queryKey;
@@ -48,7 +49,8 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   const [mapZoom, setMapZoom] = useState(5);
   const [mapCenter, setMapCenter] = useState([null]);
   const { recommendedProfiles } = useProfileData();
-  const queryClient = useQueryClient();
+
+  const debouncedRadius = useDebounce(radius, 500);
 
   const {
     data: posts,
@@ -57,12 +59,13 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     fetchNextPage,
     hasNextPage,
   } = useQuery({
-        queryKey: ["posts", filter, searchQuery, latitude, longitude, radius],
-        queryFn: fetchPosts,
-        enabled: !!latitude && !!longitude,
-        getNextPageParam: (lastPage) => lastPage.next,
-      }
-  );
+    queryKey: ["posts", filter, searchQuery, latitude, longitude, debouncedRadius],
+    queryFn: fetchPosts,
+    enabled: !!latitude && !!longitude,
+    getNextPageParam: (lastPage) => lastPage.next,
+    keepPreviousData: true,
+    staleTime: 60 * 1000
+  });
 
   useEffect(() => {
     setLatitude(currentUser?.profile_location_data?.latitude);
@@ -85,9 +88,9 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     if (!latitude || !longitude) {
       setMapZoom(3);
     } else {
-      setMapZoom(calculateMapZoom(radius));
+      setMapZoom(calculateMapZoom(debouncedRadius));
     }
-  }, [latitude, longitude, posts?.results, radius]);
+  }, [latitude, longitude, posts?.results, debouncedRadius]);
 
   const handleFetchMoreData = async () => {
     if (hasNextPage) {
@@ -155,14 +158,14 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                   <Row className="mt-4">
                     <Col>
                       <h2>
-                        {radius === 200000
+                        {debouncedRadius === 200000
                           ? `All posts ${
                               isFeedPage ? "from the users you follow" : ""
                             }`
                           : `Posts ${
                               isFeedPage ? "from the users you follow" : ""
-                            } ${radius < 1000 ? radius : radius / 1000} ${
-                              radius < 1000 ? "meters" : "km"
+                            } ${debouncedRadius < 1000 ? debouncedRadius : debouncedRadius / 1000} ${
+                              debouncedRadius < 1000 ? "meters" : "km"
                             } from your location`}
                       </h2>
                     </Col>
@@ -189,7 +192,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                   <Col md={5} className="d-none d-md-block px-4">
                     <Row className="mb-3">
                       <Col>
-                        <RecommendedProfiles radius={radius} />
+                        <RecommendedProfiles radius={debouncedRadius} />
                       </Col>
                     </Row>
                     <Row className={`${styles.Sticky}`}>
