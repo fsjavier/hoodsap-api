@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { axiosReq } from "../../api/axiosDefault";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -22,7 +22,7 @@ import { calculateRadiusStep, calculateMapZoom } from "../../utils/utils";
 import { useProfileData } from "../../context/ProfileDataContext";
 import { useDebounce } from "../../hooks/useDebounce";
 
-const fetchPosts = async ({ queryKey }) => {
+const fetchPosts = async ({ pageParam = 1, queryKey }) => {
   const [_, filter, searchQuery, latitude, longitude, radius] = queryKey;
   let queryBase = `/posts/?${filter}search=${searchQuery}`;
   let locationQuery =
@@ -30,7 +30,7 @@ const fetchPosts = async ({ queryKey }) => {
       ? `&latitude=${latitude}&longitude=${longitude}&radius=${radius}`
       : "";
 
-  let query = `${queryBase}${locationQuery}`;
+  let query = `${queryBase}${locationQuery}&page=${pageParam}`;
   const { data } = await axiosReq.get(query);
   return data;
 };
@@ -42,34 +42,36 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   const isFeedPage = pathname === "/feed";
   const currentUser = useCurrentUser();
   const searchQuery = useCurrentSearch();
-  const [latitude, setLatitude] = useState(currentUser?.profile_location_data?.latitude);
-  const [longitude, setLongitude] = useState(currentUser?.profile_location_data?.longitude);
+  const [latitude, setLatitude] = useState(currentUser?.profile_location_data?.latitude || 0);
+  const [longitude, setLongitude] = useState(currentUser?.profile_location_data?.longitude || 0);
   const radius = useRadius();
   const setRadius = useSetRadius();
   const [mapZoom, setMapZoom] = useState(5);
-  const [mapCenter, setMapCenter] = useState([null]);
+  const [mapCenter, setMapCenter] = useState([53, 14]);
   const { recommendedProfiles } = useProfileData();
 
   const debouncedRadius = useDebounce(radius, 500);
 
   const {
-    data: posts,
+    data,
     error,
     isLoading,
     fetchNextPage,
     hasNextPage,
-  } = useQuery({
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     queryKey: ["posts", filter, searchQuery, latitude, longitude, debouncedRadius],
     queryFn: fetchPosts,
     enabled: !currentUser || (!!latitude && !!longitude),
-    getNextPageParam: (lastPage) => lastPage.next,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.next ? allPages.length + 1 : undefined;
+    },
     keepPreviousData: true,
-    staleTime: 60 * 1000
   });
 
   useEffect(() => {
-    setLatitude(currentUser?.profile_location_data?.latitude);
-    setLongitude(currentUser?.profile_location_data?.longitude);
+    setLatitude(currentUser?.profile_location_data?.latitude || 0);
+    setLongitude(currentUser?.profile_location_data?.longitude || 0);
   }, [currentUser]);
 
   useEffect(() => {
@@ -77,10 +79,10 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     const newMapCenter =
       latitude && longitude
         ? [latitude, longitude]
-        : posts?.results?.length > 0
+        : data?.pages?.[0]?.results?.length > 0
         ? [
-            posts.results[0].location_data.latitude,
-            posts.results[0].location_data.longitude,
+            data.pages[0].results[0].location_data.latitude,
+            data.pages[0].results[0].location_data.longitude,
           ]
         : defaultMapCenter;
 
@@ -90,7 +92,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
     } else {
       setMapZoom(calculateMapZoom(debouncedRadius));
     }
-  }, [latitude, longitude, posts?.results, debouncedRadius]);
+  }, [latitude, longitude, data?.pages, debouncedRadius]);
 
   const handleFetchMoreData = async () => {
     if (hasNextPage) {
@@ -101,7 +103,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   return (
     <Row>
       <Col>
-        {latitude && longitude ? (
+        {(latitude !== 0 && longitude !== 0) ? (
           <Row>
             <Col>
               <Form onSubmit={(e) => e.preventDefault()}>
@@ -147,14 +149,14 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
           <div>Error loading posts</div>
         ) : (
           <>
-            {posts?.results?.length ? (
+            {data?.pages?.[0]?.results?.length ? (
               <>
                 <Row className="d-md-none">
                   <Col>
                     <RecommendedProfiles radius={radius} />
                   </Col>
                 </Row>
-                {latitude && longitude && (
+                {latitude !== 0 && longitude !== 0 && (
                   <Row className="mt-4">
                     <Col>
                       <h2>
@@ -174,19 +176,21 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                 <Row className="mt-4">
                   <Col md={7}>
                     <InfiniteScroll
-                      dataLength={posts.results.length}
+                      dataLength={data.pages.reduce((acc, page) => acc + page.results.length, 0)}
                       next={handleFetchMoreData}
-                      hasMore={hasNextPage}
+                      hasMore={!!hasNextPage}
                       loader={<Asset spinner />}
                       className={appStyles.InfiniteScroll}
                     >
-                      {posts.results.map((post) => (
-                        <PostListView
-                          key={post.id}
-                          {...post}
-                          currentUser={currentUser}
-                        />
-                      ))}
+                      {data.pages.map((page) =>
+                        page.results.map((post) => (
+                          <PostListView
+                            key={post.id}
+                            {...post}
+                            currentUser={currentUser}
+                          />
+                        ))
+                      )}
                     </InfiniteScroll>
                   </Col>
                   <Col md={5} className="d-none d-md-block px-4">
@@ -204,17 +208,19 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
                             className={styles.Map}
                           >
                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                            {posts.results.map((post) => (
-                              <Marker
-                                key={post.id}
-                                position={[
-                                  post.location_data?.latitude,
-                                  post.location_data?.longitude,
-                                ]}
-                              >
-                                <Popup>{post.title}</Popup>
-                              </Marker>
-                            ))}
+                            {data.pages.map((page) =>
+                              page.results.map((post) => (
+                                <Marker
+                                  key={post.id}
+                                  position={[
+                                    post.location_data?.latitude,
+                                    post.location_data?.longitude,
+                                  ]}
+                                >
+                                  <Popup>{post.title}</Popup>
+                                </Marker>
+                              ))
+                            )}
                           </MapContainer>
                         </div>
                       </Col>
