@@ -61,7 +61,7 @@ const PostsPage = ({ message = "No results found", filter = "" }) => {
   } = useQuery({
     queryKey: ["posts", filter, searchQuery, latitude, longitude, debouncedRadius],
     queryFn: fetchPosts,
-    enabled: !!latitude && !!longitude,
+    enabled: !currentUser || (!!latitude && !!longitude),
     getNextPageParam: (lastPage) => lastPage.next,
     keepPreviousData: true,
     staleTime: 60 * 1000
